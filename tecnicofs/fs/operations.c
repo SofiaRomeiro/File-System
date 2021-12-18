@@ -140,6 +140,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 }
 
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
+    
     open_file_entry_t *file = get_open_file_entry(fhandle);
     if (file == NULL) {
         return -1;
@@ -199,7 +200,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     dest_file = fopen(dest_path, "w");
 
     if (dest_file == NULL) {
-        printf("[-] Open error in %s: (dest) %s\n", dest_path, strerror(errno));
+        printf("[-] Open error in (dest) %s : %s\n", dest_path, strerror(errno));
 		return -1;
     }  
 
