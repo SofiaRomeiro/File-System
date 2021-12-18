@@ -1,5 +1,6 @@
 CFLAGS = -g -Wall -std=c11
 
+<<<<<<< HEAD
 operation: operations.o state.o
 	gcc $(CFLAGS) operations.o state.o -o operation
 
@@ -19,4 +20,4 @@ run:
 	./operations
 
 run1:
-	./operations < txtin.txt txtout.txt
+	./operations < txtin.txt > txtout.txt

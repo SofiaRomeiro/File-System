@@ -26,7 +26,6 @@ static bool valid_pathname(char const *name) {
     return name != NULL && strlen(name) > 1 && name[0] == '/';
 }
 
-
 int tfs_lookup(char const *name) {
     if (!valid_pathname(name)) {
         return -1;
@@ -96,7 +95,6 @@ int tfs_open(char const *name, int flags) {
      * opened but it remains created */
 }
 
-
 int tfs_close(int fhandle) { return remove_from_open_file_table(fhandle); }
 
 ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
@@ -141,8 +139,8 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
     return (ssize_t)to_write;
 }
 
-
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
+    
     open_file_entry_t *file = get_open_file_entry(fhandle);
     if (file == NULL) {
         return -1;
@@ -158,10 +156,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     size_t to_read = inode->i_size - file->of_offset;
     if (to_read > len) {
         to_read = len;
-    }
-
-    if (file->of_offset + to_read >= BLOCK_SIZE) {
-        return -1;
     }
 
     if (to_read > 0) {
@@ -180,92 +174,62 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     return (ssize_t)to_read;
 }
 
-void strcopy(char *dest, char const *src, int to_copy) {
-
-    int i=0;
-
-    for (i = 0; i < to_copy; i++) {
-        dest[i] = src[i];
-    }
-
-    dest[i] = '\0';
-}
-
-
 
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
-    char *buffer_to_write;
+    char buffer[sizeof(char) * 100];
+    int source_file;
+    FILE *dest_file;
+    ssize_t read_bytes = 0;
+    size_t to_write_bytes = 0;
+    size_t written_bytes = 0;
 
-    // CREATE BUFFER
-        // MAX SIZE => (BLOCK_SIZE * EACH ENTRY (total of 10))+ (BLOCK_SIZE * ref_indir * sizeof(char))
+    memset(buffer, '\0', sizeof(buffer));
 
-    char buffer[(BLOCK_SIZE * 10) + (BLOCK_SIZE * INODE_TABLE_SIZE * sizeof(char))];
-
-    // OPEN FILE TO READ
-    // TODO check for errors 
-
-    int source_file = tfs_open(source_path, TFS_O_CREAT);
+    if (tfs_lookup(source_path) == -1) {
+        source_file = tfs_open(source_path, TFS_O_APPEND);
+    }
+    else {
+        source_file = tfs_open(source_path, TFS_O_CREAT);
+    }    
 
     if (source_file < 0) {
-        printf("[ op.h ] source_file = %d\n", source_file);
-        printf("[-] Open error in src: %s\n", strerror(errno));
-		return -1;
-    }
-    
-    memset(buffer, 0, sizeof(buffer));
-
-    // READ FILE
-    // TODO check for errors
-
-    ssize_t read_size = tfs_read(source_file, buffer, sizeof(buffer));  
-
-    if (read_size == -1) {
-        printf("[-] Read error: %s\n", strerror(errno));
-		return -1;
-    }           
-
-    buffer_to_write = (void *) malloc(sizeof(buffer[0]) * read_size);
-
-    strcopy(buffer_to_write, buffer, read_size);
-
-    memset(buffer, '\0', sizeof(buffer));    
-
-    if (sizeof(buffer_to_write) < 0) {
-        printf("[-] Buffer error : Not writing : %s\n", strerror(errno));
-        return -1;
-    }
-
-    if (strlen(buffer_to_write) != read_size) {
-        printf("[-] Buffer error : Incomplete writing : %s\n", strerror(errno));
-        return -1;
-    }
-
-    // OPEN FILE TO WRITE
-    // TODO check for errors
-
-    FILE *wfp = fopen(dest_path, "w");
-
-    if (wfp == NULL) {
-        printf("[-] Open error: %s\n", strerror(errno));
+        printf("[-] Open error in (src) %s: %s\n", source_path, strerror(errno));
 		return -1;
     }
 
-    // WRITE IN EXTERNAL FILE
-    // TODO check for errors    
+    dest_file = fopen(dest_path, "w");
 
-    ssize_t write_size = fwrite(buffer_to_write, sizeof(char), strlen(buffer_to_write), wfp);
-
-    if (write_size < 0) {
-        printf("[-] Write error: %s\n", strerror(errno));
+    if (dest_file == NULL) {
+        printf("[-] Open error in (dest) %s : %s\n", dest_path, strerror(errno));
 		return -1;
-    } 
+    }  
 
-    // CLOSE BOTH FILES
-    // TODO check for errors
+    do {
+
+        read_bytes = tfs_read(source_file, buffer, sizeof(buffer)-1);
+
+        if (read_bytes < 0) {
+            printf("[-] Read error: %s\n", strerror(errno));
+		    return -1;
+        }
+
+        to_write_bytes = (size_t) read_bytes;   // since the check for negative values was made before, casting is safe
+
+        written_bytes = fwrite(buffer, sizeof(char), to_write_bytes, dest_file);
+
+        if (written_bytes < read_bytes) {
+            printf("[-] Write error: %s\n", strerror(errno));
+		    return -1;
+        }
+
+        memset(buffer, '\0', sizeof(buffer));
+
+    } while (read_bytes == (sizeof(buffer)-1));
 
     int close_status_source =  tfs_close(source_file);
-    int close_status_dest = fclose(wfp);
+    int close_status_dest = fclose(dest_file);
+
 
     if (close_status_dest < 0 || close_status_source < 0) {
         printf("[-] Close error: %s\n", strerror(errno));
@@ -275,23 +239,3 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     return 0;
 }
 
-int main() {
-
-    tfs_init();
-
-    char *src = "/f1";
-    char *dest = "/home/sofia/Documentos/File-System/tecnicofs/fs/txtout.txt";
-    char *str = "Os Lusiadas e uma obra de poesia épica do escritor português Luís Vaz de Camões, a primeira epopeia portuguesa publicada em versão impressa.\n";
-
-    int f = 0;
-
-    f = tfs_open(src, TFS_O_CREAT);
-
-    tfs_write(f, str, strlen(str));
-
-    tfs_close(f);
-
-    tfs_copy_to_external_fs(src, dest); 
-
-    return 0;
-}
