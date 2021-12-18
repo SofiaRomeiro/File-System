@@ -16,9 +16,6 @@ HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
 TARGET_EXECS := tests/test1 tests/copy_to_external_simple tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple
 
-# current tests with code already made (tests that should pass)
-CODE_MADE_TESTS := tests/test1 tests/copy_to_external_simple tests/copy_to_external_errors tests/write_10_blocks_simple
-
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
 vpath # clears VPATH
@@ -50,10 +47,25 @@ endif
 
 all: $(TARGET_EXECS)
 
-test : 
-	@echo "Starting tests..."
-	$(CODE_MADE_TESTS)
-	@./runtests.sh
+test : test1 test2 test3 test4
+	@echo "Ending tests :)"
+
+test1:
+	@echo ----- Test 1 ------
+	./tests/test1
+
+test2:
+	@echo ----- Test 2 ------
+	./tests/copy_to_external_simple
+
+test3:
+	@echo ----- Test 3 ------
+	./tests/copy_to_external_errors
+
+test4:
+	@echo ----- Test 4 ------
+	./tests/write_10_blocks_simple
+	
 
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
