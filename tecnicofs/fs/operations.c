@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <assert.h>
 
 int tfs_init() {
     state_init();
@@ -26,7 +25,6 @@ int tfs_destroy() {
 static bool valid_pathname(char const *name) {
     return name != NULL && strlen(name) > 1 && name[0] == '/';
 }
-
 
 int tfs_lookup(char const *name) {
     if (!valid_pathname(name)) {
@@ -97,7 +95,6 @@ int tfs_open(char const *name, int flags) {
      * opened but it remains created */
 }
 
-
 int tfs_close(int fhandle) { return remove_from_open_file_table(fhandle); }
 
 ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
@@ -142,7 +139,6 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
     return (ssize_t)to_write;
 }
 
-
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     open_file_entry_t *file = get_open_file_entry(fhandle);
     if (file == NULL) {
@@ -161,10 +157,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         to_read = len;
     }
 
-    if (file->of_offset + to_read >= BLOCK_SIZE) {
-        return -1;
-    }
-
     if (to_read > 0) {
         void *block = data_block_get(inode->i_data_block);
         if (block == NULL) {
@@ -180,7 +172,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
     return (ssize_t)to_read;
 }
-
 
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
@@ -198,18 +189,17 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     }
     else {
         source_file = tfs_open(source_path, TFS_O_CREAT);
-    }
-    
+    }    
 
     if (source_file < 0) {
-        printf("[-] Open error in src: %s\n", strerror(errno));
+        printf("[-] Open error in (src) %s: %s\n", source_path, strerror(errno));
 		return -1;
     }
 
     dest_file = fopen(dest_path, "w");
 
     if (dest_file == NULL) {
-        printf("[-] Open error in %s: %s\n", dest_path, strerror(errno));
+        printf("[-] Open error in %s: (dest) %s\n", dest_path, strerror(errno));
 		return -1;
     }  
 
@@ -267,4 +257,3 @@ int main() {
     return 0;
 }
 */
-
