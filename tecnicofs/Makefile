@@ -16,6 +16,9 @@ HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
 TARGET_EXECS := tests/test1 tests/copy_to_external_simple tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple
 
+# current tests with code already made (tests that should pass)
+CODE_MADE_TESTS := tests/test1 tests/copy_to_external_simple tests/copy_to_external_errors tests/write_10_blocks_simple
+
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
 vpath # clears VPATH
@@ -47,6 +50,10 @@ endif
 
 all: $(TARGET_EXECS)
 
+test : 
+	@echo "Starting tests..."
+	$(CODE_MADE_TESTS)
+	@./runtests.sh
 
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
@@ -74,6 +81,8 @@ tests/write_more_than_10_blocks_simple: tests/write_more_than_10_blocks_simple.o
 
 clean:
 	rm -f $(OBJECTS) $(TARGET_EXECS)
+
+
 
 
 # This generates a dependency file, with some default dependencies gathered from the include tree

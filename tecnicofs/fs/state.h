@@ -23,7 +23,8 @@ typedef enum { T_FILE, T_DIRECTORY } inode_type;
 typedef struct {
     inode_type i_node_type;
     size_t i_size;
-    int i_data_block;
+    int i_data_block; //current block in use to write
+    int i_block[MAX_DATA_BLOCKS_FOR_INODE + 1];    
     /* in a real FS, more fields would exist here */
 } inode_t;
 
@@ -31,6 +32,8 @@ typedef enum { FREE = 0, TAKEN = 1 } allocation_state_t;
 
 /*
  * Open file entry (in open file table)
+ * of_inumber : entry number
+ * of_offset : current offset position
  */
 typedef struct {
     int of_inumber;
@@ -53,6 +56,7 @@ int find_in_dir(int inumber, char const *sub_name);
 int data_block_alloc();
 int data_block_free(int block_number);
 void *data_block_get(int block_number);
+int data_block_insert(int i_block[], int block_number);
 
 int add_to_open_file_table(int inumber, size_t offset);
 int remove_from_open_file_table(int fhandle);

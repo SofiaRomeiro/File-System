@@ -18,7 +18,7 @@ int main() {
     /* Scenario 2: source file does not exist */
     assert(tfs_copy_to_external_fs("/f2", "out") == -1);
 
-    printf("Successful test.\n");
+    printf("======> Successful test.\n");
 
     return 0;
 }

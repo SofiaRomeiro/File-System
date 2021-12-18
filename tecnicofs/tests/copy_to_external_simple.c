@@ -33,7 +33,7 @@ int main() {
 
     unlink(path2);
 
-    printf("Successful test.\n");
+    printf("======> Successful test.\n");
 
     return 0;
 }

@@ -12,4 +12,7 @@
 
 #define DELAY (5000)
 
+#define INT_SIZE (4)
+#define MAX_DATA_BLOCKS_FOR_INODE (10 + BLOCK_SIZE / INT_SIZE)
+
 #endif // CONFIG_H

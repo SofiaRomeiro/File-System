@@ -113,6 +113,8 @@ int inode_create(inode_type n_type) {
                 inode_table[inumber].i_size = BLOCK_SIZE;
                 inode_table[inumber].i_data_block = b;
 
+                memset(inode_table[inumber].i_block, '\0', MAX_DATA_BLOCKS_FOR_INODE);
+
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
                 if (dir_entry == NULL) {
                     freeinode_ts[inumber] = FREE;
@@ -292,6 +294,21 @@ void *data_block_get(int block_number) {
 
     insert_delay(); // simulate storage access delay to block
     return &fs_data[block_number * BLOCK_SIZE];
+}
+
+/* Insert new block number to the array of blocks
+ * Inputs:
+ * 	- Block's index
+ * Returns: 0 if successful, -1 otherwise
+ */
+int data_block_insert(int i_block[], int block_number) {    
+    int i;
+    for (i=0; i != MAX_DATA_BLOCKS_FOR_INODE && i_block[i] != '\0'; i++);
+    if (i == MAX_DATA_BLOCKS_FOR_INODE) {
+        return -1;
+    }
+    i_block[i] = block_number;
+    return 0;
 }
 
 /* Add new entry to the open file table

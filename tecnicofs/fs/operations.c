@@ -98,7 +98,12 @@ int tfs_open(char const *name, int flags) {
 int tfs_close(int fhandle) { return remove_from_open_file_table(fhandle); }
 
 ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
+
+    /* gets the reference to the position (pointer) where the file is stored in the 
+    open file's table*/
+
     open_file_entry_t *file = get_open_file_entry(fhandle);
+
     if (file == NULL) {
         return -1;
     }
@@ -109,15 +114,24 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     }
 
-    /* Determine how many bytes to write */
-    if (to_write + file->of_offset > BLOCK_SIZE) {
+    /* Determine how many bytes can be written in this block, in case of 
+       overflow the block size */
+    if ((to_write + file->of_offset) > BLOCK_SIZE && file->of_offset != BLOCK_SIZE) {
         to_write = BLOCK_SIZE - file->of_offset;
-    }
+    }   
 
     if (to_write > 0) {
-        if (inode->i_size == 0) {
-            /* If empty file, allocate new block */
+        if (inode->i_size == 0 || file->of_offset == BLOCK_SIZE) {
+            /* If empty file or offset reached the end, allocate new block */
             inode->i_data_block = data_block_alloc();
+            file->of_offset = 0;
+            int insert_status = data_block_insert(inode->i_block, inode->i_data_block);
+            inode->i_size += to_write;
+
+            if (insert_status == -1) {
+                printf("[ tfs_write ] Error inserting new block: %s\n", strerror(errno));
+                return -1;
+            }
         }
 
         void *block = data_block_get(inode->i_data_block);
@@ -140,6 +154,8 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 }
 
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
+
+    size_t to_read = 0;
     
     open_file_entry_t *file = get_open_file_entry(fhandle);
     if (file == NULL) {
@@ -152,13 +168,36 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     }
 
-    /* Determine how many bytes to read */
-    size_t to_read = inode->i_size - file->of_offset;
+    if (file->of_offset < 1024) {
+
+        /* Determine how many bytes to read */
+        to_read = inode->i_size - file->of_offset;
+
+    }
+
+    else {
+        file->of_offset = 0;
+        to_read = (inode->i_size - 1024);
+    }   
+
     if (to_read > len) {
         to_read = len;
     }
 
     if (to_read > 0) {
+        void *block = data_block_get(inode->i_data_block);
+        if (block == NULL) {
+            return -1;
+        }
+
+        /* Perform the actual read */
+        memcpy(buffer, block + file->of_offset, to_read);
+        /* The offset associated with the file handle is
+         * incremented accordingly */
+        file->of_offset += to_read;
+    }
+    else {
+        file->of_offset = 0;
         void *block = data_block_get(inode->i_data_block);
         if (block == NULL) {
             return -1;
@@ -256,5 +295,5 @@ int main() {
     tfs_copy_to_external_fs(src, dest); 
 
     return 0;
-}
-*/
+}*/
+
