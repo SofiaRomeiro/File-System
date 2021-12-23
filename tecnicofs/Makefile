@@ -47,7 +47,7 @@ endif
 
 all: $(TARGET_EXECS)
 
-test : test1 test2 test3 test4
+test : test1 test2 test3 test4 test5
 	@echo "Ending tests :)"
 
 test1:
@@ -65,6 +65,10 @@ test3:
 test4:
 	@echo ----- Test 4 ------
 	./tests/write_10_blocks_simple
+
+test5:
+	@echo ----- Test 5 ------
+	./tests/write_more_than_10_blocks_simple
 	
 
 # The following target can be used to invoke clang-format on all the source and header

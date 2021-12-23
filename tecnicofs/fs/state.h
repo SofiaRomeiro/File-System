@@ -57,6 +57,7 @@ int data_block_alloc();
 int data_block_free(int block_number);
 void *data_block_get(int block_number);
 int data_block_insert(int i_block[], int block_number);
+int index_block_insert(int index_block[], int block_number);
 
 int add_to_open_file_table(int inumber, size_t offset);
 int remove_from_open_file_table(int fhandle);

@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
+
 
 /* Persistent FS state  (in reality, it should be maintained in secondary
  * memory; for simplicity, this project maintains it in primary memory) */
@@ -298,16 +300,36 @@ void *data_block_get(int block_number) {
 
 /* Insert new block number to the array of blocks
  * Inputs:
- * 	- Block's index
+ * 	- i_node data block's array
+ *  - Block's index to be inserted
  * Returns: 0 if successful, -1 otherwise
  */
 int data_block_insert(int i_block[], int block_number) {    
     int i;
     for (i=0; i != MAX_DATA_BLOCKS_FOR_INODE && i_block[i] != '\0'; i++);
     if (i == MAX_DATA_BLOCKS_FOR_INODE) {
+        printf("[ - ] data_block_insert : Max size has been reached : %s\n", strerror(errno));
         return -1;
     }
     i_block[i] = block_number;
+    insert_delay();
+    return 0;
+}
+
+/* Insert new block number to the array of indirect indexes contained by a specific block
+ * Inputs:
+ * 	- Direct block containing indirect block's indexes
+ *  - Block's index to be inserted
+ * Returns: 0 if successful, -1 otherwise
+ */
+int index_block_insert(int index_block[], int block_number) {
+    int i;
+    for (i=0; i != BLOCK_SIZE && index_block[i] != '\0'; i++);
+    if (i == BLOCK_SIZE) {
+        printf("[ - ] index_block_insert : Max size has been reached : %s\n", strerror(errno));
+        return -1;
+    }
+    index_block[i] = block_number;
     insert_delay();
     return 0;
 }

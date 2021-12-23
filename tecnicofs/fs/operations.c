@@ -102,7 +102,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
     /* gets the reference to the position (pointer) where the file is stored in the 
     open file's table*/
     open_file_entry_t *file = get_open_file_entry(fhandle);
-    int block_to_write = 0;
+    //int block_to_write = 0;
 
     if (file == NULL) {
         return -1;
@@ -116,64 +116,57 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     /* Determine how many bytes can be written in this block, in case of 
        overflow the block size */
-    /*if ((to_write + file->of_offset) > BLOCK_SIZE && file->of_offset != BLOCK_SIZE) {
+    if ((to_write + file->of_offset) > BLOCK_SIZE && file->of_offset != BLOCK_SIZE) {
         to_write = BLOCK_SIZE - file->of_offset;
     }
-    */   
+       
 
     if (to_write > 0) {
-        if (inode->i_size == 0 || inode->i_size != MAX_DIRECT_DATA_SIZE || file->of_offset == BLOCK_SIZE) { 
-            /* If
-                --> empty file, or 
-                --> direct blocks' data reached 10 blocks occupied, or 
-                --> offset reached the end, allocate new block 
-            */
 
-            inode->i_data_block = data_block_alloc();
-            file->of_offset = 0;                                                            // colocar o offset no inicio do bloco
-            int insert_status = data_block_insert(inode->i_block, inode->i_data_block);     // inserir o numero do bloco na regiao de dados do inode (i_block)
-            inode->i_size += to_write;                                                      // "volume" atual ocupado pelo inode
-
-            if (insert_status == -1) {
-                printf("[ tfs_write ] Error inserting new block: %s\n", strerror(errno));
-                return -1;
-            }
-
-            block_to_write = inode->i_data_block;
-        }
-
-        else if (inode->i_size >= MAX_DIRECT_DATA_SIZE) {
-            /* if we have to pass to indirect region, we have to allocate a new block and then enter that specific block */
-
-            if (inode->i_size % BLOCK_SIZE == 0) {        // that means that the max size supported for each block (that is storing indexes [int]) has been reached and we need to allocate another block
+        if (inode->i_size < MAX_DIRECT_DATA_SIZE) {
+            if (inode->i_size == 0 || file->of_offset == BLOCK_SIZE) { 
+                /* If
+                    --> empty file, or 
+                    --> direct blocks' data reached 10 blocks occupied, or 
+                    --> offset reached the end, allocate new block 
+                */
 
                 inode->i_data_block = data_block_alloc();
-                file->of_offset = 0;
-                int insert_status = data_block_insert(inode->i_block, inode->i_data_block);
-                inode->i_size += to_write;
+                file->of_offset = 0;                                                            // colocar o offset no inicio do bloco
+                int insert_status = data_block_insert(inode->i_block, inode->i_data_block);     // inserir o numero do bloco na regiao de dados do inode (i_block)
+                inode->i_size += to_write;                                                      // "volume" atual ocupado pelo inode
 
                 if (insert_status == -1) {
                     printf("[ tfs_write ] Error inserting new block: %s\n", strerror(errno));
                     return -1;
-                }    
+                }
             }
-
-            // now we need to allocate blocks to store their indexes in inode's block data region 
-
-            // write the number on the array like array[next_pos_free] = block_number
-
-            // finally we pass the allocated block number and we attribute it to inode->i_data_block
-
-
-
-
         }
+        else {
 
+            if (inode->i_size % BLOCK_SIZE == 0) {  
+
+                    inode->i_data_block = data_block_alloc();
+                    file->of_offset = 0;
+
+                    int *block = data_block_get(inode->i_data_block);
+
+                    int insert_status = index_block_insert(block, inode->i_data_block);               
+
+                    if (insert_status == -1) {
+                        printf("[ tfs_write ] Error inserting new block: %s\n", strerror(errno));
+                        return -1;
+                    }   
+                }          
+
+                // finally we pass the allocated block number and we attribute it to inode->i_data_block
+                inode->i_size += to_write;
+        }
 
         // from here, the method is equal to the 3 scenarios because we just have to give to data_block_get() the block number where it is supposed to write 
 
 
-        void *block = data_block_get(block_to_write);
+        void *block = data_block_get(inode->i_data_block);
         if (block == NULL) {
             return -1;
         }
