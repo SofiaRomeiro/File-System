@@ -15,4 +15,6 @@
 #define INT_SIZE (4)
 #define MAX_DATA_BLOCKS_FOR_INODE (10 + BLOCK_SIZE / INT_SIZE)
 
+#define MAX_DIRECT_DATA_SIZE (10 * BLOCK_SIZE)
+
 #endif // CONFIG_H

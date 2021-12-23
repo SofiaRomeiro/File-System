@@ -308,6 +308,7 @@ int data_block_insert(int i_block[], int block_number) {
         return -1;
     }
     i_block[i] = block_number;
+    insert_delay();
     return 0;
 }
 
