@@ -45,9 +45,9 @@ endif
 # https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
 .PHONY: all clean depend fmt
 
-all: $(TARGET_EXECS)
+all:  clean $(TARGET_EXECS)
 
-test : test1 test2 test3 test4 test5
+test : test1 test2 test3 test4 test5 test6
 	@echo "Ending tests :)"
 
 test1:
@@ -69,6 +69,10 @@ test4:
 test5:
 	@echo ----- Test 5 ------
 	./tests/write_more_than_10_blocks_simple
+
+test6:
+	@echo ----- Test 6 ------
+	./tests/write_10_blocks_spill
 	
 
 # The following target can be used to invoke clang-format on all the source and header
