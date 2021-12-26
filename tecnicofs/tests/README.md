@@ -1,7 +1,7 @@
 ## TEST CASES
 
 - Total tests : 
-- ![#c5f015](Total passing : ) `#c5f015 
+- ![#c5f015](https://via.placeholder.com/15/c5f015/000000?text=+) `Total passing : ` 
 
 ### Description of each test case
 
