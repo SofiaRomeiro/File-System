@@ -1,7 +1,7 @@
 ## TEST CASES
 
 - Total tests : 
-- <span style="color: green">Total passing : </span> 
+- Total passing : 
 
 ### Description of each test case
 
