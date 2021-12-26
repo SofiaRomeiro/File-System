@@ -117,17 +117,13 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
     if (to_write == 0) {
         printf("[ - ] Data error : Nothing to write\n");
         return -1;
-    }   
+    } 
 
     if (to_write < BLOCK_SIZE) {
 
         if (inode->i_size < MAX_DIRECT_DATA_SIZE) {
+
             if (inode->i_size == 0 || file->of_offset == BLOCK_SIZE) { 
-                /* If
-                    --> empty file, or 
-                    --> direct blocks' data reached 10 blocks occupied, or 
-                    --> offset reached the end, allocate new block 
-                */
 
                 inode->i_data_block = data_block_alloc();
                 file->of_offset = 0;                                                            // colocar o offset no inicio do bloco
@@ -182,7 +178,16 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     else {
 
+        size_t written = 0;
+
         int number_of_requested_blocks = to_write % BLOCK_SIZE;
+
+        if (number_of_requested_blocks != 0) {
+            number_of_requested_blocks = (int) (to_write / BLOCK_SIZE) + 1;
+        } 
+        else {
+            number_of_requested_blocks = (int) (to_write / BLOCK_SIZE);
+        } 
 
         /* alloc enough blocks to write */
         int advance_block_size = 0;
@@ -215,39 +220,17 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
             memcpy(block + file->of_offset, buffer + (BLOCK_SIZE * advance_block_size), write_size);
 
             to_write -= write_size;
+            written += write_size;
 
             file->of_offset += to_write;
 
             inode->i_size += write_size;
-
-
-
         }
 
         // after having all blocks allocated, perform the writing
 
-        for (int i = 1; i <= number_of_requested_blocks; i++) {
-
-            /* Perform the actual write */
-
-            /* The offset associated with the file handle is
-            * incremented accordingly */
-            file->of_offset += to_write;
-
-            if (file->of_offset > inode->i_size) {
-                inode->i_size = file->of_offset;
-            }
-            
-        }
-
-        inode->i_size += to_write;      // "volume" atual ocupado pelo inode
-
-        
-
-
-
+        return (ssize_t)written;
     }
-
     return (ssize_t)to_write;
 }
 
@@ -292,7 +275,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
          * incremented accordingly */
         file->of_offset += to_read;
     }
+
     else {
+
         file->of_offset = 0;
         void *block = data_block_get(inode->i_data_block);
         if (block == NULL) {
@@ -303,15 +288,19 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         memcpy(buffer, block + file->of_offset, to_read);
         /* The offset associated with the file handle is
          * incremented accordingly */
-        file->of_offset += to_read;
+        file->of_offset += to_read;      
     }
+
+    //printf("[tfs_read] to read = %ld\n", to_read);
+    //printf("[tfs_read] offset = %ld\n", file->of_offset);
+    //printf("[tfs_read] isize = %ld\n\n", inode->i_size);
 
     return (ssize_t)to_read;
 }
 
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
-    char buffer[sizeof(char) * 100];
+    void *buffer[100];
     int source_file;
     FILE *dest_file;
     ssize_t read_bytes = 0;
@@ -328,20 +317,24 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     }    
 
     if (source_file < 0) {
-        printf("[-] Open error in (src) %s: %s\n", source_path, strerror(errno));
+        printf("[-] Open error in src (%s): %s\n", source_path, strerror(errno));
 		return -1;
     }
 
     dest_file = fopen(dest_path, "w");
 
     if (dest_file == NULL) {
-        printf("[-] Open error in (dest) %s : %s\n", dest_path, strerror(errno));
+        printf("[-] Open error in dest (%s) : %s\n", dest_path, strerror(errno));
 		return -1;
     }  
 
+    open_file_entry_t *file = get_open_file_entry(source_file);
+    inode_t *inode = inode_get(file->of_inumber);
+    size_t total_size_to_read = inode->i_size;
+
     do {
 
-        read_bytes = tfs_read(source_file, buffer, sizeof(buffer)-1);
+        read_bytes += tfs_read(source_file, buffer, sizeof(buffer));
 
         if (read_bytes < 0) {
             printf("[-] Read error: %s\n", strerror(errno));
@@ -350,16 +343,16 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
         to_write_bytes = (size_t) read_bytes;   // since the check for negative values was made before, casting is safe
 
-        written_bytes = fwrite(buffer, sizeof(char), to_write_bytes, dest_file);
+        written_bytes = fwrite(buffer, sizeof(void), to_write_bytes, dest_file);
 
         if (written_bytes < read_bytes) {
             printf("[-] Write error: %s\n", strerror(errno));
 		    return -1;
         }
 
-        memset(buffer, '\0', sizeof(buffer));
+        memset(buffer, '\0', sizeof(buffer));  
 
-    } while (read_bytes == (sizeof(buffer)-1));
+    } while (total_size_to_read > read_bytes);
 
     int close_status_source =  tfs_close(source_file);
     int close_status_dest = fclose(dest_file);
@@ -375,21 +368,5 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 /*
 int main() {
 
-    tfs_init();
-
-    char *src = "/f1";
-    char *dest = "/home/sofia/Documentos/File-System/tecnicofs/fs/txtout.txt";
-    char *str = "Os Lusiadas e uma obra de poesia épica do escritor português Luís Vaz de Camões, a primeira epopeia portuguesa publicada em versão impressa.";
-    int f = 0;
-
-    f = tfs_open(src, TFS_O_CREAT);
-
-    tfs_write(f, str, strlen(str));
-
-    tfs_close(f);
-
-    tfs_copy_to_external_fs(src, dest); 
-
-    return 0;
 }
 */

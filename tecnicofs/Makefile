@@ -14,7 +14,7 @@ INCLUDES = $(addprefix -I, $(INCLUDE_DIRS))
 SOURCES  := $(wildcard */*.c)
 HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
-TARGET_EXECS := tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple
+TARGET_EXECS := tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple
 
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
@@ -45,9 +45,9 @@ endif
 # https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
 .PHONY: all clean depend fmt
 
-all:  clean $(TARGET_EXECS)
+all: clean $(TARGET_EXECS)
 
-test : test1 test2 test3 test4 test5 test6
+test : test1 test2 test3 test4 test5 test6 test7 test8 test9
 	@echo "Ending tests :)"
 
 test1:
@@ -73,7 +73,18 @@ test5:
 test6:
 	@echo ----- Test 6 ------
 	./tests/write_10_blocks_spill
-	
+
+test7:
+	@echo ----- Test 7 ------
+	./tests/copy_to_external_int
+
+test8:
+	@echo ----- Test 8 ------
+	./tests/copy_to_external_huge_file
+
+test9:
+	@echo ----- Test 9 ------
+	./tests/copy_to_external_direct_blocks
 
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
@@ -91,9 +102,12 @@ fmt: $(SOURCES) $(HEADERS)
 # Note the lack of a rule.
 # make uses a set of default rules, one of which compiles C binaries
 # the CC, LD, CFLAGS and LDFLAGS are used in this rule
-tests/test1: tests/test1.o fs/operations.o fs/state.o
+tests/tfs_built_in_functions: tests/tfs_built_in_functions.o fs/operations.o fs/state.o
 tests/copy_to_external_errors: tests/copy_to_external_errors.o fs/operations.o fs/state.o
 tests/copy_to_external_simple: tests/copy_to_external_simple.o fs/operations.o fs/state.o
+tests/copy_to_external_int: tests/copy_to_external_int.o fs/operations.o fs/state.o
+tests/copy_to_external_huge_file: tests/copy_to_external_huge_file.o fs/operations.o fs/state.o
+tests/copy_to_external_direct_blocks: tests/copy_to_external_direct_blocks.o fs/operations.o fs/state.o
 tests/write_10_blocks_spill: tests/write_10_blocks_spill.o fs/operations.o fs/state.o
 tests/write_10_blocks_simple: tests/write_10_blocks_simple.o fs/operations.o fs/state.o
 tests/write_more_than_10_blocks_simple: tests/write_more_than_10_blocks_simple.o fs/operations.o fs/state.o
