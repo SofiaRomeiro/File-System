@@ -16,8 +16,6 @@ X=0
 
 for i in $tests;do
 
-    ((X += 1))
-
     name=$(echo $i | cut -f 1 -d'.')
     echo "-------------------------------------------------------------------------"
 
@@ -29,6 +27,7 @@ for i in $tests;do
     fi
 
     if [ $? -eq 0 ];then
+        ((X += 1))
         printf '%b' "Test $name -- ${green}OK$reset\n"
     else
         printf '%b' "Test $name -- ${red}FAILED${reset}\n"
