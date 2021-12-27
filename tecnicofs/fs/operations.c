@@ -291,10 +291,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         file->of_offset += to_read;      
     }
 
-    //printf("[tfs_read] to read = %ld\n", to_read);
-    //printf("[tfs_read] offset = %ld\n", file->of_offset);
-    //printf("[tfs_read] isize = %ld\n\n", inode->i_size);
-
     return (ssize_t)to_read;
 }
 
