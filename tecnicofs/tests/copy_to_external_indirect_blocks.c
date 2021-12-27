@@ -8,7 +8,7 @@
 
 int main() {
 
-    char big_str[1024*20];
+    char big_str[SIZE_TO_TEST];
 
     memset(big_str, 'b', sizeof(big_str));
 
