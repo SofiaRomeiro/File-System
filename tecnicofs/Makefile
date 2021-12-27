@@ -14,7 +14,7 @@ INCLUDES = $(addprefix -I, $(INCLUDE_DIRS))
 SOURCES  := $(wildcard */*.c)
 HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
-TARGET_EXECS := tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill
+TARGET_EXECS := tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes
 
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
@@ -47,7 +47,7 @@ endif
 
 all: clean $(TARGET_EXECS)
 
-test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11
+test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14
 	@echo "Ending tests :)"
 
 test1:
@@ -94,6 +94,18 @@ test11:
 	@echo ----- Test 11 ------
 	./tests/write_more_than_10_blocks_spill
 
+test12:
+	@echo ----- Test 12 ------
+	./tests/write_more_than_1_block
+
+test13:
+	@echo ----- Test 13 ------
+	./tests/write_all_direct_blocks
+
+test14:
+	@echo ----- Test 14 ------
+	./tests/write_max_bytes
+
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
 # in the file '.clang-format'.
@@ -121,8 +133,9 @@ tests/write_10_blocks_spill: tests/write_10_blocks_spill.o fs/operations.o fs/st
 tests/write_10_blocks_simple: tests/write_10_blocks_simple.o fs/operations.o fs/state.o
 tests/write_more_than_10_blocks_simple: tests/write_more_than_10_blocks_simple.o fs/operations.o fs/state.o
 tests/write_more_than_10_blocks_spill: tests/write_more_than_10_blocks_spill.o fs/operations.o fs/state.o
-
-
+tests/write_all_direct_blocks: tests/write_all_direct_blocks.o fs/operations.o fs/state.o
+tests/write_more_than_1_block: tests/write_more_than_1_block.o fs/operations.o fs/state.o
+tests/write_max_bytes: tests/write_max_bytes.o fs/operations.o fs/state.o
 clean:
 	rm -f $(OBJECTS) $(TARGET_EXECS)
 

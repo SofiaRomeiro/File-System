@@ -255,7 +255,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     else {
-        file->of_offset = 0;
         to_read = (inode->i_size - 1024);
     }   
 
@@ -264,16 +263,21 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     if (to_read > 0) {
-        void *block = data_block_get(inode->i_data_block);
+
+        file->of_offset = 0;
+
+        void *block = data_block_get(inode->i_block[0]);
         if (block == NULL) {
             return -1;
         }
 
-        /* Perform the actual read */
+                /* Perform the actual read */
         memcpy(buffer, block + file->of_offset, to_read);
+
         /* The offset associated with the file handle is
          * incremented accordingly */
         file->of_offset += to_read;
+
     }
 
     else {

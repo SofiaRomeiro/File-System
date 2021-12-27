@@ -13,6 +13,7 @@ make &> /dev/null
 echo "Done"
 
 X=0
+Y=0
 
 for i in $tests;do
 
@@ -30,11 +31,13 @@ for i in $tests;do
         ((X += 1))
         printf '%b' "Test $name -- ${green}OK$reset\n"
     else
+        ((Y += 1))
         printf '%b' "Test $name -- ${red}FAILED${reset}\n"
     fi
 done
 
 echo ""
-echo "$X testes passing! :D"
+echo "$X tests passed! :D"
+echo "$Y tests failed! :("
 
 make clean &> /dev/null
