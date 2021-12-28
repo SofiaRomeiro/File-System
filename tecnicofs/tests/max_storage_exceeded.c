@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string.h>
 
-#define SIZE (272384)
+#define SIZE (272385)
 
 /**
    This test fills in a new file up to 20 blocks via multiple writes
@@ -30,19 +30,8 @@ int main() {
     /* Write input COUNT times into a new file */
     int fd = tfs_open(path, TFS_O_CREAT);
     assert(fd != -1);
-    assert(tfs_write(fd, input, SIZE) == SIZE);
+    assert(tfs_write(fd, input, SIZE) == -1);
     assert(tfs_close(fd) != -1);
-
-    /* Open again to check if contents are as expected */
-    fd = tfs_open(path, 0);
-    assert(fd != -1 );
-
-    assert(tfs_read(fd, output, SIZE) == SIZE);
-
-    assert (memcmp(input, output, SIZE) == 0);
-
-    assert(tfs_close(fd) != -1);
-
 
     printf("======> Sucessful test\n\n");
 
