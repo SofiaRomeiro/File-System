@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string.h>
 
-#define SIZE 272384
+#define SIZE (272384)
 
 /**
    This test fills in a new file up to 20 blocks via multiple writes
@@ -38,10 +38,6 @@ int main() {
     assert(fd != -1 );
 
     assert(tfs_read(fd, output, SIZE) == SIZE);
-
-    //printf("input (%ld) : |%s|\n", sizeof(input), input);
-    //printf("output (%ld): |%s|\n", sizeof(output), output);
-    printf("%d\n", memcmp(input, output, SIZE));
 
     assert (memcmp(input, output, SIZE) == 0);
 
