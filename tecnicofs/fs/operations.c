@@ -130,7 +130,6 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         if (insert_status == -1) {
             return -1;
         }
-
     }
 
     else {
