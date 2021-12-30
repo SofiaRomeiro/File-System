@@ -41,6 +41,8 @@ int tfs_open(char const *name, int flags) {
     int inum;
     size_t offset;
 
+    printf("HERE!!!\n");
+
     /* Checks if the path name is valid */
     if (!valid_pathname(name)) {
         return -1;
@@ -51,14 +53,18 @@ int tfs_open(char const *name, int flags) {
     if (inum >= 0) {
         /* The file already exists */
         inode_t *inode = inode_get(inum);
+        printf("a\n");
         if (inode == NULL) {
             return -1;
         }
 
         /* Trucate (if requested) */
         if (flags & TFS_O_TRUNC) {
+            printf("b\n");
             if (inode->i_size > 0) {
+                printf("c\n");
                 if (data_block_free(inode->i_data_block) == -1) {
+                    printf("d\n");
                     return -1;
                 }
                 inode->i_size = 0;
@@ -66,12 +72,15 @@ int tfs_open(char const *name, int flags) {
         }
         /* Determine initial offset */
         if (flags & TFS_O_APPEND) {
+            printf("e\n");
             offset = inode->i_size;
         } else {
+            printf("f\n");
             offset = 0;
         }
 
     } else if (flags & TFS_O_CREAT) {
+        printf("g\n");
         /* The file doesn't exist; the flags specify that it should be created*/
         /* Create inode */
         inum = inode_create(T_FILE);
@@ -81,16 +90,19 @@ int tfs_open(char const *name, int flags) {
         }
         /* Add entry in the root directory */
         if (add_dir_entry(ROOT_DIR_INUM, inum, name + 1) == -1) {
+            printf("h\n");
             inode_delete(inum);
             return -1;
         }
         offset = 0;
     } else {
+        printf("i\n");
         return -1;
     }
 
     /* Finally, add entry to the open file table and
      * return the corresponding handle */
+    printf("j\n");
     return add_to_open_file_table(inum, offset);
 
     /* Note: for simplification, if file was created with TFS_O_CREAT and there
@@ -505,16 +517,19 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     
     open_file_entry_t *file = get_open_file_entry(fhandle);
     if (file == NULL) {
+        printf("A\n");
         return -1;
     }
 
     /* From the open file table entry, we get the inode */
     inode_t *inode = inode_get(file->of_inumber);
     if (inode == NULL) {
+        printf("A\n");
         return -1;
     }
 
     if (file->of_offset < 1024) {
+        printf("B\n");
 
         /* Determine how many bytes to read */
         to_read = inode->i_size - file->of_offset;
@@ -522,19 +537,23 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     else {
+        printf("C\n");
         to_read = (inode->i_size - 1024);
     }   
 
     if (to_read > len) {
+        printf("D\n");
         to_read = len;
     }
 
     if (to_read > 0) {
+        printf("E\n");
 
         file->of_offset = 0;
 
         void *block = data_block_get(inode->i_block[0]);
         if (block == NULL) {
+            printf("F\n");
             return -1;
         }
 
@@ -548,10 +567,12 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     else {
+        printf("G\n");
 
         file->of_offset = 0;
         void *block = data_block_get(inode->i_data_block);
         if (block == NULL) {
+            printf("H\n");
             return -1;
         }
 
