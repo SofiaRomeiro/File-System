@@ -73,9 +73,15 @@ int direct_block_insert(inode_t *inode, open_file_entry_t *file);
 
 int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
 
-ssize_t tfs_handle_indirect_block(open_file_entry_t *file, inode_t *inode, size_t write_size, void const *buffer, int i);
+// int indirect_block_insert(inode_t *inode, open_file_entry_t *file);
 
-int indirect_block_insert(inode_t *inode, int i);
+int indirect_block_insert(inode_t *inode);
+
+int tfs_handle_indirect_block(inode_t *inode, open_file_entry_t *file);
+
+// ssize_t tfs_handle_indirect_block(open_file_entry_t *file, inode_t *inode, size_t write_size, void const *buffer, int i);
+
+// int indirect_block_insert(inode_t *inode, int i);
 
 /* Reads from an open file, starting at the current offset
  * * Input:
