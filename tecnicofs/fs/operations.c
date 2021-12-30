@@ -577,7 +577,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         }
 
         /* Perform the actual read */
-        memcpy(buffer, block + file->of_offset, to_read);
+        memcpy(buffer, block + file->of_offset, to_read); //????? DEST SRC NBYTES
         /* The offset associated with the file handle is
          * incremented accordingly */
         file->of_offset += to_read;      
