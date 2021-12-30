@@ -45,7 +45,7 @@ int main() {
     
     assert(fclose(fp) != -1);
 
-    //unlink(path);
+    unlink(path);
 
     printf("======> Successful test.\n\n");
 

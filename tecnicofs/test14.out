@@ -1,52 +1,6 @@
 ----- Test 14 ------
 ./tests/write_max_bytes
 Allocating block number 0
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
-d_inumber = -1
- d_name : 
 Allocating block number 1
 Allocating block number 2
 Allocating block number 3
@@ -60,3015 +14,1795 @@ Allocating block number 10
 
 To write = 262144
 Allocating block number 11
-Block number is 11
 Current i data block = 11
-pos 3, value of i data block is 11
-offset : 0
-block : 0x557ab0665220
-buffer : 0x7ffc20f7e6a0
-2
+pos 3 value of i data block is 11
 pos 4 value of i data block is 11
 Final value of i data block is 11
 
 To write = 261120
 Allocating block number 12
-Block number is 12
 Current i data block = 12
-pos 3, value of i data block is 12
-offset : 0
-block : 0x557ab0665620
-buffer : 0x7ffc20f7eaa0
-2
+pos 3 value of i data block is 12
 pos 4 value of i data block is 12
 Final value of i data block is 12
 
 To write = 260096
 Allocating block number 13
-Block number is 13
 Current i data block = 13
-pos 3, value of i data block is 13
-offset : 0
-block : 0x557ab0665a20
-buffer : 0x7ffc20f7eea0
-2
+pos 3 value of i data block is 13
 pos 4 value of i data block is 13
 Final value of i data block is 13
 
 To write = 259072
 Allocating block number 14
-Block number is 14
 Current i data block = 14
-pos 3, value of i data block is 14
-offset : 0
-block : 0x557ab0665e20
-buffer : 0x7ffc20f7f2a0
-2
+pos 3 value of i data block is 14
 pos 4 value of i data block is 14
 Final value of i data block is 14
 
 To write = 258048
 Allocating block number 15
-Block number is 15
 Current i data block = 15
-pos 3, value of i data block is 15
-offset : 0
-block : 0x557ab0666220
-buffer : 0x7ffc20f7f6a0
-2
+pos 3 value of i data block is 15
 pos 4 value of i data block is 15
 Final value of i data block is 15
 
 To write = 257024
 Allocating block number 16
-Block number is 16
 Current i data block = 16
-pos 3, value of i data block is 16
-offset : 0
-block : 0x557ab0666620
-buffer : 0x7ffc20f7faa0
-2
+pos 3 value of i data block is 16
 pos 4 value of i data block is 16
 Final value of i data block is 16
 
 To write = 256000
 Allocating block number 17
-Block number is 17
 Current i data block = 17
-pos 3, value of i data block is 17
-offset : 0
-block : 0x557ab0666a20
-buffer : 0x7ffc20f7fea0
-2
+pos 3 value of i data block is 17
 pos 4 value of i data block is 17
 Final value of i data block is 17
 
 To write = 254976
 Allocating block number 18
-Block number is 18
 Current i data block = 18
-pos 3, value of i data block is 18
-offset : 0
-block : 0x557ab0666e20
-buffer : 0x7ffc20f802a0
-2
+pos 3 value of i data block is 18
 pos 4 value of i data block is 18
 Final value of i data block is 18
 
 To write = 253952
 Allocating block number 19
-Block number is 19
 Current i data block = 19
-pos 3, value of i data block is 19
-offset : 0
-block : 0x557ab0667220
-buffer : 0x7ffc20f806a0
-2
+pos 3 value of i data block is 19
 pos 4 value of i data block is 19
 Final value of i data block is 19
 
 To write = 252928
 Allocating block number 20
-Block number is 20
 Current i data block = 20
-pos 3, value of i data block is 20
-offset : 0
-block : 0x557ab0667620
-buffer : 0x7ffc20f80aa0
-2
+pos 3 value of i data block is 20
 pos 4 value of i data block is 20
 Final value of i data block is 20
 
 To write = 251904
 Allocating block number 21
-Block number is 21
 Current i data block = 21
-pos 3, value of i data block is 21
-offset : 0
-block : 0x557ab0667a20
-buffer : 0x7ffc20f80ea0
-2
+pos 3 value of i data block is 21
 pos 4 value of i data block is 21
 Final value of i data block is 21
 
 To write = 250880
 Allocating block number 22
-Block number is 22
 Current i data block = 22
-pos 3, value of i data block is 22
-offset : 0
-block : 0x557ab0667e20
-buffer : 0x7ffc20f812a0
-2
+pos 3 value of i data block is 22
 pos 4 value of i data block is 22
 Final value of i data block is 22
 
 To write = 249856
 Allocating block number 23
-Block number is 23
 Current i data block = 23
-pos 3, value of i data block is 23
-offset : 0
-block : 0x557ab0668220
-buffer : 0x7ffc20f816a0
-2
+pos 3 value of i data block is 23
 pos 4 value of i data block is 23
 Final value of i data block is 23
 
 To write = 248832
 Allocating block number 24
-Block number is 24
 Current i data block = 24
-pos 3, value of i data block is 24
-offset : 0
-block : 0x557ab0668620
-buffer : 0x7ffc20f81aa0
-2
+pos 3 value of i data block is 24
 pos 4 value of i data block is 24
 Final value of i data block is 24
 
 To write = 247808
 Allocating block number 25
-Block number is 25
 Current i data block = 25
-pos 3, value of i data block is 25
-offset : 0
-block : 0x557ab0668a20
-buffer : 0x7ffc20f81ea0
-2
+pos 3 value of i data block is 25
 pos 4 value of i data block is 25
 Final value of i data block is 25
 
 To write = 246784
 Allocating block number 26
-Block number is 26
 Current i data block = 26
-pos 3, value of i data block is 26
-offset : 0
-block : 0x557ab0668e20
-buffer : 0x7ffc20f822a0
-2
+pos 3 value of i data block is 26
 pos 4 value of i data block is 26
 Final value of i data block is 26
 
 To write = 245760
 Allocating block number 27
-Block number is 27
 Current i data block = 27
-pos 3, value of i data block is 27
-offset : 0
-block : 0x557ab0669220
-buffer : 0x7ffc20f826a0
-2
+pos 3 value of i data block is 27
 pos 4 value of i data block is 27
 Final value of i data block is 27
 
 To write = 244736
 Allocating block number 28
-Block number is 28
 Current i data block = 28
-pos 3, value of i data block is 28
-offset : 0
-block : 0x557ab0669620
-buffer : 0x7ffc20f82aa0
-2
+pos 3 value of i data block is 28
 pos 4 value of i data block is 28
 Final value of i data block is 28
 
 To write = 243712
 Allocating block number 29
-Block number is 29
 Current i data block = 29
-pos 3, value of i data block is 29
-offset : 0
-block : 0x557ab0669a20
-buffer : 0x7ffc20f82ea0
-2
+pos 3 value of i data block is 29
 pos 4 value of i data block is 29
 Final value of i data block is 29
 
 To write = 242688
 Allocating block number 30
-Block number is 30
 Current i data block = 30
-pos 3, value of i data block is 30
-offset : 0
-block : 0x557ab0669e20
-buffer : 0x7ffc20f832a0
-2
+pos 3 value of i data block is 30
 pos 4 value of i data block is 30
 Final value of i data block is 30
 
 To write = 241664
 Allocating block number 31
-Block number is 31
 Current i data block = 31
-pos 3, value of i data block is 31
-offset : 0
-block : 0x557ab066a220
-buffer : 0x7ffc20f836a0
-2
+pos 3 value of i data block is 31
 pos 4 value of i data block is 31
 Final value of i data block is 31
 
 To write = 240640
 Allocating block number 32
-Block number is 32
 Current i data block = 32
-pos 3, value of i data block is 32
-offset : 0
-block : 0x557ab066a620
-buffer : 0x7ffc20f83aa0
-2
+pos 3 value of i data block is 32
 pos 4 value of i data block is 32
 Final value of i data block is 32
 
 To write = 239616
 Allocating block number 33
-Block number is 33
 Current i data block = 33
-pos 3, value of i data block is 33
-offset : 0
-block : 0x557ab066aa20
-buffer : 0x7ffc20f83ea0
-2
+pos 3 value of i data block is 33
 pos 4 value of i data block is 33
 Final value of i data block is 33
 
 To write = 238592
 Allocating block number 34
-Block number is 34
 Current i data block = 34
-pos 3, value of i data block is 34
-offset : 0
-block : 0x557ab066ae20
-buffer : 0x7ffc20f842a0
-2
+pos 3 value of i data block is 34
 pos 4 value of i data block is 34
 Final value of i data block is 34
 
 To write = 237568
 Allocating block number 35
-Block number is 35
 Current i data block = 35
-pos 3, value of i data block is 35
-offset : 0
-block : 0x557ab066b220
-buffer : 0x7ffc20f846a0
-2
+pos 3 value of i data block is 35
 pos 4 value of i data block is 35
 Final value of i data block is 35
 
 To write = 236544
 Allocating block number 36
-Block number is 36
 Current i data block = 36
-pos 3, value of i data block is 36
-offset : 0
-block : 0x557ab066b620
-buffer : 0x7ffc20f84aa0
-2
+pos 3 value of i data block is 36
 pos 4 value of i data block is 36
 Final value of i data block is 36
 
 To write = 235520
 Allocating block number 37
-Block number is 37
 Current i data block = 37
-pos 3, value of i data block is 37
-offset : 0
-block : 0x557ab066ba20
-buffer : 0x7ffc20f84ea0
-2
+pos 3 value of i data block is 37
 pos 4 value of i data block is 37
 Final value of i data block is 37
 
 To write = 234496
 Allocating block number 38
-Block number is 38
 Current i data block = 38
-pos 3, value of i data block is 38
-offset : 0
-block : 0x557ab066be20
-buffer : 0x7ffc20f852a0
-2
+pos 3 value of i data block is 38
 pos 4 value of i data block is 38
 Final value of i data block is 38
 
 To write = 233472
 Allocating block number 39
-Block number is 39
 Current i data block = 39
-pos 3, value of i data block is 39
-offset : 0
-block : 0x557ab066c220
-buffer : 0x7ffc20f856a0
-2
+pos 3 value of i data block is 39
 pos 4 value of i data block is 39
 Final value of i data block is 39
 
 To write = 232448
 Allocating block number 40
-Block number is 40
 Current i data block = 40
-pos 3, value of i data block is 40
-offset : 0
-block : 0x557ab066c620
-buffer : 0x7ffc20f85aa0
-2
+pos 3 value of i data block is 40
 pos 4 value of i data block is 40
 Final value of i data block is 40
 
 To write = 231424
 Allocating block number 41
-Block number is 41
 Current i data block = 41
-pos 3, value of i data block is 41
-offset : 0
-block : 0x557ab066ca20
-buffer : 0x7ffc20f85ea0
-2
+pos 3 value of i data block is 41
 pos 4 value of i data block is 41
 Final value of i data block is 41
 
 To write = 230400
 Allocating block number 42
-Block number is 42
 Current i data block = 42
-pos 3, value of i data block is 42
-offset : 0
-block : 0x557ab066ce20
-buffer : 0x7ffc20f862a0
-2
+pos 3 value of i data block is 42
 pos 4 value of i data block is 42
 Final value of i data block is 42
 
 To write = 229376
 Allocating block number 43
-Block number is 43
 Current i data block = 43
-pos 3, value of i data block is 43
-offset : 0
-block : 0x557ab066d220
-buffer : 0x7ffc20f866a0
-2
+pos 3 value of i data block is 43
 pos 4 value of i data block is 43
 Final value of i data block is 43
 
 To write = 228352
 Allocating block number 44
-Block number is 44
 Current i data block = 44
-pos 3, value of i data block is 44
-offset : 0
-block : 0x557ab066d620
-buffer : 0x7ffc20f86aa0
-2
+pos 3 value of i data block is 44
 pos 4 value of i data block is 44
 Final value of i data block is 44
 
 To write = 227328
 Allocating block number 45
-Block number is 45
 Current i data block = 45
-pos 3, value of i data block is 45
-offset : 0
-block : 0x557ab066da20
-buffer : 0x7ffc20f86ea0
-2
+pos 3 value of i data block is 45
 pos 4 value of i data block is 45
 Final value of i data block is 45
 
 To write = 226304
 Allocating block number 46
-Block number is 46
 Current i data block = 46
-pos 3, value of i data block is 46
-offset : 0
-block : 0x557ab066de20
-buffer : 0x7ffc20f872a0
-2
+pos 3 value of i data block is 46
 pos 4 value of i data block is 46
 Final value of i data block is 46
 
 To write = 225280
 Allocating block number 47
-Block number is 47
 Current i data block = 47
-pos 3, value of i data block is 47
-offset : 0
-block : 0x557ab066e220
-buffer : 0x7ffc20f876a0
-2
+pos 3 value of i data block is 47
 pos 4 value of i data block is 47
 Final value of i data block is 47
 
 To write = 224256
 Allocating block number 48
-Block number is 48
 Current i data block = 48
-pos 3, value of i data block is 48
-offset : 0
-block : 0x557ab066e620
-buffer : 0x7ffc20f87aa0
-2
+pos 3 value of i data block is 48
 pos 4 value of i data block is 48
 Final value of i data block is 48
 
 To write = 223232
 Allocating block number 49
-Block number is 49
 Current i data block = 49
-pos 3, value of i data block is 49
-offset : 0
-block : 0x557ab066ea20
-buffer : 0x7ffc20f87ea0
-2
+pos 3 value of i data block is 49
 pos 4 value of i data block is 49
 Final value of i data block is 49
 
 To write = 222208
 Allocating block number 50
-Block number is 50
 Current i data block = 50
-pos 3, value of i data block is 50
-offset : 0
-block : 0x557ab066ee20
-buffer : 0x7ffc20f882a0
-2
+pos 3 value of i data block is 50
 pos 4 value of i data block is 50
 Final value of i data block is 50
 
 To write = 221184
 Allocating block number 51
-Block number is 51
 Current i data block = 51
-pos 3, value of i data block is 51
-offset : 0
-block : 0x557ab066f220
-buffer : 0x7ffc20f886a0
-2
+pos 3 value of i data block is 51
 pos 4 value of i data block is 51
 Final value of i data block is 51
 
 To write = 220160
 Allocating block number 52
-Block number is 52
 Current i data block = 52
-pos 3, value of i data block is 52
-offset : 0
-block : 0x557ab066f620
-buffer : 0x7ffc20f88aa0
-2
+pos 3 value of i data block is 52
 pos 4 value of i data block is 52
 Final value of i data block is 52
 
 To write = 219136
 Allocating block number 53
-Block number is 53
 Current i data block = 53
-pos 3, value of i data block is 53
-offset : 0
-block : 0x557ab066fa20
-buffer : 0x7ffc20f88ea0
-2
+pos 3 value of i data block is 53
 pos 4 value of i data block is 53
 Final value of i data block is 53
 
 To write = 218112
 Allocating block number 54
-Block number is 54
 Current i data block = 54
-pos 3, value of i data block is 54
-offset : 0
-block : 0x557ab066fe20
-buffer : 0x7ffc20f892a0
-2
+pos 3 value of i data block is 54
 pos 4 value of i data block is 54
 Final value of i data block is 54
 
 To write = 217088
 Allocating block number 55
-Block number is 55
 Current i data block = 55
-pos 3, value of i data block is 55
-offset : 0
-block : 0x557ab0670220
-buffer : 0x7ffc20f896a0
-2
+pos 3 value of i data block is 55
 pos 4 value of i data block is 55
 Final value of i data block is 55
 
 To write = 216064
 Allocating block number 56
-Block number is 56
 Current i data block = 56
-pos 3, value of i data block is 56
-offset : 0
-block : 0x557ab0670620
-buffer : 0x7ffc20f89aa0
-2
+pos 3 value of i data block is 56
 pos 4 value of i data block is 56
 Final value of i data block is 56
 
 To write = 215040
 Allocating block number 57
-Block number is 57
 Current i data block = 57
-pos 3, value of i data block is 57
-offset : 0
-block : 0x557ab0670a20
-buffer : 0x7ffc20f89ea0
-2
+pos 3 value of i data block is 57
 pos 4 value of i data block is 57
 Final value of i data block is 57
 
 To write = 214016
 Allocating block number 58
-Block number is 58
 Current i data block = 58
-pos 3, value of i data block is 58
-offset : 0
-block : 0x557ab0670e20
-buffer : 0x7ffc20f8a2a0
-2
+pos 3 value of i data block is 58
 pos 4 value of i data block is 58
 Final value of i data block is 58
 
 To write = 212992
 Allocating block number 59
-Block number is 59
 Current i data block = 59
-pos 3, value of i data block is 59
-offset : 0
-block : 0x557ab0671220
-buffer : 0x7ffc20f8a6a0
-2
+pos 3 value of i data block is 59
 pos 4 value of i data block is 59
 Final value of i data block is 59
 
 To write = 211968
 Allocating block number 60
-Block number is 60
 Current i data block = 60
-pos 3, value of i data block is 60
-offset : 0
-block : 0x557ab0671620
-buffer : 0x7ffc20f8aaa0
-2
+pos 3 value of i data block is 60
 pos 4 value of i data block is 60
 Final value of i data block is 60
 
 To write = 210944
 Allocating block number 61
-Block number is 61
 Current i data block = 61
-pos 3, value of i data block is 61
-offset : 0
-block : 0x557ab0671a20
-buffer : 0x7ffc20f8aea0
-2
+pos 3 value of i data block is 61
 pos 4 value of i data block is 61
 Final value of i data block is 61
 
 To write = 209920
 Allocating block number 62
-Block number is 62
 Current i data block = 62
-pos 3, value of i data block is 62
-offset : 0
-block : 0x557ab0671e20
-buffer : 0x7ffc20f8b2a0
-2
+pos 3 value of i data block is 62
 pos 4 value of i data block is 62
 Final value of i data block is 62
 
 To write = 208896
 Allocating block number 63
-Block number is 63
 Current i data block = 63
-pos 3, value of i data block is 63
-offset : 0
-block : 0x557ab0672220
-buffer : 0x7ffc20f8b6a0
-2
+pos 3 value of i data block is 63
 pos 4 value of i data block is 63
 Final value of i data block is 63
 
 To write = 207872
 Allocating block number 64
-Block number is 64
 Current i data block = 64
-pos 3, value of i data block is 64
-offset : 0
-block : 0x557ab0672620
-buffer : 0x7ffc20f8baa0
-2
+pos 3 value of i data block is 64
 pos 4 value of i data block is 64
 Final value of i data block is 64
 
 To write = 206848
 Allocating block number 65
-Block number is 65
 Current i data block = 65
-pos 3, value of i data block is 65
-offset : 0
-block : 0x557ab0672a20
-buffer : 0x7ffc20f8bea0
-2
+pos 3 value of i data block is 65
 pos 4 value of i data block is 65
 Final value of i data block is 65
 
 To write = 205824
 Allocating block number 66
-Block number is 66
 Current i data block = 66
-pos 3, value of i data block is 66
-offset : 0
-block : 0x557ab0672e20
-buffer : 0x7ffc20f8c2a0
-2
+pos 3 value of i data block is 66
 pos 4 value of i data block is 66
 Final value of i data block is 66
 
 To write = 204800
 Allocating block number 67
-Block number is 67
 Current i data block = 67
-pos 3, value of i data block is 67
-offset : 0
-block : 0x557ab0673220
-buffer : 0x7ffc20f8c6a0
-2
+pos 3 value of i data block is 67
 pos 4 value of i data block is 67
 Final value of i data block is 67
 
 To write = 203776
 Allocating block number 68
-Block number is 68
 Current i data block = 68
-pos 3, value of i data block is 68
-offset : 0
-block : 0x557ab0673620
-buffer : 0x7ffc20f8caa0
-2
+pos 3 value of i data block is 68
 pos 4 value of i data block is 68
 Final value of i data block is 68
 
 To write = 202752
 Allocating block number 69
-Block number is 69
 Current i data block = 69
-pos 3, value of i data block is 69
-offset : 0
-block : 0x557ab0673a20
-buffer : 0x7ffc20f8cea0
-2
+pos 3 value of i data block is 69
 pos 4 value of i data block is 69
 Final value of i data block is 69
 
 To write = 201728
 Allocating block number 70
-Block number is 70
 Current i data block = 70
-pos 3, value of i data block is 70
-offset : 0
-block : 0x557ab0673e20
-buffer : 0x7ffc20f8d2a0
-2
+pos 3 value of i data block is 70
 pos 4 value of i data block is 70
 Final value of i data block is 70
 
 To write = 200704
 Allocating block number 71
-Block number is 71
 Current i data block = 71
-pos 3, value of i data block is 71
-offset : 0
-block : 0x557ab0674220
-buffer : 0x7ffc20f8d6a0
-2
+pos 3 value of i data block is 71
 pos 4 value of i data block is 71
 Final value of i data block is 71
 
 To write = 199680
 Allocating block number 72
-Block number is 72
 Current i data block = 72
-pos 3, value of i data block is 72
-offset : 0
-block : 0x557ab0674620
-buffer : 0x7ffc20f8daa0
-2
+pos 3 value of i data block is 72
 pos 4 value of i data block is 72
 Final value of i data block is 72
 
 To write = 198656
 Allocating block number 73
-Block number is 73
 Current i data block = 73
-pos 3, value of i data block is 73
-offset : 0
-block : 0x557ab0674a20
-buffer : 0x7ffc20f8dea0
-2
+pos 3 value of i data block is 73
 pos 4 value of i data block is 73
 Final value of i data block is 73
 
 To write = 197632
 Allocating block number 74
-Block number is 74
 Current i data block = 74
-pos 3, value of i data block is 74
-offset : 0
-block : 0x557ab0674e20
-buffer : 0x7ffc20f8e2a0
-2
+pos 3 value of i data block is 74
 pos 4 value of i data block is 74
 Final value of i data block is 74
 
 To write = 196608
 Allocating block number 75
-Block number is 75
 Current i data block = 75
-pos 3, value of i data block is 75
-offset : 0
-block : 0x557ab0675220
-buffer : 0x7ffc20f8e6a0
-2
+pos 3 value of i data block is 75
 pos 4 value of i data block is 75
 Final value of i data block is 75
 
 To write = 195584
 Allocating block number 76
-Block number is 76
 Current i data block = 76
-pos 3, value of i data block is 76
-offset : 0
-block : 0x557ab0675620
-buffer : 0x7ffc20f8eaa0
-2
+pos 3 value of i data block is 76
 pos 4 value of i data block is 76
 Final value of i data block is 76
 
 To write = 194560
 Allocating block number 77
-Block number is 77
 Current i data block = 77
-pos 3, value of i data block is 77
-offset : 0
-block : 0x557ab0675a20
-buffer : 0x7ffc20f8eea0
-2
+pos 3 value of i data block is 77
 pos 4 value of i data block is 77
 Final value of i data block is 77
 
 To write = 193536
 Allocating block number 78
-Block number is 78
 Current i data block = 78
-pos 3, value of i data block is 78
-offset : 0
-block : 0x557ab0675e20
-buffer : 0x7ffc20f8f2a0
-2
+pos 3 value of i data block is 78
 pos 4 value of i data block is 78
 Final value of i data block is 78
 
 To write = 192512
 Allocating block number 79
-Block number is 79
 Current i data block = 79
-pos 3, value of i data block is 79
-offset : 0
-block : 0x557ab0676220
-buffer : 0x7ffc20f8f6a0
-2
+pos 3 value of i data block is 79
 pos 4 value of i data block is 79
 Final value of i data block is 79
 
 To write = 191488
 Allocating block number 80
-Block number is 80
 Current i data block = 80
-pos 3, value of i data block is 80
-offset : 0
-block : 0x557ab0676620
-buffer : 0x7ffc20f8faa0
-2
+pos 3 value of i data block is 80
 pos 4 value of i data block is 80
 Final value of i data block is 80
 
 To write = 190464
 Allocating block number 81
-Block number is 81
 Current i data block = 81
-pos 3, value of i data block is 81
-offset : 0
-block : 0x557ab0676a20
-buffer : 0x7ffc20f8fea0
-2
+pos 3 value of i data block is 81
 pos 4 value of i data block is 81
 Final value of i data block is 81
 
 To write = 189440
 Allocating block number 82
-Block number is 82
 Current i data block = 82
-pos 3, value of i data block is 82
-offset : 0
-block : 0x557ab0676e20
-buffer : 0x7ffc20f902a0
-2
+pos 3 value of i data block is 82
 pos 4 value of i data block is 82
 Final value of i data block is 82
 
 To write = 188416
 Allocating block number 83
-Block number is 83
 Current i data block = 83
-pos 3, value of i data block is 83
-offset : 0
-block : 0x557ab0677220
-buffer : 0x7ffc20f906a0
-2
+pos 3 value of i data block is 83
 pos 4 value of i data block is 83
 Final value of i data block is 83
 
 To write = 187392
 Allocating block number 84
-Block number is 84
 Current i data block = 84
-pos 3, value of i data block is 84
-offset : 0
-block : 0x557ab0677620
-buffer : 0x7ffc20f90aa0
-2
+pos 3 value of i data block is 84
 pos 4 value of i data block is 84
 Final value of i data block is 84
 
 To write = 186368
 Allocating block number 85
-Block number is 85
 Current i data block = 85
-pos 3, value of i data block is 85
-offset : 0
-block : 0x557ab0677a20
-buffer : 0x7ffc20f90ea0
-2
+pos 3 value of i data block is 85
 pos 4 value of i data block is 85
 Final value of i data block is 85
 
 To write = 185344
 Allocating block number 86
-Block number is 86
 Current i data block = 86
-pos 3, value of i data block is 86
-offset : 0
-block : 0x557ab0677e20
-buffer : 0x7ffc20f912a0
-2
+pos 3 value of i data block is 86
 pos 4 value of i data block is 86
 Final value of i data block is 86
 
 To write = 184320
 Allocating block number 87
-Block number is 87
 Current i data block = 87
-pos 3, value of i data block is 87
-offset : 0
-block : 0x557ab0678220
-buffer : 0x7ffc20f916a0
-2
+pos 3 value of i data block is 87
 pos 4 value of i data block is 87
 Final value of i data block is 87
 
 To write = 183296
 Allocating block number 88
-Block number is 88
 Current i data block = 88
-pos 3, value of i data block is 88
-offset : 0
-block : 0x557ab0678620
-buffer : 0x7ffc20f91aa0
-2
+pos 3 value of i data block is 88
 pos 4 value of i data block is 88
 Final value of i data block is 88
 
 To write = 182272
 Allocating block number 89
-Block number is 89
 Current i data block = 89
-pos 3, value of i data block is 89
-offset : 0
-block : 0x557ab0678a20
-buffer : 0x7ffc20f91ea0
-2
+pos 3 value of i data block is 89
 pos 4 value of i data block is 89
 Final value of i data block is 89
 
 To write = 181248
 Allocating block number 90
-Block number is 90
 Current i data block = 90
-pos 3, value of i data block is 90
-offset : 0
-block : 0x557ab0678e20
-buffer : 0x7ffc20f922a0
-2
+pos 3 value of i data block is 90
 pos 4 value of i data block is 90
 Final value of i data block is 90
 
 To write = 180224
 Allocating block number 91
-Block number is 91
 Current i data block = 91
-pos 3, value of i data block is 91
-offset : 0
-block : 0x557ab0679220
-buffer : 0x7ffc20f926a0
-2
+pos 3 value of i data block is 91
 pos 4 value of i data block is 91
 Final value of i data block is 91
 
 To write = 179200
 Allocating block number 92
-Block number is 92
 Current i data block = 92
-pos 3, value of i data block is 92
-offset : 0
-block : 0x557ab0679620
-buffer : 0x7ffc20f92aa0
-2
+pos 3 value of i data block is 92
 pos 4 value of i data block is 92
 Final value of i data block is 92
 
 To write = 178176
 Allocating block number 93
-Block number is 93
 Current i data block = 93
-pos 3, value of i data block is 93
-offset : 0
-block : 0x557ab0679a20
-buffer : 0x7ffc20f92ea0
-2
+pos 3 value of i data block is 93
 pos 4 value of i data block is 93
 Final value of i data block is 93
 
 To write = 177152
 Allocating block number 94
-Block number is 94
 Current i data block = 94
-pos 3, value of i data block is 94
-offset : 0
-block : 0x557ab0679e20
-buffer : 0x7ffc20f932a0
-2
+pos 3 value of i data block is 94
 pos 4 value of i data block is 94
 Final value of i data block is 94
 
 To write = 176128
 Allocating block number 95
-Block number is 95
 Current i data block = 95
-pos 3, value of i data block is 95
-offset : 0
-block : 0x557ab067a220
-buffer : 0x7ffc20f936a0
-2
+pos 3 value of i data block is 95
 pos 4 value of i data block is 95
 Final value of i data block is 95
 
 To write = 175104
 Allocating block number 96
-Block number is 96
 Current i data block = 96
-pos 3, value of i data block is 96
-offset : 0
-block : 0x557ab067a620
-buffer : 0x7ffc20f93aa0
-2
+pos 3 value of i data block is 96
 pos 4 value of i data block is 96
 Final value of i data block is 96
 
 To write = 174080
 Allocating block number 97
-Block number is 97
 Current i data block = 97
-pos 3, value of i data block is 97
-offset : 0
-block : 0x557ab067aa20
-buffer : 0x7ffc20f93ea0
-2
+pos 3 value of i data block is 97
 pos 4 value of i data block is 97
 Final value of i data block is 97
 
 To write = 173056
 Allocating block number 98
-Block number is 98
 Current i data block = 98
-pos 3, value of i data block is 98
-offset : 0
-block : 0x557ab067ae20
-buffer : 0x7ffc20f942a0
-2
+pos 3 value of i data block is 98
 pos 4 value of i data block is 98
 Final value of i data block is 98
 
 To write = 172032
 Allocating block number 99
-Block number is 99
 Current i data block = 99
-pos 3, value of i data block is 99
-offset : 0
-block : 0x557ab067b220
-buffer : 0x7ffc20f946a0
-2
+pos 3 value of i data block is 99
 pos 4 value of i data block is 99
 Final value of i data block is 99
 
 To write = 171008
 Allocating block number 100
-Block number is 100
 Current i data block = 100
-pos 3, value of i data block is 100
-offset : 0
-block : 0x557ab067b620
-buffer : 0x7ffc20f94aa0
-2
+pos 3 value of i data block is 100
 pos 4 value of i data block is 100
 Final value of i data block is 100
 
 To write = 169984
 Allocating block number 101
-Block number is 101
 Current i data block = 101
-pos 3, value of i data block is 101
-offset : 0
-block : 0x557ab067ba20
-buffer : 0x7ffc20f94ea0
-2
+pos 3 value of i data block is 101
 pos 4 value of i data block is 101
 Final value of i data block is 101
 
 To write = 168960
 Allocating block number 102
-Block number is 102
 Current i data block = 102
-pos 3, value of i data block is 102
-offset : 0
-block : 0x557ab067be20
-buffer : 0x7ffc20f952a0
-2
+pos 3 value of i data block is 102
 pos 4 value of i data block is 102
 Final value of i data block is 102
 
 To write = 167936
 Allocating block number 103
-Block number is 103
 Current i data block = 103
-pos 3, value of i data block is 103
-offset : 0
-block : 0x557ab067c220
-buffer : 0x7ffc20f956a0
-2
+pos 3 value of i data block is 103
 pos 4 value of i data block is 103
 Final value of i data block is 103
 
 To write = 166912
 Allocating block number 104
-Block number is 104
 Current i data block = 104
-pos 3, value of i data block is 104
-offset : 0
-block : 0x557ab067c620
-buffer : 0x7ffc20f95aa0
-2
+pos 3 value of i data block is 104
 pos 4 value of i data block is 104
 Final value of i data block is 104
 
 To write = 165888
 Allocating block number 105
-Block number is 105
 Current i data block = 105
-pos 3, value of i data block is 105
-offset : 0
-block : 0x557ab067ca20
-buffer : 0x7ffc20f95ea0
-2
+pos 3 value of i data block is 105
 pos 4 value of i data block is 105
 Final value of i data block is 105
 
 To write = 164864
 Allocating block number 106
-Block number is 106
 Current i data block = 106
-pos 3, value of i data block is 106
-offset : 0
-block : 0x557ab067ce20
-buffer : 0x7ffc20f962a0
-2
+pos 3 value of i data block is 106
 pos 4 value of i data block is 106
 Final value of i data block is 106
 
 To write = 163840
 Allocating block number 107
-Block number is 107
 Current i data block = 107
-pos 3, value of i data block is 107
-offset : 0
-block : 0x557ab067d220
-buffer : 0x7ffc20f966a0
-2
+pos 3 value of i data block is 107
 pos 4 value of i data block is 107
 Final value of i data block is 107
 
 To write = 162816
 Allocating block number 108
-Block number is 108
 Current i data block = 108
-pos 3, value of i data block is 108
-offset : 0
-block : 0x557ab067d620
-buffer : 0x7ffc20f96aa0
-2
+pos 3 value of i data block is 108
 pos 4 value of i data block is 108
 Final value of i data block is 108
 
 To write = 161792
 Allocating block number 109
-Block number is 109
 Current i data block = 109
-pos 3, value of i data block is 109
-offset : 0
-block : 0x557ab067da20
-buffer : 0x7ffc20f96ea0
-2
+pos 3 value of i data block is 109
 pos 4 value of i data block is 109
 Final value of i data block is 109
 
 To write = 160768
 Allocating block number 110
-Block number is 110
 Current i data block = 110
-pos 3, value of i data block is 110
-offset : 0
-block : 0x557ab067de20
-buffer : 0x7ffc20f972a0
-2
+pos 3 value of i data block is 110
 pos 4 value of i data block is 110
 Final value of i data block is 110
 
 To write = 159744
 Allocating block number 111
-Block number is 111
 Current i data block = 111
-pos 3, value of i data block is 111
-offset : 0
-block : 0x557ab067e220
-buffer : 0x7ffc20f976a0
-2
+pos 3 value of i data block is 111
 pos 4 value of i data block is 111
 Final value of i data block is 111
 
 To write = 158720
 Allocating block number 112
-Block number is 112
 Current i data block = 112
-pos 3, value of i data block is 112
-offset : 0
-block : 0x557ab067e620
-buffer : 0x7ffc20f97aa0
-2
+pos 3 value of i data block is 112
 pos 4 value of i data block is 112
 Final value of i data block is 112
 
 To write = 157696
 Allocating block number 113
-Block number is 113
 Current i data block = 113
-pos 3, value of i data block is 113
-offset : 0
-block : 0x557ab067ea20
-buffer : 0x7ffc20f97ea0
-2
+pos 3 value of i data block is 113
 pos 4 value of i data block is 113
 Final value of i data block is 113
 
 To write = 156672
 Allocating block number 114
-Block number is 114
 Current i data block = 114
-pos 3, value of i data block is 114
-offset : 0
-block : 0x557ab067ee20
-buffer : 0x7ffc20f982a0
-2
+pos 3 value of i data block is 114
 pos 4 value of i data block is 114
 Final value of i data block is 114
 
 To write = 155648
 Allocating block number 115
-Block number is 115
 Current i data block = 115
-pos 3, value of i data block is 115
-offset : 0
-block : 0x557ab067f220
-buffer : 0x7ffc20f986a0
-2
+pos 3 value of i data block is 115
 pos 4 value of i data block is 115
 Final value of i data block is 115
 
 To write = 154624
 Allocating block number 116
-Block number is 116
 Current i data block = 116
-pos 3, value of i data block is 116
-offset : 0
-block : 0x557ab067f620
-buffer : 0x7ffc20f98aa0
-2
+pos 3 value of i data block is 116
 pos 4 value of i data block is 116
 Final value of i data block is 116
 
 To write = 153600
 Allocating block number 117
-Block number is 117
 Current i data block = 117
-pos 3, value of i data block is 117
-offset : 0
-block : 0x557ab067fa20
-buffer : 0x7ffc20f98ea0
-2
+pos 3 value of i data block is 117
 pos 4 value of i data block is 117
 Final value of i data block is 117
 
 To write = 152576
 Allocating block number 118
-Block number is 118
 Current i data block = 118
-pos 3, value of i data block is 118
-offset : 0
-block : 0x557ab067fe20
-buffer : 0x7ffc20f992a0
-2
+pos 3 value of i data block is 118
 pos 4 value of i data block is 118
 Final value of i data block is 118
 
 To write = 151552
 Allocating block number 119
-Block number is 119
 Current i data block = 119
-pos 3, value of i data block is 119
-offset : 0
-block : 0x557ab0680220
-buffer : 0x7ffc20f996a0
-2
+pos 3 value of i data block is 119
 pos 4 value of i data block is 119
 Final value of i data block is 119
 
 To write = 150528
 Allocating block number 120
-Block number is 120
 Current i data block = 120
-pos 3, value of i data block is 120
-offset : 0
-block : 0x557ab0680620
-buffer : 0x7ffc20f99aa0
-2
+pos 3 value of i data block is 120
 pos 4 value of i data block is 120
 Final value of i data block is 120
 
 To write = 149504
 Allocating block number 121
-Block number is 121
 Current i data block = 121
-pos 3, value of i data block is 121
-offset : 0
-block : 0x557ab0680a20
-buffer : 0x7ffc20f99ea0
-2
+pos 3 value of i data block is 121
 pos 4 value of i data block is 121
 Final value of i data block is 121
 
 To write = 148480
 Allocating block number 122
-Block number is 122
 Current i data block = 122
-pos 3, value of i data block is 122
-offset : 0
-block : 0x557ab0680e20
-buffer : 0x7ffc20f9a2a0
-2
+pos 3 value of i data block is 122
 pos 4 value of i data block is 122
 Final value of i data block is 122
 
 To write = 147456
 Allocating block number 123
-Block number is 123
 Current i data block = 123
-pos 3, value of i data block is 123
-offset : 0
-block : 0x557ab0681220
-buffer : 0x7ffc20f9a6a0
-2
+pos 3 value of i data block is 123
 pos 4 value of i data block is 123
 Final value of i data block is 123
 
 To write = 146432
 Allocating block number 124
-Block number is 124
 Current i data block = 124
-pos 3, value of i data block is 124
-offset : 0
-block : 0x557ab0681620
-buffer : 0x7ffc20f9aaa0
-2
+pos 3 value of i data block is 124
 pos 4 value of i data block is 124
 Final value of i data block is 124
 
 To write = 145408
 Allocating block number 125
-Block number is 125
 Current i data block = 125
-pos 3, value of i data block is 125
-offset : 0
-block : 0x557ab0681a20
-buffer : 0x7ffc20f9aea0
-2
+pos 3 value of i data block is 125
 pos 4 value of i data block is 125
 Final value of i data block is 125
 
 To write = 144384
 Allocating block number 126
-Block number is 126
 Current i data block = 126
-pos 3, value of i data block is 126
-offset : 0
-block : 0x557ab0681e20
-buffer : 0x7ffc20f9b2a0
-2
+pos 3 value of i data block is 126
 pos 4 value of i data block is 126
 Final value of i data block is 126
 
 To write = 143360
 Allocating block number 127
-Block number is 127
 Current i data block = 127
-pos 3, value of i data block is 127
-offset : 0
-block : 0x557ab0682220
-buffer : 0x7ffc20f9b6a0
-2
+pos 3 value of i data block is 127
 pos 4 value of i data block is 127
 Final value of i data block is 127
 
 To write = 142336
 Allocating block number 128
-Block number is 128
 Current i data block = 128
-pos 3, value of i data block is 128
-offset : 0
-block : 0x557ab0682620
-buffer : 0x7ffc20f9baa0
-2
+pos 3 value of i data block is 128
 pos 4 value of i data block is 128
 Final value of i data block is 128
 
 To write = 141312
 Allocating block number 129
-Block number is 129
 Current i data block = 129
-pos 3, value of i data block is 129
-offset : 0
-block : 0x557ab0682a20
-buffer : 0x7ffc20f9bea0
-2
+pos 3 value of i data block is 129
 pos 4 value of i data block is 129
 Final value of i data block is 129
 
 To write = 140288
 Allocating block number 130
-Block number is 130
 Current i data block = 130
-pos 3, value of i data block is 130
-offset : 0
-block : 0x557ab0682e20
-buffer : 0x7ffc20f9c2a0
-2
+pos 3 value of i data block is 130
 pos 4 value of i data block is 130
 Final value of i data block is 130
 
 To write = 139264
 Allocating block number 131
-Block number is 131
 Current i data block = 131
-pos 3, value of i data block is 131
-offset : 0
-block : 0x557ab0683220
-buffer : 0x7ffc20f9c6a0
-2
+pos 3 value of i data block is 131
 pos 4 value of i data block is 131
 Final value of i data block is 131
 
 To write = 138240
 Allocating block number 132
-Block number is 132
 Current i data block = 132
-pos 3, value of i data block is 132
-offset : 0
-block : 0x557ab0683620
-buffer : 0x7ffc20f9caa0
-2
+pos 3 value of i data block is 132
 pos 4 value of i data block is 132
 Final value of i data block is 132
 
 To write = 137216
 Allocating block number 133
-Block number is 133
 Current i data block = 133
-pos 3, value of i data block is 133
-offset : 0
-block : 0x557ab0683a20
-buffer : 0x7ffc20f9cea0
-2
+pos 3 value of i data block is 133
 pos 4 value of i data block is 133
 Final value of i data block is 133
 
 To write = 136192
 Allocating block number 134
-Block number is 134
 Current i data block = 134
-pos 3, value of i data block is 134
-offset : 0
-block : 0x557ab0683e20
-buffer : 0x7ffc20f9d2a0
-2
+pos 3 value of i data block is 134
 pos 4 value of i data block is 134
 Final value of i data block is 134
 
 To write = 135168
 Allocating block number 135
-Block number is 135
 Current i data block = 135
-pos 3, value of i data block is 135
-offset : 0
-block : 0x557ab0684220
-buffer : 0x7ffc20f9d6a0
-2
+pos 3 value of i data block is 135
 pos 4 value of i data block is 135
 Final value of i data block is 135
 
 To write = 134144
 Allocating block number 136
-Block number is 136
 Current i data block = 136
-pos 3, value of i data block is 136
-offset : 0
-block : 0x557ab0684620
-buffer : 0x7ffc20f9daa0
-2
+pos 3 value of i data block is 136
 pos 4 value of i data block is 136
 Final value of i data block is 136
 
 To write = 133120
 Allocating block number 137
-Block number is 137
 Current i data block = 137
-pos 3, value of i data block is 137
-offset : 0
-block : 0x557ab0684a20
-buffer : 0x7ffc20f9dea0
-2
+pos 3 value of i data block is 137
 pos 4 value of i data block is 137
 Final value of i data block is 137
 
 To write = 132096
 Allocating block number 138
-Block number is 138
 Current i data block = 138
-pos 3, value of i data block is 138
-offset : 0
-block : 0x557ab0684e20
-buffer : 0x7ffc20f9e2a0
-2
+pos 3 value of i data block is 138
 pos 4 value of i data block is 138
 Final value of i data block is 138
 
 To write = 131072
 Allocating block number 139
-Block number is 139
 Current i data block = 139
-pos 3, value of i data block is 139
-offset : 0
-block : 0x557ab0685220
-buffer : 0x7ffc20f9e6a0
-2
+pos 3 value of i data block is 139
 pos 4 value of i data block is 139
 Final value of i data block is 139
 
 To write = 130048
 Allocating block number 140
-Block number is 140
 Current i data block = 140
-pos 3, value of i data block is 140
-offset : 0
-block : 0x557ab0685620
-buffer : 0x7ffc20f9eaa0
-2
+pos 3 value of i data block is 140
 pos 4 value of i data block is 140
 Final value of i data block is 140
 
 To write = 129024
 Allocating block number 141
-Block number is 141
 Current i data block = 141
-pos 3, value of i data block is 141
-offset : 0
-block : 0x557ab0685a20
-buffer : 0x7ffc20f9eea0
-2
+pos 3 value of i data block is 141
 pos 4 value of i data block is 141
 Final value of i data block is 141
 
 To write = 128000
 Allocating block number 142
-Block number is 142
 Current i data block = 142
-pos 3, value of i data block is 142
-offset : 0
-block : 0x557ab0685e20
-buffer : 0x7ffc20f9f2a0
-2
+pos 3 value of i data block is 142
 pos 4 value of i data block is 142
 Final value of i data block is 142
 
 To write = 126976
 Allocating block number 143
-Block number is 143
 Current i data block = 143
-pos 3, value of i data block is 143
-offset : 0
-block : 0x557ab0686220
-buffer : 0x7ffc20f9f6a0
-2
+pos 3 value of i data block is 143
 pos 4 value of i data block is 143
 Final value of i data block is 143
 
 To write = 125952
 Allocating block number 144
-Block number is 144
 Current i data block = 144
-pos 3, value of i data block is 144
-offset : 0
-block : 0x557ab0686620
-buffer : 0x7ffc20f9faa0
-2
+pos 3 value of i data block is 144
 pos 4 value of i data block is 144
 Final value of i data block is 144
 
 To write = 124928
 Allocating block number 145
-Block number is 145
 Current i data block = 145
-pos 3, value of i data block is 145
-offset : 0
-block : 0x557ab0686a20
-buffer : 0x7ffc20f9fea0
-2
+pos 3 value of i data block is 145
 pos 4 value of i data block is 145
 Final value of i data block is 145
 
 To write = 123904
 Allocating block number 146
-Block number is 146
 Current i data block = 146
-pos 3, value of i data block is 146
-offset : 0
-block : 0x557ab0686e20
-buffer : 0x7ffc20fa02a0
-2
+pos 3 value of i data block is 146
 pos 4 value of i data block is 146
 Final value of i data block is 146
 
 To write = 122880
 Allocating block number 147
-Block number is 147
 Current i data block = 147
-pos 3, value of i data block is 147
-offset : 0
-block : 0x557ab0687220
-buffer : 0x7ffc20fa06a0
-2
+pos 3 value of i data block is 147
 pos 4 value of i data block is 147
 Final value of i data block is 147
 
 To write = 121856
 Allocating block number 148
-Block number is 148
 Current i data block = 148
-pos 3, value of i data block is 148
-offset : 0
-block : 0x557ab0687620
-buffer : 0x7ffc20fa0aa0
-2
+pos 3 value of i data block is 148
 pos 4 value of i data block is 148
 Final value of i data block is 148
 
 To write = 120832
 Allocating block number 149
-Block number is 149
 Current i data block = 149
-pos 3, value of i data block is 149
-offset : 0
-block : 0x557ab0687a20
-buffer : 0x7ffc20fa0ea0
-2
+pos 3 value of i data block is 149
 pos 4 value of i data block is 149
 Final value of i data block is 149
 
 To write = 119808
 Allocating block number 150
-Block number is 150
 Current i data block = 150
-pos 3, value of i data block is 150
-offset : 0
-block : 0x557ab0687e20
-buffer : 0x7ffc20fa12a0
-2
+pos 3 value of i data block is 150
 pos 4 value of i data block is 150
 Final value of i data block is 150
 
 To write = 118784
 Allocating block number 151
-Block number is 151
 Current i data block = 151
-pos 3, value of i data block is 151
-offset : 0
-block : 0x557ab0688220
-buffer : 0x7ffc20fa16a0
-2
+pos 3 value of i data block is 151
 pos 4 value of i data block is 151
 Final value of i data block is 151
 
 To write = 117760
 Allocating block number 152
-Block number is 152
 Current i data block = 152
-pos 3, value of i data block is 152
-offset : 0
-block : 0x557ab0688620
-buffer : 0x7ffc20fa1aa0
-2
+pos 3 value of i data block is 152
 pos 4 value of i data block is 152
 Final value of i data block is 152
 
 To write = 116736
 Allocating block number 153
-Block number is 153
 Current i data block = 153
-pos 3, value of i data block is 153
-offset : 0
-block : 0x557ab0688a20
-buffer : 0x7ffc20fa1ea0
-2
+pos 3 value of i data block is 153
 pos 4 value of i data block is 153
 Final value of i data block is 153
 
 To write = 115712
 Allocating block number 154
-Block number is 154
 Current i data block = 154
-pos 3, value of i data block is 154
-offset : 0
-block : 0x557ab0688e20
-buffer : 0x7ffc20fa22a0
-2
+pos 3 value of i data block is 154
 pos 4 value of i data block is 154
 Final value of i data block is 154
 
 To write = 114688
 Allocating block number 155
-Block number is 155
 Current i data block = 155
-pos 3, value of i data block is 155
-offset : 0
-block : 0x557ab0689220
-buffer : 0x7ffc20fa26a0
-2
+pos 3 value of i data block is 155
 pos 4 value of i data block is 155
 Final value of i data block is 155
 
 To write = 113664
 Allocating block number 156
-Block number is 156
 Current i data block = 156
-pos 3, value of i data block is 156
-offset : 0
-block : 0x557ab0689620
-buffer : 0x7ffc20fa2aa0
-2
+pos 3 value of i data block is 156
 pos 4 value of i data block is 156
 Final value of i data block is 156
 
 To write = 112640
 Allocating block number 157
-Block number is 157
 Current i data block = 157
-pos 3, value of i data block is 157
-offset : 0
-block : 0x557ab0689a20
-buffer : 0x7ffc20fa2ea0
-2
+pos 3 value of i data block is 157
 pos 4 value of i data block is 157
 Final value of i data block is 157
 
 To write = 111616
 Allocating block number 158
-Block number is 158
 Current i data block = 158
-pos 3, value of i data block is 158
-offset : 0
-block : 0x557ab0689e20
-buffer : 0x7ffc20fa32a0
-2
+pos 3 value of i data block is 158
 pos 4 value of i data block is 158
 Final value of i data block is 158
 
 To write = 110592
 Allocating block number 159
-Block number is 159
 Current i data block = 159
-pos 3, value of i data block is 159
-offset : 0
-block : 0x557ab068a220
-buffer : 0x7ffc20fa36a0
-2
+pos 3 value of i data block is 159
 pos 4 value of i data block is 159
 Final value of i data block is 159
 
 To write = 109568
 Allocating block number 160
-Block number is 160
 Current i data block = 160
-pos 3, value of i data block is 160
-offset : 0
-block : 0x557ab068a620
-buffer : 0x7ffc20fa3aa0
-2
+pos 3 value of i data block is 160
 pos 4 value of i data block is 160
 Final value of i data block is 160
 
 To write = 108544
 Allocating block number 161
-Block number is 161
 Current i data block = 161
-pos 3, value of i data block is 161
-offset : 0
-block : 0x557ab068aa20
-buffer : 0x7ffc20fa3ea0
-2
+pos 3 value of i data block is 161
 pos 4 value of i data block is 161
 Final value of i data block is 161
 
 To write = 107520
 Allocating block number 162
-Block number is 162
 Current i data block = 162
-pos 3, value of i data block is 162
-offset : 0
-block : 0x557ab068ae20
-buffer : 0x7ffc20fa42a0
-2
+pos 3 value of i data block is 162
 pos 4 value of i data block is 162
 Final value of i data block is 162
 
 To write = 106496
 Allocating block number 163
-Block number is 163
 Current i data block = 163
-pos 3, value of i data block is 163
-offset : 0
-block : 0x557ab068b220
-buffer : 0x7ffc20fa46a0
-2
+pos 3 value of i data block is 163
 pos 4 value of i data block is 163
 Final value of i data block is 163
 
 To write = 105472
 Allocating block number 164
-Block number is 164
 Current i data block = 164
-pos 3, value of i data block is 164
-offset : 0
-block : 0x557ab068b620
-buffer : 0x7ffc20fa4aa0
-2
+pos 3 value of i data block is 164
 pos 4 value of i data block is 164
 Final value of i data block is 164
 
 To write = 104448
 Allocating block number 165
-Block number is 165
 Current i data block = 165
-pos 3, value of i data block is 165
-offset : 0
-block : 0x557ab068ba20
-buffer : 0x7ffc20fa4ea0
-2
+pos 3 value of i data block is 165
 pos 4 value of i data block is 165
 Final value of i data block is 165
 
 To write = 103424
 Allocating block number 166
-Block number is 166
 Current i data block = 166
-pos 3, value of i data block is 166
-offset : 0
-block : 0x557ab068be20
-buffer : 0x7ffc20fa52a0
-2
+pos 3 value of i data block is 166
 pos 4 value of i data block is 166
 Final value of i data block is 166
 
 To write = 102400
 Allocating block number 167
-Block number is 167
 Current i data block = 167
-pos 3, value of i data block is 167
-offset : 0
-block : 0x557ab068c220
-buffer : 0x7ffc20fa56a0
-2
+pos 3 value of i data block is 167
 pos 4 value of i data block is 167
 Final value of i data block is 167
 
 To write = 101376
 Allocating block number 168
-Block number is 168
 Current i data block = 168
-pos 3, value of i data block is 168
-offset : 0
-block : 0x557ab068c620
-buffer : 0x7ffc20fa5aa0
-2
+pos 3 value of i data block is 168
 pos 4 value of i data block is 168
 Final value of i data block is 168
 
 To write = 100352
 Allocating block number 169
-Block number is 169
 Current i data block = 169
-pos 3, value of i data block is 169
-offset : 0
-block : 0x557ab068ca20
-buffer : 0x7ffc20fa5ea0
-2
+pos 3 value of i data block is 169
 pos 4 value of i data block is 169
 Final value of i data block is 169
 
 To write = 99328
 Allocating block number 170
-Block number is 170
 Current i data block = 170
-pos 3, value of i data block is 170
-offset : 0
-block : 0x557ab068ce20
-buffer : 0x7ffc20fa62a0
-2
+pos 3 value of i data block is 170
 pos 4 value of i data block is 170
 Final value of i data block is 170
 
 To write = 98304
 Allocating block number 171
-Block number is 171
 Current i data block = 171
-pos 3, value of i data block is 171
-offset : 0
-block : 0x557ab068d220
-buffer : 0x7ffc20fa66a0
-2
+pos 3 value of i data block is 171
 pos 4 value of i data block is 171
 Final value of i data block is 171
 
 To write = 97280
 Allocating block number 172
-Block number is 172
 Current i data block = 172
-pos 3, value of i data block is 172
-offset : 0
-block : 0x557ab068d620
-buffer : 0x7ffc20fa6aa0
-2
+pos 3 value of i data block is 172
 pos 4 value of i data block is 172
 Final value of i data block is 172
 
 To write = 96256
 Allocating block number 173
-Block number is 173
 Current i data block = 173
-pos 3, value of i data block is 173
-offset : 0
-block : 0x557ab068da20
-buffer : 0x7ffc20fa6ea0
-2
+pos 3 value of i data block is 173
 pos 4 value of i data block is 173
 Final value of i data block is 173
 
 To write = 95232
 Allocating block number 174
-Block number is 174
 Current i data block = 174
-pos 3, value of i data block is 174
-offset : 0
-block : 0x557ab068de20
-buffer : 0x7ffc20fa72a0
-2
+pos 3 value of i data block is 174
 pos 4 value of i data block is 174
 Final value of i data block is 174
 
 To write = 94208
 Allocating block number 175
-Block number is 175
 Current i data block = 175
-pos 3, value of i data block is 175
-offset : 0
-block : 0x557ab068e220
-buffer : 0x7ffc20fa76a0
-2
+pos 3 value of i data block is 175
 pos 4 value of i data block is 175
 Final value of i data block is 175
 
 To write = 93184
 Allocating block number 176
-Block number is 176
 Current i data block = 176
-pos 3, value of i data block is 176
-offset : 0
-block : 0x557ab068e620
-buffer : 0x7ffc20fa7aa0
-2
+pos 3 value of i data block is 176
 pos 4 value of i data block is 176
 Final value of i data block is 176
 
 To write = 92160
 Allocating block number 177
-Block number is 177
 Current i data block = 177
-pos 3, value of i data block is 177
-offset : 0
-block : 0x557ab068ea20
-buffer : 0x7ffc20fa7ea0
-2
+pos 3 value of i data block is 177
 pos 4 value of i data block is 177
 Final value of i data block is 177
 
 To write = 91136
 Allocating block number 178
-Block number is 178
 Current i data block = 178
-pos 3, value of i data block is 178
-offset : 0
-block : 0x557ab068ee20
-buffer : 0x7ffc20fa82a0
-2
+pos 3 value of i data block is 178
 pos 4 value of i data block is 178
 Final value of i data block is 178
 
 To write = 90112
 Allocating block number 179
-Block number is 179
 Current i data block = 179
-pos 3, value of i data block is 179
-offset : 0
-block : 0x557ab068f220
-buffer : 0x7ffc20fa86a0
-2
+pos 3 value of i data block is 179
 pos 4 value of i data block is 179
 Final value of i data block is 179
 
 To write = 89088
 Allocating block number 180
-Block number is 180
 Current i data block = 180
-pos 3, value of i data block is 180
-offset : 0
-block : 0x557ab068f620
-buffer : 0x7ffc20fa8aa0
-2
+pos 3 value of i data block is 180
 pos 4 value of i data block is 180
 Final value of i data block is 180
 
 To write = 88064
 Allocating block number 181
-Block number is 181
 Current i data block = 181
-pos 3, value of i data block is 181
-offset : 0
-block : 0x557ab068fa20
-buffer : 0x7ffc20fa8ea0
-2
+pos 3 value of i data block is 181
 pos 4 value of i data block is 181
 Final value of i data block is 181
 
 To write = 87040
 Allocating block number 182
-Block number is 182
 Current i data block = 182
-pos 3, value of i data block is 182
-offset : 0
-block : 0x557ab068fe20
-buffer : 0x7ffc20fa92a0
-2
+pos 3 value of i data block is 182
 pos 4 value of i data block is 182
 Final value of i data block is 182
 
 To write = 86016
 Allocating block number 183
-Block number is 183
 Current i data block = 183
-pos 3, value of i data block is 183
-offset : 0
-block : 0x557ab0690220
-buffer : 0x7ffc20fa96a0
-2
+pos 3 value of i data block is 183
 pos 4 value of i data block is 183
 Final value of i data block is 183
 
 To write = 84992
 Allocating block number 184
-Block number is 184
 Current i data block = 184
-pos 3, value of i data block is 184
-offset : 0
-block : 0x557ab0690620
-buffer : 0x7ffc20fa9aa0
-2
+pos 3 value of i data block is 184
 pos 4 value of i data block is 184
 Final value of i data block is 184
 
 To write = 83968
 Allocating block number 185
-Block number is 185
 Current i data block = 185
-pos 3, value of i data block is 185
-offset : 0
-block : 0x557ab0690a20
-buffer : 0x7ffc20fa9ea0
-2
+pos 3 value of i data block is 185
 pos 4 value of i data block is 185
 Final value of i data block is 185
 
 To write = 82944
 Allocating block number 186
-Block number is 186
 Current i data block = 186
-pos 3, value of i data block is 186
-offset : 0
-block : 0x557ab0690e20
-buffer : 0x7ffc20faa2a0
-2
+pos 3 value of i data block is 186
 pos 4 value of i data block is 186
 Final value of i data block is 186
 
 To write = 81920
 Allocating block number 187
-Block number is 187
 Current i data block = 187
-pos 3, value of i data block is 187
-offset : 0
-block : 0x557ab0691220
-buffer : 0x7ffc20faa6a0
-2
+pos 3 value of i data block is 187
 pos 4 value of i data block is 187
 Final value of i data block is 187
 
 To write = 80896
 Allocating block number 188
-Block number is 188
 Current i data block = 188
-pos 3, value of i data block is 188
-offset : 0
-block : 0x557ab0691620
-buffer : 0x7ffc20faaaa0
-2
+pos 3 value of i data block is 188
 pos 4 value of i data block is 188
 Final value of i data block is 188
 
 To write = 79872
 Allocating block number 189
-Block number is 189
 Current i data block = 189
-pos 3, value of i data block is 189
-offset : 0
-block : 0x557ab0691a20
-buffer : 0x7ffc20faaea0
-2
+pos 3 value of i data block is 189
 pos 4 value of i data block is 189
 Final value of i data block is 189
 
 To write = 78848
 Allocating block number 190
-Block number is 190
 Current i data block = 190
-pos 3, value of i data block is 190
-offset : 0
-block : 0x557ab0691e20
-buffer : 0x7ffc20fab2a0
-2
+pos 3 value of i data block is 190
 pos 4 value of i data block is 190
 Final value of i data block is 190
 
 To write = 77824
 Allocating block number 191
-Block number is 191
 Current i data block = 191
-pos 3, value of i data block is 191
-offset : 0
-block : 0x557ab0692220
-buffer : 0x7ffc20fab6a0
-2
+pos 3 value of i data block is 191
 pos 4 value of i data block is 191
 Final value of i data block is 191
 
 To write = 76800
 Allocating block number 192
-Block number is 192
 Current i data block = 192
-pos 3, value of i data block is 192
-offset : 0
-block : 0x557ab0692620
-buffer : 0x7ffc20fabaa0
-2
+pos 3 value of i data block is 192
 pos 4 value of i data block is 192
 Final value of i data block is 192
 
 To write = 75776
 Allocating block number 193
-Block number is 193
 Current i data block = 193
-pos 3, value of i data block is 193
-offset : 0
-block : 0x557ab0692a20
-buffer : 0x7ffc20fabea0
-2
+pos 3 value of i data block is 193
 pos 4 value of i data block is 193
 Final value of i data block is 193
 
 To write = 74752
 Allocating block number 194
-Block number is 194
 Current i data block = 194
-pos 3, value of i data block is 194
-offset : 0
-block : 0x557ab0692e20
-buffer : 0x7ffc20fac2a0
-2
+pos 3 value of i data block is 194
 pos 4 value of i data block is 194
 Final value of i data block is 194
 
 To write = 73728
 Allocating block number 195
-Block number is 195
 Current i data block = 195
-pos 3, value of i data block is 195
-offset : 0
-block : 0x557ab0693220
-buffer : 0x7ffc20fac6a0
-2
+pos 3 value of i data block is 195
 pos 4 value of i data block is 195
 Final value of i data block is 195
 
 To write = 72704
 Allocating block number 196
-Block number is 196
 Current i data block = 196
-pos 3, value of i data block is 196
-offset : 0
-block : 0x557ab0693620
-buffer : 0x7ffc20facaa0
-2
+pos 3 value of i data block is 196
 pos 4 value of i data block is 196
 Final value of i data block is 196
 
 To write = 71680
 Allocating block number 197
-Block number is 197
 Current i data block = 197
-pos 3, value of i data block is 197
-offset : 0
-block : 0x557ab0693a20
-buffer : 0x7ffc20facea0
-2
+pos 3 value of i data block is 197
 pos 4 value of i data block is 197
 Final value of i data block is 197
 
 To write = 70656
 Allocating block number 198
-Block number is 198
 Current i data block = 198
-pos 3, value of i data block is 198
-offset : 0
-block : 0x557ab0693e20
-buffer : 0x7ffc20fad2a0
-2
+pos 3 value of i data block is 198
 pos 4 value of i data block is 198
 Final value of i data block is 198
 
 To write = 69632
 Allocating block number 199
-Block number is 199
 Current i data block = 199
-pos 3, value of i data block is 199
-offset : 0
-block : 0x557ab0694220
-buffer : 0x7ffc20fad6a0
-2
+pos 3 value of i data block is 199
 pos 4 value of i data block is 199
 Final value of i data block is 199
 
 To write = 68608
 Allocating block number 200
-Block number is 200
 Current i data block = 200
-pos 3, value of i data block is 200
-offset : 0
-block : 0x557ab0694620
-buffer : 0x7ffc20fadaa0
-2
+pos 3 value of i data block is 200
 pos 4 value of i data block is 200
 Final value of i data block is 200
 
 To write = 67584
 Allocating block number 201
-Block number is 201
 Current i data block = 201
-pos 3, value of i data block is 201
-offset : 0
-block : 0x557ab0694a20
-buffer : 0x7ffc20fadea0
-2
+pos 3 value of i data block is 201
 pos 4 value of i data block is 201
 Final value of i data block is 201
 
 To write = 66560
 Allocating block number 202
-Block number is 202
 Current i data block = 202
-pos 3, value of i data block is 202
-offset : 0
-block : 0x557ab0694e20
-buffer : 0x7ffc20fae2a0
-2
+pos 3 value of i data block is 202
 pos 4 value of i data block is 202
 Final value of i data block is 202
 
 To write = 65536
 Allocating block number 203
-Block number is 203
 Current i data block = 203
-pos 3, value of i data block is 203
-offset : 0
-block : 0x557ab0695220
-buffer : 0x7ffc20fae6a0
-2
+pos 3 value of i data block is 203
 pos 4 value of i data block is 203
 Final value of i data block is 203
 
 To write = 64512
 Allocating block number 204
-Block number is 204
 Current i data block = 204
-pos 3, value of i data block is 204
-offset : 0
-block : 0x557ab0695620
-buffer : 0x7ffc20faeaa0
-2
+pos 3 value of i data block is 204
 pos 4 value of i data block is 204
 Final value of i data block is 204
 
 To write = 63488
 Allocating block number 205
-Block number is 205
 Current i data block = 205
-pos 3, value of i data block is 205
-offset : 0
-block : 0x557ab0695a20
-buffer : 0x7ffc20faeea0
-2
+pos 3 value of i data block is 205
 pos 4 value of i data block is 205
 Final value of i data block is 205
 
 To write = 62464
 Allocating block number 206
-Block number is 206
 Current i data block = 206
-pos 3, value of i data block is 206
-offset : 0
-block : 0x557ab0695e20
-buffer : 0x7ffc20faf2a0
-2
+pos 3 value of i data block is 206
 pos 4 value of i data block is 206
 Final value of i data block is 206
 
 To write = 61440
 Allocating block number 207
-Block number is 207
 Current i data block = 207
-pos 3, value of i data block is 207
-offset : 0
-block : 0x557ab0696220
-buffer : 0x7ffc20faf6a0
-2
+pos 3 value of i data block is 207
 pos 4 value of i data block is 207
 Final value of i data block is 207
 
 To write = 60416
 Allocating block number 208
-Block number is 208
 Current i data block = 208
-pos 3, value of i data block is 208
-offset : 0
-block : 0x557ab0696620
-buffer : 0x7ffc20fafaa0
-2
+pos 3 value of i data block is 208
 pos 4 value of i data block is 208
 Final value of i data block is 208
 
 To write = 59392
 Allocating block number 209
-Block number is 209
 Current i data block = 209
-pos 3, value of i data block is 209
-offset : 0
-block : 0x557ab0696a20
-buffer : 0x7ffc20fafea0
-2
+pos 3 value of i data block is 209
 pos 4 value of i data block is 209
 Final value of i data block is 209
 
 To write = 58368
 Allocating block number 210
-Block number is 210
 Current i data block = 210
-pos 3, value of i data block is 210
-offset : 0
-block : 0x557ab0696e20
-buffer : 0x7ffc20fb02a0
-2
+pos 3 value of i data block is 210
 pos 4 value of i data block is 210
 Final value of i data block is 210
 
 To write = 57344
 Allocating block number 211
-Block number is 211
 Current i data block = 211
-pos 3, value of i data block is 211
-offset : 0
-block : 0x557ab0697220
-buffer : 0x7ffc20fb06a0
-2
+pos 3 value of i data block is 211
 pos 4 value of i data block is 211
 Final value of i data block is 211
 
 To write = 56320
 Allocating block number 212
-Block number is 212
 Current i data block = 212
-pos 3, value of i data block is 212
-offset : 0
-block : 0x557ab0697620
-buffer : 0x7ffc20fb0aa0
-2
+pos 3 value of i data block is 212
 pos 4 value of i data block is 212
 Final value of i data block is 212
 
 To write = 55296
 Allocating block number 213
-Block number is 213
 Current i data block = 213
-pos 3, value of i data block is 213
-offset : 0
-block : 0x557ab0697a20
-buffer : 0x7ffc20fb0ea0
-2
+pos 3 value of i data block is 213
 pos 4 value of i data block is 213
 Final value of i data block is 213
 
 To write = 54272
 Allocating block number 214
-Block number is 214
 Current i data block = 214
-pos 3, value of i data block is 214
-offset : 0
-block : 0x557ab0697e20
-buffer : 0x7ffc20fb12a0
-2
+pos 3 value of i data block is 214
 pos 4 value of i data block is 214
 Final value of i data block is 214
 
 To write = 53248
 Allocating block number 215
-Block number is 215
 Current i data block = 215
-pos 3, value of i data block is 215
-offset : 0
-block : 0x557ab0698220
-buffer : 0x7ffc20fb16a0
-2
+pos 3 value of i data block is 215
 pos 4 value of i data block is 215
 Final value of i data block is 215
 
 To write = 52224
 Allocating block number 216
-Block number is 216
 Current i data block = 216
-pos 3, value of i data block is 216
-offset : 0
-block : 0x557ab0698620
-buffer : 0x7ffc20fb1aa0
-2
+pos 3 value of i data block is 216
 pos 4 value of i data block is 216
 Final value of i data block is 216
 
 To write = 51200
 Allocating block number 217
-Block number is 217
 Current i data block = 217
-pos 3, value of i data block is 217
-offset : 0
-block : 0x557ab0698a20
-buffer : 0x7ffc20fb1ea0
-2
+pos 3 value of i data block is 217
 pos 4 value of i data block is 217
 Final value of i data block is 217
 
 To write = 50176
 Allocating block number 218
-Block number is 218
 Current i data block = 218
-pos 3, value of i data block is 218
-offset : 0
-block : 0x557ab0698e20
-buffer : 0x7ffc20fb22a0
-2
+pos 3 value of i data block is 218
 pos 4 value of i data block is 218
 Final value of i data block is 218
 
 To write = 49152
 Allocating block number 219
-Block number is 219
 Current i data block = 219
-pos 3, value of i data block is 219
-offset : 0
-block : 0x557ab0699220
-buffer : 0x7ffc20fb26a0
-2
+pos 3 value of i data block is 219
 pos 4 value of i data block is 219
 Final value of i data block is 219
 
 To write = 48128
 Allocating block number 220
-Block number is 220
 Current i data block = 220
-pos 3, value of i data block is 220
-offset : 0
-block : 0x557ab0699620
-buffer : 0x7ffc20fb2aa0
-2
+pos 3 value of i data block is 220
 pos 4 value of i data block is 220
 Final value of i data block is 220
 
 To write = 47104
 Allocating block number 221
-Block number is 221
 Current i data block = 221
-pos 3, value of i data block is 221
-offset : 0
-block : 0x557ab0699a20
-buffer : 0x7ffc20fb2ea0
-2
+pos 3 value of i data block is 221
 pos 4 value of i data block is 221
 Final value of i data block is 221
 
 To write = 46080
 Allocating block number 222
-Block number is 222
 Current i data block = 222
-pos 3, value of i data block is 222
-offset : 0
-block : 0x557ab0699e20
-buffer : 0x7ffc20fb32a0
-2
+pos 3 value of i data block is 222
 pos 4 value of i data block is 222
 Final value of i data block is 222
 
 To write = 45056
 Allocating block number 223
-Block number is 223
 Current i data block = 223
-pos 3, value of i data block is 223
-offset : 0
-block : 0x557ab069a220
-buffer : 0x7ffc20fb36a0
-2
+pos 3 value of i data block is 223
 pos 4 value of i data block is 223
 Final value of i data block is 223
 
 To write = 44032
 Allocating block number 224
-Block number is 224
 Current i data block = 224
-pos 3, value of i data block is 224
-offset : 0
-block : 0x557ab069a620
-buffer : 0x7ffc20fb3aa0
-2
+pos 3 value of i data block is 224
 pos 4 value of i data block is 224
 Final value of i data block is 224
 
 To write = 43008
 Allocating block number 225
-Block number is 225
 Current i data block = 225
-pos 3, value of i data block is 225
-offset : 0
-block : 0x557ab069aa20
-buffer : 0x7ffc20fb3ea0
-2
+pos 3 value of i data block is 225
 pos 4 value of i data block is 225
 Final value of i data block is 225
 
 To write = 41984
 Allocating block number 226
-Block number is 226
 Current i data block = 226
-pos 3, value of i data block is 226
-offset : 0
-block : 0x557ab069ae20
-buffer : 0x7ffc20fb42a0
-2
+pos 3 value of i data block is 226
 pos 4 value of i data block is 226
 Final value of i data block is 226
 
 To write = 40960
 Allocating block number 227
-Block number is 227
 Current i data block = 227
-pos 3, value of i data block is 227
-offset : 0
-block : 0x557ab069b220
-buffer : 0x7ffc20fb46a0
-2
+pos 3 value of i data block is 227
 pos 4 value of i data block is 227
 Final value of i data block is 227
 
 To write = 39936
 Allocating block number 228
-Block number is 228
 Current i data block = 228
-pos 3, value of i data block is 228
-offset : 0
-block : 0x557ab069b620
-buffer : 0x7ffc20fb4aa0
-2
+pos 3 value of i data block is 228
 pos 4 value of i data block is 228
 Final value of i data block is 228
 
 To write = 38912
 Allocating block number 229
-Block number is 229
 Current i data block = 229
-pos 3, value of i data block is 229
-offset : 0
-block : 0x557ab069ba20
-buffer : 0x7ffc20fb4ea0
-2
+pos 3 value of i data block is 229
 pos 4 value of i data block is 229
 Final value of i data block is 229
 
 To write = 37888
 Allocating block number 230
-Block number is 230
 Current i data block = 230
-pos 3, value of i data block is 230
-offset : 0
-block : 0x557ab069be20
-buffer : 0x7ffc20fb52a0
-2
+pos 3 value of i data block is 230
 pos 4 value of i data block is 230
 Final value of i data block is 230
 
 To write = 36864
 Allocating block number 231
-Block number is 231
 Current i data block = 231
-pos 3, value of i data block is 231
-offset : 0
-block : 0x557ab069c220
-buffer : 0x7ffc20fb56a0
-2
+pos 3 value of i data block is 231
 pos 4 value of i data block is 231
 Final value of i data block is 231
 
 To write = 35840
 Allocating block number 232
-Block number is 232
 Current i data block = 232
-pos 3, value of i data block is 232
-offset : 0
-block : 0x557ab069c620
-buffer : 0x7ffc20fb5aa0
-2
+pos 3 value of i data block is 232
 pos 4 value of i data block is 232
 Final value of i data block is 232
 
 To write = 34816
 Allocating block number 233
-Block number is 233
 Current i data block = 233
-pos 3, value of i data block is 233
-offset : 0
-block : 0x557ab069ca20
-buffer : 0x7ffc20fb5ea0
-2
+pos 3 value of i data block is 233
 pos 4 value of i data block is 233
 Final value of i data block is 233
 
 To write = 33792
 Allocating block number 234
-Block number is 234
 Current i data block = 234
-pos 3, value of i data block is 234
-offset : 0
-block : 0x557ab069ce20
-buffer : 0x7ffc20fb62a0
-2
+pos 3 value of i data block is 234
 pos 4 value of i data block is 234
 Final value of i data block is 234
 
 To write = 32768
 Allocating block number 235
-Block number is 235
 Current i data block = 235
-pos 3, value of i data block is 235
-offset : 0
-block : 0x557ab069d220
-buffer : 0x7ffc20fb66a0
-2
+pos 3 value of i data block is 235
 pos 4 value of i data block is 235
 Final value of i data block is 235
 
 To write = 31744
 Allocating block number 236
-Block number is 236
 Current i data block = 236
-pos 3, value of i data block is 236
-offset : 0
-block : 0x557ab069d620
-buffer : 0x7ffc20fb6aa0
-2
+pos 3 value of i data block is 236
 pos 4 value of i data block is 236
 Final value of i data block is 236
 
 To write = 30720
 Allocating block number 237
-Block number is 237
 Current i data block = 237
-pos 3, value of i data block is 237
-offset : 0
-block : 0x557ab069da20
-buffer : 0x7ffc20fb6ea0
-2
+pos 3 value of i data block is 237
 pos 4 value of i data block is 237
 Final value of i data block is 237
 
 To write = 29696
 Allocating block number 238
-Block number is 238
 Current i data block = 238
-pos 3, value of i data block is 238
-offset : 0
-block : 0x557ab069de20
-buffer : 0x7ffc20fb72a0
-2
+pos 3 value of i data block is 238
 pos 4 value of i data block is 238
 Final value of i data block is 238
 
 To write = 28672
 Allocating block number 239
-Block number is 239
 Current i data block = 239
-pos 3, value of i data block is 239
-offset : 0
-block : 0x557ab069e220
-buffer : 0x7ffc20fb76a0
-2
+pos 3 value of i data block is 239
 pos 4 value of i data block is 239
 Final value of i data block is 239
 
 To write = 27648
 Allocating block number 240
-Block number is 240
 Current i data block = 240
-pos 3, value of i data block is 240
-offset : 0
-block : 0x557ab069e620
-buffer : 0x7ffc20fb7aa0
-2
+pos 3 value of i data block is 240
 pos 4 value of i data block is 240
 Final value of i data block is 240
 
 To write = 26624
 Allocating block number 241
-Block number is 241
 Current i data block = 241
-pos 3, value of i data block is 241
-offset : 0
-block : 0x557ab069ea20
-buffer : 0x7ffc20fb7ea0
-2
+pos 3 value of i data block is 241
 pos 4 value of i data block is 241
 Final value of i data block is 241
 
 To write = 25600
 Allocating block number 242
-Block number is 242
 Current i data block = 242
-pos 3, value of i data block is 242
-offset : 0
-block : 0x557ab069ee20
-buffer : 0x7ffc20fb82a0
-2
+pos 3 value of i data block is 242
 pos 4 value of i data block is 242
 Final value of i data block is 242
 
 To write = 24576
 Allocating block number 243
-Block number is 243
 Current i data block = 243
-pos 3, value of i data block is 243
-offset : 0
-block : 0x557ab069f220
-buffer : 0x7ffc20fb86a0
-2
+pos 3 value of i data block is 243
 pos 4 value of i data block is 243
 Final value of i data block is 243
 
 To write = 23552
 Allocating block number 244
-Block number is 244
 Current i data block = 244
-pos 3, value of i data block is 244
-offset : 0
-block : 0x557ab069f620
-buffer : 0x7ffc20fb8aa0
-2
+pos 3 value of i data block is 244
 pos 4 value of i data block is 244
 Final value of i data block is 244
 
 To write = 22528
 Allocating block number 245
-Block number is 245
 Current i data block = 245
-pos 3, value of i data block is 245
-offset : 0
-block : 0x557ab069fa20
-buffer : 0x7ffc20fb8ea0
-2
+pos 3 value of i data block is 245
 pos 4 value of i data block is 245
 Final value of i data block is 245
 
 To write = 21504
 Allocating block number 246
-Block number is 246
 Current i data block = 246
-pos 3, value of i data block is 246
-offset : 0
-block : 0x557ab069fe20
-buffer : 0x7ffc20fb92a0
-2
+pos 3 value of i data block is 246
 pos 4 value of i data block is 246
 Final value of i data block is 246
 
 To write = 20480
 Allocating block number 247
-Block number is 247
 Current i data block = 247
-pos 3, value of i data block is 247
-offset : 0
-block : 0x557ab06a0220
-buffer : 0x7ffc20fb96a0
-2
+pos 3 value of i data block is 247
 pos 4 value of i data block is 247
 Final value of i data block is 247
 
 To write = 19456
 Allocating block number 248
-Block number is 248
 Current i data block = 248
-pos 3, value of i data block is 248
-offset : 0
-block : 0x557ab06a0620
-buffer : 0x7ffc20fb9aa0
-2
+pos 3 value of i data block is 248
 pos 4 value of i data block is 248
 Final value of i data block is 248
 
 To write = 18432
 Allocating block number 249
-Block number is 249
 Current i data block = 249
-pos 3, value of i data block is 249
-offset : 0
-block : 0x557ab06a0a20
-buffer : 0x7ffc20fb9ea0
-2
+pos 3 value of i data block is 249
 pos 4 value of i data block is 249
 Final value of i data block is 249
 
 To write = 17408
 Allocating block number 250
-Block number is 250
 Current i data block = 250
-pos 3, value of i data block is 250
-offset : 0
-block : 0x557ab06a0e20
-buffer : 0x7ffc20fba2a0
-2
+pos 3 value of i data block is 250
 pos 4 value of i data block is 250
 Final value of i data block is 250
 
 To write = 16384
 Allocating block number 251
-Block number is 251
 Current i data block = 251
-pos 3, value of i data block is 251
-offset : 0
-block : 0x557ab06a1220
-buffer : 0x7ffc20fba6a0
-2
+pos 3 value of i data block is 251
 pos 4 value of i data block is 251
 Final value of i data block is 251
 
 To write = 15360
 Allocating block number 252
-Block number is 252
 Current i data block = 252
-pos 3, value of i data block is 252
-offset : 0
-block : 0x557ab06a1620
-buffer : 0x7ffc20fbaaa0
-2
+pos 3 value of i data block is 252
 pos 4 value of i data block is 252
 Final value of i data block is 252
 
 To write = 14336
 Allocating block number 253
-Block number is 253
 Current i data block = 253
-pos 3, value of i data block is 253
-offset : 0
-block : 0x557ab06a1a20
-buffer : 0x7ffc20fbaea0
-2
+pos 3 value of i data block is 253
 pos 4 value of i data block is 253
 Final value of i data block is 253
 
 To write = 13312
 Allocating block number 254
-Block number is 254
 Current i data block = 254
-pos 3, value of i data block is 254
-offset : 0
-block : 0x557ab06a1e20
-buffer : 0x7ffc20fbb2a0
-2
+pos 3 value of i data block is 254
 pos 4 value of i data block is 254
 Final value of i data block is 254
 
 To write = 12288
 Allocating block number 255
-Block number is 255
 Current i data block = 255
-pos 3, value of i data block is 255
-offset : 0
-block : 0x557ab06a2220
-buffer : 0x7ffc20fbb6a0
-2
+pos 3 value of i data block is 255
 pos 4 value of i data block is 255
 Final value of i data block is 255
 
 To write = 11264
 Allocating block number 256
-Block number is 256
 Current i data block = 256
-pos 3, value of i data block is 256
-offset : 0
-block : 0x557ab06a2620
-buffer : 0x7ffc20fbbaa0
-2
+pos 3 value of i data block is 256
 pos 4 value of i data block is 256
 Final value of i data block is 256
 
 To write = 10240
 Allocating block number 257
-Block number is 257
 Current i data block = 257
-pos 3, value of i data block is 257
-offset : 0
-block : 0x557ab06a2a20
-buffer : 0x7ffc20fbbea0
-2
+pos 3 value of i data block is 257
 pos 4 value of i data block is 257
 Final value of i data block is 257
 
 To write = 9216
 Allocating block number 258
-Block number is 258
 Current i data block = 258
-pos 3, value of i data block is 258
-offset : 0
-block : 0x557ab06a2e20
-buffer : 0x7ffc20fbc2a0
-2
+pos 3 value of i data block is 258
 pos 4 value of i data block is 258
 Final value of i data block is 258
 
 To write = 8192
 Allocating block number 259
-Block number is 259
 Current i data block = 259
-pos 3, value of i data block is 259
-offset : 0
-block : 0x557ab06a3220
-buffer : 0x7ffc20fbc6a0
-2
+pos 3 value of i data block is 259
 pos 4 value of i data block is 259
 Final value of i data block is 259
 
 To write = 7168
 Allocating block number 260
-Block number is 260
 Current i data block = 260
-pos 3, value of i data block is 260
-offset : 0
-block : 0x557ab06a3620
-buffer : 0x7ffc20fbcaa0
-2
+pos 3 value of i data block is 260
 pos 4 value of i data block is 260
 Final value of i data block is 260
 
 To write = 6144
 Allocating block number 261
-Block number is 261
 Current i data block = 261
-pos 3, value of i data block is 261
-offset : 0
-block : 0x557ab06a3a20
-buffer : 0x7ffc20fbcea0
-2
+pos 3 value of i data block is 261
 pos 4 value of i data block is 261
 Final value of i data block is 261
 
 To write = 5120
-Allo
+Allocating block number 262
+Current i data block = 262
+pos 3 value of i data block is 262
+pos 4 value of i data block is 262
+Final value of i data block is 262
+
+To write = 4096
+Allocating block number 263
+Current i data block = 263
+pos 3 value of i data block is 263
+pos 4 value of i data block is 263
+Final value of i data block is 263
+
+To write = 3072
+Allocating block number 264
+Current i data block = 264
+pos 3 value of i data block is 264
+pos 4 value of i data block is 264
+Final value of i data block is 264
+
+To write = 2048
+Allocating block number 265
+Current i data block = 265
+pos 3 value of i data block is 265
+pos 4 value of i data block is 265
+Final value of i data block is 265
+
+To write = 1024
+Allocating block number 266
+Current i data block = 266
+pos 3 value of i data block is 266
+pos 4 value of i data block is 266
+Final value of i data block is 266
+Test finished!
+Read = 0
+OUtput : 

@@ -44,7 +44,12 @@ int main() {
 
    assert(fd != -1);
 
-   assert(tfs_read(fd, output, SIZE) == SIZE);
+   ssize_t read = tfs_read(fd, output, SIZE);
+
+   printf("Read = %ld\n", read);
+   printf("OUtput : |%s|\n", output);
+
+   if (read != SIZE) return -1;
 
    assert (memcmp(input, output, SIZE) == 0);
 
