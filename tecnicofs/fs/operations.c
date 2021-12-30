@@ -140,10 +140,12 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         size_t direct_size = MAX_DIRECT_DATA_SIZE - inode->i_size;
         size_t indirect_size = to_write - direct_size;
 
-        tfs_write_direct_region(inode, file, buffer, direct_size);  //escrever parte na regiao direta
-        tfs_write_indirect_region(inode, file, buffer + direct_size, indirect_size); // escrever o resto na indireta
+        int direct_status = tfs_write_direct_region(inode, file, buffer, direct_size);  //escrever parte na regiao direta
+        int indirect_status = tfs_write_indirect_region(inode, file, buffer + direct_size, indirect_size); // escrever o resto na indireta
     
-        printf("Reached the end of tfs_write\n");
+        if (direct_status == -1 || indirect_status == -1) {
+            printf("[ tfs_write ] Error writing\n");
+        }
     }
 
     return (ssize_t)to_write;
@@ -215,7 +217,8 @@ int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void cons
     tfs_handle_indirect_block(file, inode, write_size, buffer, i);
     
     return 0;
-}*/
+}
+*/
 
 int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size) {
 
@@ -244,10 +247,10 @@ int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void cons
             return -1;
         }
 
-        /*if (memcpy(block + file->of_offset, buffer, write_size) == NULL) {
+        if (memcpy(block + file->of_offset, buffer, write_size) == NULL) {
             printf("[ tfs_write_direct_region ] Error copying\n");
             return -1;
-        }*/
+        }
 
         printf("pos 3 value of i data block is %d\n", inode->i_data_block); 
         
@@ -281,6 +284,7 @@ int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void cons
     
     return 0;
 }
+
 
 int indirect_block_insert(inode_t *inode) {
 
