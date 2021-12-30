@@ -44,10 +44,15 @@ int main() {
 
    assert(fd != -1);
 
+   //open_file_entry_t *file = get_open_file_entry(fd);
+
+   //inode_t *inode = inode_get(file->of_inumber);
+
+   //printf("i size while testing = %ld\n", inode->i_size);
+
    ssize_t read = tfs_read(fd, output, SIZE);
 
-   printf("Read = %ld\n", read);
-   printf("OUtput : |%s|\n", output);
+   //printf("Output : |%ld|\n", strlen(output)); // the problem is that tfs read can only read until direct region
 
    if (read != SIZE) return -1;
 
