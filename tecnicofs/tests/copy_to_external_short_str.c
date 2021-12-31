@@ -12,6 +12,8 @@ int main() {
 
     assert(tfs_init() != -1);
 
+    memset(to_read, '\0', sizeof(to_read));
+
     int file = tfs_open(path, TFS_O_CREAT);
     assert(file != -1);
 
