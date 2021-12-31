@@ -25,8 +25,8 @@ int main() {
 
     assert(fp != NULL);
 
-    assert(fread(to_read, sizeof(int), sizeof(ints), fp) == 10);
-    
+    assert(fread(to_read, sizeof(int), sizeof(ints), fp) == sizeof(ints) / sizeof(int));
+
     assert(memcmp(ints, to_read, sizeof(ints)) == 0);
 
     assert(fclose(fp) != -1);

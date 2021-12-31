@@ -44,19 +44,16 @@ int main() {
 
    assert(fd != -1);
 
-   //open_file_entry_t *file = get_open_file_entry(fd);
-
-   //inode_t *inode = inode_get(file->of_inumber);
-
-   //printf("i size while testing = %ld\n", inode->i_size);
-
    ssize_t read = tfs_read(fd, output, SIZE);
 
-   //printf("Output : |%ld|\n", strlen(output)); // the problem is that tfs read can only read until direct region
+   printf("Input : |%ld|\n", strlen(input));
+   printf("Output : |%ld|\n", strlen(output)); // the problem is that tfs read can only read until direct region
 
    if (read != SIZE) return -1;
 
-   assert (memcmp(input, output, SIZE) == 0);
+   printf("memcmp = %d\n", memcmp(input, output, SIZE));
+
+   assert(memcmp(input, output, SIZE) == 0);
 
    assert(tfs_close(fd) != -1);
 

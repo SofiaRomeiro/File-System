@@ -238,11 +238,6 @@ int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void cons
             printf("[ tfs_write_direct_region ] Error : NULL block\n");
             return -1;
         }
-
-        /*if (memcpy(block + file->of_offset, buffer, write_size) == NULL) {
-            printf("[ tfs_write_direct_region ] Error copying\n");
-            return -1;
-        }*/
         
         if (to_write % BLOCK_SIZE == 0) {
 
@@ -310,7 +305,8 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
     inode_t *inode = inode_get(file->of_inumber);
 
-    printf("inode i size = %ld\n", inode->i_size);
+    printf("[ tfs_read ] inode i size = %ld\n", inode->i_size);
+    printf("[ tfs_read ] len = %ld\n", len);
     
     if (inode == NULL) {
         return -1;
@@ -413,7 +409,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
             return -1;
         }
 
-        memcpy(buffer, block + file->of_offset, to_read);
+        memcpy(buffer,(char *) block + file->of_offset, to_read);
 
         file->of_offset += to_read;
 
@@ -426,10 +422,12 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
             return -1;
         }
 
-        memcpy(buffer, block + file->of_offset, to_read); //????? DEST SRC NBYTES
+        memcpy(buffer, (char *) block + file->of_offset, to_read); //????? DEST SRC NBYTES
 
         file->of_offset += to_read;      
     }
+
+    printf("[ tfs_read ] to read = %ld\n", to_read);
 
     return (ssize_t)to_read;
 }
