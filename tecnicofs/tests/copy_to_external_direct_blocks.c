@@ -19,8 +19,6 @@ int main() {
 
     memset(buffer, '\0', sizeof(buffer));
 
-    memcpy(buffer, big_str, SIZE_TO_TEST);
-
     assert(tfs_init() != -1);
 
     int tfs_file = tfs_open(path, TFS_O_CREAT);
@@ -39,6 +37,8 @@ int main() {
     assert(fp != NULL);
 
     assert(fread(buffer, sizeof(char), sizeof(buffer), fp) == sizeof(buffer));
+
+    assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
     
     assert(fclose(fp) != -1);
 

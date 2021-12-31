@@ -40,7 +40,11 @@ int main() {
 
     assert(fp != NULL);
 
-    assert(fread(buffer, sizeof(char), sizeof(buffer), fp) == sizeof(buffer));
+    assert(fread(buffer, sizeof(char), SIZE_TO_TEST, fp) == sizeof(buffer));
+
+    printf("Len of %ld vs len of %ld\n", strlen(big_str), strlen(buffer));
+
+    assert(strncmp(big_str, buffer, SIZE_TO_TEST) == 0);
     
     assert(fclose(fp) != -1);
 

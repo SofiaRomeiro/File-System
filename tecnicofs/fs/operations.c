@@ -5,6 +5,8 @@
 #include <string.h>
 #include <errno.h>
 
+#include <assert.h>
+
 int tfs_init() {
     state_init();
 
@@ -41,8 +43,6 @@ int tfs_open(char const *name, int flags) {
     int inum;
     size_t offset;
 
-    printf("HERE!!!\n");
-
     /* Checks if the path name is valid */
     if (!valid_pathname(name)) {
         return -1;
@@ -53,18 +53,14 @@ int tfs_open(char const *name, int flags) {
     if (inum >= 0) {
         /* The file already exists */
         inode_t *inode = inode_get(inum);
-        printf("a\n");
         if (inode == NULL) {
             return -1;
         }
 
         /* Trucate (if requested) */
         if (flags & TFS_O_TRUNC) {
-            printf("b\n");
             if (inode->i_size > 0) {
-                printf("c\n");
                 if (data_block_free(inode->i_data_block) == -1) {
-                    printf("d\n");
                     return -1;
                 }
                 inode->i_size = 0;
@@ -72,15 +68,12 @@ int tfs_open(char const *name, int flags) {
         }
         /* Determine initial offset */
         if (flags & TFS_O_APPEND) {
-            printf("e\n");
             offset = inode->i_size;
         } else {
-            printf("f\n");
             offset = 0;
         }
 
     } else if (flags & TFS_O_CREAT) {
-        printf("g\n");
         /* The file doesn't exist; the flags specify that it should be created*/
         /* Create inode */
         inum = inode_create(T_FILE);
@@ -90,19 +83,16 @@ int tfs_open(char const *name, int flags) {
         }
         /* Add entry in the root directory */
         if (add_dir_entry(ROOT_DIR_INUM, inum, name + 1) == -1) {
-            printf("h\n");
             inode_delete(inum);
             return -1;
         }
         offset = 0;
     } else {
-        printf("i\n");
         return -1;
     }
 
     /* Finally, add entry to the open file table and
      * return the corresponding handle */
-    printf("j\n");
     return add_to_open_file_table(inum, offset);
 
     /* Note: for simplification, if file was created with TFS_O_CREAT and there
@@ -168,7 +158,11 @@ int tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const 
 
     size_t to_write = write_size;
 
-    for (int i = 0; to_write > 0; i++) {
+    printf("Direct size to write = %ld\n", write_size);
+
+    for (int i = 0; to_write > 0 && i < 10; i++) {
+
+        printf("Iteration number %d : to write is %ld\n", i, to_write);
 
         if (inode->i_size == 0 || file->of_offset == BLOCK_SIZE) {                                                             
             int insert_status = direct_block_insert(inode, file);     
@@ -185,15 +179,37 @@ int tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const 
         
         if (to_write % BLOCK_SIZE == 0) {
 
+            printf("Writing %d bytes in direct region\n", BLOCK_SIZE);
+
             memcpy(block + file->of_offset, buffer + (BLOCK_SIZE * i), BLOCK_SIZE);
             to_write -= BLOCK_SIZE;
             file->of_offset += BLOCK_SIZE;
             inode->i_size += BLOCK_SIZE;
+            
+            assert(memcmp(block, buffer + (BLOCK_SIZE * i), BLOCK_SIZE) == 0);
+
+        }
+
+        else if (to_write > BLOCK_SIZE) {
+
+            printf("Writing %d bytes in direct region\n", BLOCK_SIZE);
+
+            memcpy(block + file->of_offset, buffer + (BLOCK_SIZE * i), BLOCK_SIZE);
+            to_write -= BLOCK_SIZE;
+            file->of_offset += BLOCK_SIZE;
+            inode->i_size += BLOCK_SIZE;
+
+            assert(memcmp(block, buffer + (BLOCK_SIZE * i), BLOCK_SIZE) == 0);
+
         }
 
         else {
 
+            printf("Writing %ld bytes in direct region\n", to_write);
+
             memcpy(block + file->of_offset, buffer + (BLOCK_SIZE * i), to_write);
+
+            assert(memcmp(block, buffer + (BLOCK_SIZE * i), to_write) == 0);
            
             file->of_offset += to_write;
             inode->i_size += to_write;
@@ -212,7 +228,6 @@ int direct_block_insert(inode_t *inode, open_file_entry_t *file) {
     file->of_offset = 0;
     return 0;
 }
-
 
 int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size) {
 
@@ -241,16 +256,38 @@ int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void cons
         
         if (to_write % BLOCK_SIZE == 0) {
 
+            printf("Writing %d bytes in indirect region\n", BLOCK_SIZE);
+
             memcpy(block + file->of_offset, buffer + (BLOCK_SIZE * i), BLOCK_SIZE);
+
+            assert(memcmp(block, buffer + (BLOCK_SIZE * i), BLOCK_SIZE) == 0);
 
             to_write -= BLOCK_SIZE;
             file->of_offset += BLOCK_SIZE;
             inode->i_size += BLOCK_SIZE;
         }
 
+         else if (to_write > BLOCK_SIZE) {
+
+            printf("Writing %d bytes in indirect region\n", BLOCK_SIZE);
+
+            memcpy(block + file->of_offset, buffer + (BLOCK_SIZE * i), BLOCK_SIZE);
+
+            assert(memcmp(block, buffer + (BLOCK_SIZE * i), BLOCK_SIZE) == 0);
+
+            to_write -= BLOCK_SIZE;
+            file->of_offset += BLOCK_SIZE;
+            inode->i_size += BLOCK_SIZE;
+
+        }
+
         else {
 
+            printf("Writing %ld bytes in indirect region\n", to_write);
+
             memcpy(block + file->of_offset, buffer + (BLOCK_SIZE * i), to_write);
+
+            assert(memcmp(block, buffer + (BLOCK_SIZE * i), to_write) == 0);
            
             file->of_offset += to_write;
             inode->i_size += to_write;
@@ -368,7 +405,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     return (ssize_t) size_read;
 }
 */
-
 
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 

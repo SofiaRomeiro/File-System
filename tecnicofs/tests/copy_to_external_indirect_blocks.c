@@ -41,6 +41,8 @@ int main() {
     assert(fp != NULL);
 
     assert(fread(buffer, sizeof(char), sizeof(buffer), fp) == sizeof(buffer));
+
+    assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
     
     assert(fclose(fp) != -1);
 

@@ -30,7 +30,10 @@ int main() {
     /* Write input COUNT times into a new file */
     int fd = tfs_open(path, TFS_O_CREAT);
     assert(fd != -1);
-    assert(tfs_write(fd, input, SIZE) == -1);
+
+   
+
+    assert(tfs_write(fd, input, SIZE) == SIZE - 1);
     assert(tfs_close(fd) != -1);
 
     printf("======> Sucessful test\n\n");
