@@ -13,7 +13,7 @@ int main() {
     char buffer[SIZE_TO_TEST];
 
     char *tfs_path = "/f1";
-    char *path = "/home/sofiamromeiro/Documents/File-System/tecnicofs/tests/test9.txt";  
+    char *path = "./tests/test9.txt";  
 
     printf("Size to test = %ld\n", sizeof(buffer));
 
