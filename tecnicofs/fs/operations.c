@@ -299,6 +299,7 @@ int tfs_handle_indirect_block(inode_t *inode, open_file_entry_t *file) {
     return 0;
 }
 
+/*
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     size_t size_read = 0;
     
@@ -370,8 +371,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
     return (ssize_t) size_read;
 }
+*/
 
-/*
+
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
     size_t to_read = 0;
@@ -431,7 +433,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
     return (ssize_t)to_read;
 }
-*/
+
 
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
