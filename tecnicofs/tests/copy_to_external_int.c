@@ -7,7 +7,7 @@ int main() {
 
     int ints[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     char *path = "/f1";
-    char *path2 = "/home/sofia/Documentos/File-System/tecnicofs/tests/test7.txt";
+    char *path2 = "/home/sofiamromeiro/Documents/File-System/tecnicofs/tests/test7.txt";
     int to_read[40];
 
     assert(tfs_init() != -1);

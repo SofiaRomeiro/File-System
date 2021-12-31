@@ -7,7 +7,7 @@ int main() {
 
     char *str = "AAA! AAA";
     char *path = "/f1";
-    char *path2 = "external_file.txt";
+    char *path2 = "/home/sofiamromeiro/Documents/File-System/tecnicofs/tests/test16.txt";
     char to_read[40];
 
     assert(tfs_init() != -1);
