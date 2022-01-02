@@ -44,12 +44,14 @@ int main() {
 
    assert(fd != -1);
 
-   ssize_t read = tfs_read(fd, output, SIZE);
+   assert(tfs_read(fd, output, SIZE) == SIZE);
 
-   printf("Input : |%ld|\n", strlen(input));
-   printf("Output : |%ld|\n", strlen(output)); // the problem is that tfs read can only read until direct region
+   for(int i = 0; i < SIZE; i++) {
+      if (input[i] != output[i])
+         printf("(%d) |%c| vs |%c|\n",i, input[i], output[i]);
 
-   if (read != SIZE) return -1;
+      assert(input[i] == output[i]);
+   }
 
    printf("memcmp = %d\n", memcmp(input, output, SIZE));
 
