@@ -41,7 +41,7 @@ int main() {
 
     for (int i = 0; i < COUNT; i++) {
         assert(tfs_read(fd, output, SIZE) == SIZE);
-        assert (memcmp(input, output, SIZE) == 0);
+        assert(memcmp(input, output, SIZE) == 0);
     }
 
     assert(tfs_close(fd) != -1);

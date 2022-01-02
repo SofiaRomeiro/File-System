@@ -13,9 +13,9 @@ int main() {
     char buffer[SIZE_TO_TEST];
 
     char *tfs_path = "/f1";
-    char *path = "./tests/test9.txt";  
+    char *path = "./tests/test8.txt";  
 
-    printf("Size to test = %ld\n", sizeof(buffer));
+    printf("[ TEST 8 ] Size to test = %ld\n", sizeof(buffer));
 
     memset(big_str, 'g', sizeof(big_str));
 
@@ -41,8 +41,6 @@ int main() {
     assert(fp != NULL);
 
     assert(fread(buffer, sizeof(char), SIZE_TO_TEST, fp) == sizeof(buffer));
-
-    printf("Len of %ld vs len of %ld\n", strlen(big_str), strlen(buffer));
 
     assert(strncmp(big_str, buffer, SIZE_TO_TEST) == 0);
     

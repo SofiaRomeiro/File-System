@@ -40,7 +40,7 @@ int main() {
 
     assert(fp != NULL);
 
-    assert(fread(buffer, sizeof(char), sizeof(buffer), fp) == sizeof(buffer));
+    assert(fread(buffer, sizeof(char), sizeof(big_str), fp) == strlen(big_str));
 
     assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
     

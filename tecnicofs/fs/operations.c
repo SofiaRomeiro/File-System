@@ -149,6 +149,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         }
     }
 
+    printf("\nFinal inode i_block table:\n");
     for (int k = 0; k < 11; k++) printf("tfs write : Index %d : block %d\n", k, inode->i_block[k]);  
 
     return (ssize_t)to_write;
@@ -419,6 +420,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     inode_t *inode = inode_get(file->of_inumber);
 
     printf("inode i size = %ld\n", inode->i_size);
+    printf("[ tfs_read ] len = %ld\n", len);
     
     if (inode == NULL) {
         return -1;
@@ -471,20 +473,22 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
-    void *buffer[100];
+    char buffer[100];
     int source_file;
     FILE *dest_file;
     ssize_t read_bytes = 0;
+    ssize_t read_bytes_per_reading = 0;
     size_t to_write_bytes = 0;
     size_t written_bytes = 0;
 
     memset(buffer, '\0', sizeof(buffer));
 
     if (tfs_lookup(source_path) == -1) {
-        source_file = tfs_open(source_path, TFS_O_APPEND);
+        printf("[ operations.c ] Error : Source file doesn't exist!\n");
+        return -1;
     }
     else {
-        source_file = tfs_open(source_path, TFS_O_CREAT);
+        source_file = tfs_open(source_path, TFS_O_APPEND);
     }    
 
     if (source_file < 0) {
@@ -505,23 +509,27 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
     do {
 
-        read_bytes += tfs_read(source_file, buffer, sizeof(buffer));
+        read_bytes_per_reading = tfs_read(source_file, buffer, sizeof(buffer));        
 
-        if (read_bytes < 0) {
+        printf("[ copy_to_external ] read_bytes = %ld\n[ copy_to_external ]buffer : |%s|\n[ copy_to_external ]strlen buffer = %ld\n", read_bytes, buffer, strlen(buffer));
+
+        if (read_bytes_per_reading < 0) {
             printf("[-] Read error: %s\n", strerror(errno));
 		    return -1;
         }
 
-        to_write_bytes = (size_t) read_bytes;   // since the check for negative values was made before, casting is safe
+        read_bytes += read_bytes_per_reading;
 
-        written_bytes = fwrite(buffer, sizeof(void), to_write_bytes, dest_file);
+        to_write_bytes = (size_t) read_bytes_per_reading;   // since the check for negative values was made before, casting is safe
 
-        if (written_bytes < read_bytes) {
+        written_bytes = fwrite(buffer, sizeof(char), to_write_bytes, dest_file);
+
+        if (written_bytes < read_bytes_per_reading) {
             printf("[-] Write error: %s\n", strerror(errno));
 		    return -1;
         }
 
-        memset(buffer, '\0', sizeof(buffer));  
+        memset(buffer, '\0', sizeof(buffer)); 
 
     } while (total_size_to_read > read_bytes);
 
