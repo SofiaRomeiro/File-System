@@ -14,7 +14,7 @@ INCLUDES = $(addprefix -I, $(INCLUDE_DIRS))
 SOURCES  := $(wildcard */*.c)
 HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
-TARGET_EXECS := tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes tests/max_storage_exceeded
+TARGET_EXECS := tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_short_str tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes tests/max_storage_exceeded 
 
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
@@ -25,7 +25,7 @@ CFLAGS = -std=c11 -D_POSIX_C_SOURCE=200809L
 CFLAGS += $(INCLUDES)
 
 # Warnings
-CFLAGS += -fdiagnostics-color=always -Wall -Werror -Wextra -Wcast-align -Wconversion -Wfloat-equal -Wformat=2 -Wnull-dereference -Wshadow -Wsign-conversion -Wswitch-default -Wswitch-enum -Wundef -Wunreachable-code -Wunused
+CFLAGS += -g -fdiagnostics-color=always -Wall -Werror -Wextra -Wcast-align -Wconversion -Wfloat-equal -Wformat=2 -Wnull-dereference -Wshadow -Wsign-conversion -Wswitch-default -Wswitch-enum -Wundef -Wunreachable-code -Wunused
 # Warning suppressions
 CFLAGS += -Wno-sign-compare
 
@@ -110,6 +110,10 @@ test15:
 	@echo ----- Test 15 ------
 	./tests/max_storage_exceeded
 
+test16:
+	@echo ----- Test 16 ------
+	./tests/copy_to_external_short_str
+
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
 # in the file '.clang-format'.
@@ -130,6 +134,7 @@ tests/tfs_built_in_functions: tests/tfs_built_in_functions.o fs/operations.o fs/
 tests/copy_to_external_errors: tests/copy_to_external_errors.o fs/operations.o fs/state.o
 tests/copy_to_external_simple: tests/copy_to_external_simple.o fs/operations.o fs/state.o
 tests/copy_to_external_int: tests/copy_to_external_int.o fs/operations.o fs/state.o
+tests/copy_to_external_short_str: tests/copy_to_external_short_str.o fs/operations.o fs/state.o
 tests/copy_to_external_huge_file: tests/copy_to_external_huge_file.o fs/operations.o fs/state.o
 tests/copy_to_external_direct_blocks: tests/copy_to_external_direct_blocks.o fs/operations.o fs/state.o
 tests/copy_to_external_indirect_blocks: tests/copy_to_external_indirect_blocks.o fs/operations.o fs/state.o

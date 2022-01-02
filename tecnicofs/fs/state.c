@@ -116,6 +116,7 @@ int inode_create(inode_type n_type) {
                 inode_table[inumber].i_data_block = b;
 
                 memset(inode_table[inumber].i_block, '\0', sizeof(inode_table[inumber].i_block));
+                //inode_table[inumber].i_block[0] = b;
 
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
                 if (dir_entry == NULL) {
@@ -228,6 +229,7 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
  */
 int find_in_dir(int inumber, char const *sub_name) {
     insert_delay(); // simulate storage access delay to i-node with inumber
+
     if (!valid_inumber(inumber) ||
         inode_table[inumber].i_node_type != T_DIRECTORY) {
         return -1;
@@ -264,6 +266,7 @@ int data_block_alloc() {
 
         if (free_blocks[i] == FREE) {
             free_blocks[i] = TAKEN;
+            printf("Allocating block number %d\n", i);
             return i;
         }
     }
@@ -318,66 +321,6 @@ int data_block_insert(int i_block[], int block_number) {
     insert_delay();
     return 0;
 }
-
-// quando quero alocar blocos para escrever
-/*int data_block_handle(inode_t *inode) {
-
-    int current_block;
-    for (current_block = 0; current_block != MAX_DATA_BLOCKS_FOR_INODE && inode->i_block[current_block] != '\0'; current_block++);
-    
-    current_block--;
-
-    if (current_block == MAX_DATA_BLOCKS_FOR_INODE) {
-        printf("[ - ] data_block_insert : Max size has been reached : %s\n", strerror(errno));
-        return -1;
-    }
-
-    else if (current_block < 10) {
-        printf("Inserting block number %d\n", current_block);
-    }
-
-    else {
-
-        int i;
-
-
-        for (i = 0; i != BLOCK_SIZE &&; i++)
-
-    }
-    
-    insert_delay();
-    return 0;
-
-}
-
-int indirect_block_insert(inode_t *inode, int i) {
-
-    int j, k;
-
-    int *indexes_block = data_block_get(inode->i_block[i]); //bloco de indexes com os blocos de dados
-
-    // ver se o bloco indireto atual já se encontra cheio
-    for (j = 0; j != BLOCK_SIZE && indexes_block[j] != '\0'; j++);
-
-    // se estiver cheio 
-    if (j == BLOCK_SIZE) {
-        // alocar bloco seguinte e começar a preencher
-        inode->i_data_block = data_block_alloc();
-        inode->i_block[i+1] = inode->i_data_block;
-
-        // passar para a regiao dos indices com a outra funcao
-
-    }        
-    // se nao estiver cheio
-    else {
-        // procurar a posicao onde está o ultimo bloco de dados da regiao indireta nao preenchido
-        int *target_indirect_data_block = data_block_get(indexes_block[j--]); //bloco onde se está a inserir
-
-    }
-        
-
-        // chamar outra funcao para tratar dele
-}*/
 
 /* Insert new block number to the array of indirect indexes contained by a specific block
  * Inputs:

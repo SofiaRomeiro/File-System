@@ -39,11 +39,7 @@ int main() {
 
     assert(tfs_read(fd, output, SIZE) == SIZE);
 
-    //printf("input (%ld) : |%s|\n", sizeof(input), input);
-    //printf("output (%ld): |%s|\n", sizeof(output), output);
-    printf("%d\n", memcmp(input, output, SIZE));
-
-    assert (memcmp(input, output, SIZE) == 0);
+    assert(memcmp(input, output, SIZE) == 0);
 
     assert(tfs_close(fd) != -1);
 

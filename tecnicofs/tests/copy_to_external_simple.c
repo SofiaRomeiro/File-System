@@ -27,13 +27,13 @@ int main() {
 
     assert(fread(to_read, sizeof(char), strlen(str), fp) == strlen(str));
     
-    assert(strcmp(str, to_read) == 0);
+    assert(strncmp(str, to_read, strlen(str)) == 0);
 
     assert(fclose(fp) != -1);
 
-    //unlink(path2);
+    unlink(path2);
 
-    printf("======> Successful test.\n\n");
+    printf("Successful test.\n");
 
     return 0;
 }

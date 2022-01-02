@@ -32,7 +32,7 @@ int main() {
 
     assert(tfs_close(f) != -1);
 
-    printf("======> Successful test.\n\n");
+    printf("======> Sucessful test.\n\n");
 
     return 0;
 }

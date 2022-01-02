@@ -8,14 +8,15 @@
 
 int main() {
 
-    char big_str[SIZE_TO_TEST];
+    char big_str[SIZE_TO_TEST+1];
 
     memset(big_str, 'b', sizeof(big_str));
+    big_str[SIZE_TO_TEST] = '\0';
 
     char buffer[SIZE_TO_TEST];
 
     char *path = "/f1";
-    char *path2 = "/home/sofia/Documentos/File-System/tecnicofs/tests/test10.txt";  
+    char *path2 = "./tests/test10.txt";  
 
     printf("Size to test = %ld\n", sizeof(buffer));
 
@@ -28,7 +29,7 @@ int main() {
     int tfs_file = tfs_open(path, TFS_O_CREAT);
     assert(tfs_file != -1);
 
-    assert(tfs_write(tfs_file, buffer, sizeof(buffer)) == sizeof(buffer));
+    assert(tfs_write(tfs_file, buffer, strlen(buffer)) == strlen(buffer));
 
     assert(tfs_close(tfs_file) != -1);
 
@@ -40,7 +41,9 @@ int main() {
 
     assert(fp != NULL);
 
-    assert(fread(buffer, sizeof(char), sizeof(buffer), fp) == sizeof(buffer));
+    assert(fread(buffer, sizeof(char), strlen(big_str), fp) == strlen(big_str));
+
+    assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
     
     assert(fclose(fp) != -1);
 
