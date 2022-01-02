@@ -505,13 +505,21 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
     open_file_entry_t *file = get_open_file_entry(source_file);
     inode_t *inode = inode_get(file->of_inumber);
-    size_t total_size_to_read = inode->i_size;
+    ssize_t total_size_to_read = (ssize_t) inode->i_size;
 
     do {
 
-        read_bytes_per_reading = tfs_read(source_file, buffer, sizeof(buffer));        
+        if (total_size_to_read - read_bytes >= 100) {
+            read_bytes_per_reading = tfs_read(source_file, buffer, sizeof(buffer));
+        }
+        else {
+            size_t r = (size_t) (total_size_to_read - read_bytes);
+            read_bytes_per_reading = tfs_read(source_file, buffer, r);
+        }
 
-        printf("[ copy_to_external ] read_bytes = %ld\n[ copy_to_external ]buffer : |%s|\n[ copy_to_external ]strlen buffer = %ld\n", read_bytes, buffer, strlen(buffer));
+        //read_bytes_per_reading = tfs_read(source_file, buffer, sizeof(buffer));        
+
+        printf("[ copy_to_external ] read_bytes_per_reading = %ld\n[ copy_to_external ] buffer : |%s|\n[ copy_to_external ] strlen buffer = %ld\n", read_bytes_per_reading, buffer, strlen(buffer));
 
         if (read_bytes_per_reading < 0) {
             printf("[-] Read error: %s\n", strerror(errno));
@@ -524,7 +532,9 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
         written_bytes = fwrite(buffer, sizeof(char), to_write_bytes, dest_file);
 
-        if (written_bytes < read_bytes_per_reading) {
+        printf("[ copy_to_external ] written_bytes = %ld || to_write_bytes = %ld\n", written_bytes, to_write_bytes);
+
+        if (written_bytes != read_bytes_per_reading) {
             printf("[-] Write error: %s\n", strerror(errno));
 		    return -1;
         }

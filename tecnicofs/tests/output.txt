@@ -1,0 +1,667 @@
+----- Test 9 ------
+./tests/copy_to_external_direct_blocks
+Size to test = 10240
+Allocating block number 0
+Direct size to write = 10240
+Iteration number 0 : to write is 10240
+Allocating block number 1
+Writing 1024 bytes in direct region
+Iteration number 1 : to write is 9216
+Allocating block number 2
+Writing 1024 bytes in direct region
+Iteration number 2 : to write is 8192
+Allocating block number 3
+Writing 1024 bytes in direct region
+Iteration number 3 : to write is 7168
+Allocating block number 4
+Writing 1024 bytes in direct region
+Iteration number 4 : to write is 6144
+Allocating block number 5
+Writing 1024 bytes in direct region
+Iteration number 5 : to write is 5120
+Allocating block number 6
+Writing 1024 bytes in direct region
+Iteration number 6 : to write is 4096
+Allocating block number 7
+Writing 1024 bytes in direct region
+Iteration number 7 : to write is 3072
+Allocating block number 8
+Writing 1024 bytes in direct region
+Iteration number 8 : to write is 2048
+Allocating block number 9
+Writing 1024 bytes in direct region
+Iteration number 9 : to write is 1024
+Allocating block number 10
+Writing 1024 bytes in direct region
+
+Final inode i_block table:
+tfs write : Index 0 : block 1
+tfs write : Index 1 : block 2
+tfs write : Index 2 : block 3
+tfs write : Index 3 : block 4
+tfs write : Index 4 : block 5
+tfs write : Index 5 : block 6
+tfs write : Index 6 : block 7
+tfs write : Index 7 : block 8
+tfs write : Index 8 : block 9
+tfs write : Index 9 : block 10
+tfs write : Index 10 : block 0
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+inode i size = 10240
+[ tfs_read ] len = 100
+[ tfs_read ] to read = 100
+[ copy_to_external ] read_bytes_per_reading = 100
+[ copy_to_external ]buffer : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|
+[ copy_to_external ]strlen buffer = 100
+[ TEST 9 ] buffer (10243) : |xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

@@ -34,8 +34,6 @@ int main() {
 
     assert(tfs_copy_to_external_fs(tfs_path, path) != -1);
 
-    // read to copied file - to to_read - and compare it to to_write
-
     FILE *fp = fopen(path, "r");
 
     assert(fp != NULL);
