@@ -130,6 +130,11 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     else if (inode->i_size >= MAX_DIRECT_DATA_SIZE) {
 
+        if (inode->i_size > 10 * BLOCK_SIZE) {
+            tfs_handle_indirect_block(inode);
+        }
+
+        
         int insert_status = tfs_write_indirect_region(inode, file, buffer, to_write);
         if (insert_status == -1) {
             return -1;
@@ -142,6 +147,11 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         size_t indirect_size = to_write - direct_size;
 
         int direct_status = tfs_write_direct_region(inode, file, buffer, direct_size);  //escrever parte na regiao direta
+        
+        if (inode->i_size > 10 * BLOCK_SIZE) {
+            tfs_handle_indirect_block(inode);
+        }
+
         int indirect_status = tfs_write_indirect_region(inode, file, buffer + direct_size, indirect_size); // escrever o resto na indireta
     
         if (direct_status == -1 || indirect_status == -1) {
@@ -178,13 +188,15 @@ int tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const 
         if (block == NULL) {
             return -1;
         }
+
+        printf("\nTO WRITE = %ld\n", to_write);
         
         // se o que tenho para escrever é maior ou igual que um bloco
         if (to_write >= BLOCK_SIZE) {
 
-            printf("Writing %d bytes in direct region\n", BLOCK_SIZE);
-
             size_t written = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
+
+            printf("1 - (%d) Writing %ld bytes in direct region\n", i, written);
 
             memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), written);
 
@@ -192,17 +204,38 @@ int tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const 
             file->of_offset += written;
             inode->i_size += written;
 
+            printf("i_size = %ld\n", inode->i_size);
+
         }
 
-        else {
+        else if (BLOCK_SIZE - (file->of_offset % BLOCK_SIZE) < to_write) {
 
-            printf("Writing %ld bytes in direct region\n", to_write);
+            printf("2 - (%d) Writing %ld bytes in direct region\n",i, BLOCK_SIZE - (file->of_offset % BLOCK_SIZE));
 
-            memcpy(block, buffer + (BLOCK_SIZE * i), to_write);
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), BLOCK_SIZE - (file->of_offset % BLOCK_SIZE));
+
+            printf("The result is = %ld\n", BLOCK_SIZE - (file->of_offset % BLOCK_SIZE));
+
+            size_t x = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
+           
+            inode->i_size += x;
+            file->of_offset += x;
+            to_write -= x;
+
+            printf("i_size = %ld\n", inode->i_size);
+        }
+
+        else  {
+
+            printf("3 - (%d) Writing %ld bytes in direct region\n",i, to_write);
+
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), to_write);
            
             file->of_offset += to_write;
             inode->i_size += to_write;
             to_write = 0;
+
+            printf("i_size = %ld\n", inode->i_size);
         }
 
     }
@@ -219,13 +252,13 @@ int direct_block_insert(inode_t *inode) {
 
 int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size) {
 
-    tfs_handle_indirect_block(inode);
-
     size_t to_write = write_size;
 
     for (int i = 0; to_write > 0; i++) {
 
         if (inode->i_size % BLOCK_SIZE == 0) { 
+
+            printf("================================> ENTREI E SOU FDP\n");
 
             int insert_status = indirect_block_insert(inode);  
 
@@ -240,7 +273,58 @@ int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void cons
             printf("[ tfs_write_indirect_region ] Error : NULL block\n");
             return -1;
         }
+
+        printf("\nTO WRITE = %ld\n", to_write);
         
+        // se o que tenho para escrever é maior ou igual que um bloco
+        if (to_write >= BLOCK_SIZE) {
+
+            size_t written = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
+
+            printf("1 - (%d) Writing %ld bytes in indirect region\n", i, written);
+
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), written);
+
+            to_write -= written;
+            file->of_offset += written;
+            inode->i_size += written;
+
+            printf("i_size = %ld\n", inode->i_size);
+
+        }
+
+        else if (BLOCK_SIZE - (file->of_offset % BLOCK_SIZE) < to_write) {
+
+            printf("2 - (%d) Writing %ld bytes in indirect region\n",i, BLOCK_SIZE - (file->of_offset % BLOCK_SIZE));
+
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), BLOCK_SIZE - (file->of_offset % BLOCK_SIZE));
+
+            printf("The result is = %ld\n", BLOCK_SIZE - (file->of_offset % BLOCK_SIZE));
+
+            size_t x = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
+           
+            inode->i_size += x;
+            file->of_offset += x;
+            to_write -= x;
+
+            printf("i_size = %ld\n", inode->i_size);
+        }
+
+        else  {
+
+            printf("3 - (%d) Writing %ld bytes in indirect region\n",i, to_write);
+
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), to_write);
+           
+            file->of_offset += to_write;
+            inode->i_size += to_write;
+            to_write = 0;
+
+            printf("i_size = %ld\n", inode->i_size);
+        }
+
+        
+        /*
         if (to_write >= BLOCK_SIZE) {
 
             printf("Writing %d bytes in indirect region\n", BLOCK_SIZE);
@@ -262,7 +346,8 @@ int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void cons
             file->of_offset += to_write;
             inode->i_size += to_write;
             to_write = 0;
-        }    
+        }  
+        */  
     }
     
     return 0;
@@ -296,7 +381,6 @@ int tfs_handle_indirect_block(inode_t *inode) {
 
     inode->i_block[10] = block_number;
     inode->i_data_block = block_number;
-    //file->of_offset = 0;
     return 0;
 }
 

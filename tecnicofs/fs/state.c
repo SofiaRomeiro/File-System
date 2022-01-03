@@ -266,7 +266,7 @@ int data_block_alloc() {
 
         if (free_blocks[i] == FREE) {
             free_blocks[i] = TAKEN;
-            printf("Allocating block number %d\n", i);
+            printf("[data_block_alloc - state.c] Allocating block number %d\n", i);
             return i;
         }
     }
