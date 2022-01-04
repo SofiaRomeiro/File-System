@@ -29,7 +29,7 @@ int main() {
     int tfs_file = tfs_open(path, TFS_O_CREAT);
     assert(tfs_file != -1);
 
-    assert(tfs_write(tfs_file, buffer, strlen(buffer)) == strlen(buffer));
+    assert(tfs_write(tfs_file, buffer, strlen(big_str)) == strlen(big_str));
 
     assert(tfs_close(tfs_file) != -1);
 

@@ -67,11 +67,11 @@ int tfs_close(int fhandle);
  */
 ssize_t tfs_write(int fhandle, void const *buffer, size_t len);
 
-int tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
+ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
 
 int direct_block_insert(inode_t *inode);
 
-int tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
+ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
 
 // int indirect_block_insert(inode_t *inode, open_file_entry_t *file);
 

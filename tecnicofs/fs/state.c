@@ -235,9 +235,12 @@ int find_in_dir(int inumber, char const *sub_name) {
         return -1;
     }
 
+    printf("[ find_in_dir ] i data block = %d\n", inode_table[inumber].i_data_block);
+
     /* Locates the block containing the directory's entries */
     dir_entry_t *dir_entry =
         (dir_entry_t *)data_block_get(inode_table[inumber].i_data_block);
+
     if (dir_entry == NULL) {
         return -1;
     }
@@ -351,6 +354,9 @@ int add_to_open_file_table(int inumber, size_t offset) {
     for (int i = 0; i < MAX_OPEN_FILES; i++) {
         if (free_open_file_entries[i] == FREE) {
             free_open_file_entries[i] = TAKEN;
+
+            printf("CHANGING I NUMBER TO %d\n", inumber);
+
             open_file_table[i].of_inumber = inumber;
             open_file_table[i].of_offset = offset;
             return i;
