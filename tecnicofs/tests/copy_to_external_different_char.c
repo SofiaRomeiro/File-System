@@ -12,21 +12,22 @@
 #include <string.h>
 #include <unistd.h>
 
-#define SIZE_TO_TEST (5204)
+#define SIZE_TO_TEST (1024*20)
 
 
 int main() {
 
     char big_str[SIZE_TO_TEST];
 
+    memset(big_str, 'b', sizeof(big_str) / 2);
+    memset(big_str + (sizeof(big_str) / 2), 'u', sizeof(big_str) / 2);
+
     char buffer[SIZE_TO_TEST];
 
-    char *tfs_path = "/f1";
-    char *path = "./tests/test8.txt";  
+    char *path = "/f1";
+    char *path2 = "./tests/output/test10.txt";  
 
-    printf("[ TEST 8 ] Size to test = %ld\n", sizeof(buffer));
-
-    memset(big_str, 'g', sizeof(big_str));
+    printf("Size to test = %ld\n", sizeof(buffer));
 
     memset(buffer, '\0', sizeof(buffer));
 
@@ -34,26 +35,26 @@ int main() {
 
     assert(tfs_init() != -1);
 
-    int tfs_file = tfs_open(tfs_path, TFS_O_CREAT);
+    int tfs_file = tfs_open(path, TFS_O_CREAT);
     assert(tfs_file != -1);
 
-    assert(tfs_write(tfs_file, buffer, sizeof(buffer)) == sizeof(buffer));
+    assert(tfs_write(tfs_file, buffer, strlen(big_str)) == strlen(big_str));
 
     assert(tfs_close(tfs_file) != -1);
 
-    assert(tfs_copy_to_external_fs(tfs_path, path) != -1);
+    assert(tfs_copy_to_external_fs(path, path2) != -1);
 
-    FILE *fp = fopen(path, "r");
+    FILE *fp = fopen(path2, "r");
 
     assert(fp != NULL);
 
-    assert(fread(buffer, sizeof(char), SIZE_TO_TEST, fp) == sizeof(buffer));
+    assert(fread(buffer, sizeof(char), strlen(big_str), fp) == strlen(big_str));
 
-    assert(strncmp(big_str, buffer, SIZE_TO_TEST) == 0);
+    assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
     
     assert(fclose(fp) != -1);
 
-    unlink(path);
+    unlink(path2);
 
     printf("======> Successful test.\n\n");
 

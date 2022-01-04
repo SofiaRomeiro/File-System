@@ -48,11 +48,11 @@ int tfs_open(char const *name, int flags) {
         return -1;
     }
 
-    inum = tfs_lookup(name);
+    inum = tfs_lookup(name);            // inum = 0, name = /f1
 
     if (inum >= 0) {
         /* The file already exists */
-        inode_t *inode = inode_get(inum);
+        inode_t *inode = inode_get(inum);       // PROBLEMA AQUI
 
         if (inode == NULL) {
             return -1;
@@ -95,7 +95,7 @@ int tfs_open(char const *name, int flags) {
     /* Finally, add entry to the open file table and
      * return the corresponding handle */
     
-    return add_to_open_file_table(inum, offset);
+    return add_to_open_file_table(inum, offset); 
 
     /* Note: for simplification, if file was created with TFS_O_CREAT and there
      * is an error adding an entry to the open file table, the file is not
@@ -322,9 +322,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     inode_t *inode = inode_get(file->of_inumber);
-
-    printf("[ tfs_read ] inode i size = %ld\n", inode->i_size);
-    printf("[ tfs_read ] len = %ld\n", len);
     
     if (inode == NULL) {
         return -1;
@@ -333,6 +330,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     file->of_offset = 0;
 
     for (int i = 0; size_read <= len && (i < 10); i++) {
+
         void* block = data_block_get(inode->i_block[i]);
 
         if (block == NULL) {
@@ -342,16 +340,13 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
         if (len - size_read > 1024) {
             memcpy(buffer + size_read, block, 1024);
-            printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
             size_read += 1024;
         }
 
         else {
             memcpy(buffer + size_read, block, len - size_read);
-            printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
             size_read += (len - size_read);
         }
-        printf("size_read: %ld\n", size_read);
     }
 
     if ((len - size_read) > 0) {
@@ -411,7 +406,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     else {
-        to_read = (inode->i_size - 1024);
+        to_read = inode->i_size;
     }   
 
     if (to_read > len) {
@@ -427,15 +422,13 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
             return -1;
         }
 
-        memcpy(buffer,(char *) block + file->of_offset, to_read);
+        memcpy(buffer, block + file->of_offset, to_read);
 
         file->of_offset += to_read;
 
     }
 
     else {
-
-        printf("IM HEREEEEEEEEEEEEEEEEEEEEEE\n");
 
         file->of_offset=0;
         void *block = data_block_get(inode->i_data_block);

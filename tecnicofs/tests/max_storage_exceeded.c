@@ -1,3 +1,12 @@
+/*  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    *
+ *                                                                      *
+ *      MADE BY    :  Sofia Romeiro, ist198968, LETI                    *
+ *                                                                      *
+ *      BUG REPORT :  Karate Kid#9295 (Discord)                         *
+ *                    sofiaromeiro23@tecnico.ulisboa.pt (webmail)       *
+ *                                                                      *
+ *  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    */
+
 #include "../fs/operations.h"
 #include <assert.h>
 #include <string.h>
@@ -31,7 +40,7 @@ int main() {
     int fd = tfs_open(path, TFS_O_CREAT);
     assert(fd != -1);   
 
-    assert(tfs_write(fd, input, SIZE) == 272384);
+    assert(tfs_write(fd, input, SIZE) == SIZE-1);
     assert(tfs_close(fd) != -1);
 
     printf("======> Sucessful test\n\n");

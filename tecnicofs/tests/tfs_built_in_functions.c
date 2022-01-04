@@ -2,11 +2,13 @@
 #include <assert.h>
 #include <string.h>
 
+#define SIZE 40
+
 int main() {
 
     char *str = "AAA!";
     char *path = "/f1";
-    char buffer[40];
+    char buffer[SIZE];
 
     assert(tfs_init() != -1);
 
