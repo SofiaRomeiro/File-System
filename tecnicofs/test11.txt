@@ -1,0 +1,770 @@
+----- Test 11 ------
+./tests/write_more_than_10_blocks_spill
+[data_block_alloc - state.c] Allocating block number 0
+[data_block_alloc - state.c] Allocating block number 1
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 404
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 808
+
+TO WRITE = 404
+2 - (0) Writing 216 bytes in direct region
+The result is = 216
+i_size = 1024
+[data_block_alloc - state.c] Allocating block number 2
+
+TO WRITE = 188
+3 - (1) Writing 188 bytes in direct region
+i_size = 1212
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 1616
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 2020
+
+TO WRITE = 404
+2 - (0) Writing 28 bytes in direct region
+The result is = 28
+i_size = 2048
+[data_block_alloc - state.c] Allocating block number 3
+
+TO WRITE = 376
+3 - (1) Writing 376 bytes in direct region
+i_size = 2424
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 2828
+
+TO WRITE = 404
+2 - (0) Writing 244 bytes in direct region
+The result is = 244
+i_size = 3072
+[data_block_alloc - state.c] Allocating block number 4
+
+TO WRITE = 160
+3 - (1) Writing 160 bytes in direct region
+i_size = 3232
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 3636
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 4040
+
+TO WRITE = 404
+2 - (0) Writing 56 bytes in direct region
+The result is = 56
+i_size = 4096
+[data_block_alloc - state.c] Allocating block number 5
+
+TO WRITE = 348
+3 - (1) Writing 348 bytes in direct region
+i_size = 4444
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 4848
+
+TO WRITE = 404
+2 - (0) Writing 272 bytes in direct region
+The result is = 272
+i_size = 5120
+[data_block_alloc - state.c] Allocating block number 6
+
+TO WRITE = 132
+3 - (1) Writing 132 bytes in direct region
+i_size = 5252
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 5656
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 6060
+
+TO WRITE = 404
+2 - (0) Writing 84 bytes in direct region
+The result is = 84
+i_size = 6144
+[data_block_alloc - state.c] Allocating block number 7
+
+TO WRITE = 320
+3 - (1) Writing 320 bytes in direct region
+i_size = 6464
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 6868
+
+TO WRITE = 404
+2 - (0) Writing 300 bytes in direct region
+The result is = 300
+i_size = 7168
+[data_block_alloc - state.c] Allocating block number 8
+
+TO WRITE = 104
+3 - (1) Writing 104 bytes in direct region
+i_size = 7272
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 7676
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 8080
+
+TO WRITE = 404
+2 - (0) Writing 112 bytes in direct region
+The result is = 112
+i_size = 8192
+[data_block_alloc - state.c] Allocating block number 9
+
+TO WRITE = 292
+3 - (1) Writing 292 bytes in direct region
+i_size = 8484
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 8888
+
+TO WRITE = 404
+2 - (0) Writing 328 bytes in direct region
+The result is = 328
+i_size = 9216
+[data_block_alloc - state.c] Allocating block number 10
+
+TO WRITE = 76
+3 - (1) Writing 76 bytes in direct region
+i_size = 9292
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 9696
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in direct region
+i_size = 10100
+
+TO WRITE = 140
+3 - (0) Writing 140 bytes in direct region
+i_size = 10240
+[data_block_alloc - state.c] Allocating block number 11
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 12
+
+TO WRITE = 264
+3 - (0) Writing 264 bytes in indirect region
+i_size = 10504
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 10908
+
+TO WRITE = 404
+2 - (0) Writing 356 bytes in indirect region
+The result is = 356
+i_size = 11264
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 13
+
+TO WRITE = 48
+3 - (1) Writing 48 bytes in indirect region
+i_size = 11312
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 11716
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 12120
+
+TO WRITE = 404
+2 - (0) Writing 168 bytes in indirect region
+The result is = 168
+i_size = 12288
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 14
+
+TO WRITE = 236
+3 - (1) Writing 236 bytes in indirect region
+i_size = 12524
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 12928
+
+TO WRITE = 404
+2 - (0) Writing 384 bytes in indirect region
+The result is = 384
+i_size = 13312
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 15
+
+TO WRITE = 20
+3 - (1) Writing 20 bytes in indirect region
+i_size = 13332
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 13736
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 14140
+
+TO WRITE = 404
+2 - (0) Writing 196 bytes in indirect region
+The result is = 196
+i_size = 14336
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 16
+
+TO WRITE = 208
+3 - (1) Writing 208 bytes in indirect region
+i_size = 14544
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 14948
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 15352
+
+TO WRITE = 404
+2 - (0) Writing 8 bytes in indirect region
+The result is = 8
+i_size = 15360
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 17
+
+TO WRITE = 396
+3 - (1) Writing 396 bytes in indirect region
+i_size = 15756
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 16160
+
+TO WRITE = 404
+2 - (0) Writing 224 bytes in indirect region
+The result is = 224
+i_size = 16384
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 18
+
+TO WRITE = 180
+3 - (1) Writing 180 bytes in indirect region
+i_size = 16564
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 16968
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 17372
+
+TO WRITE = 404
+2 - (0) Writing 36 bytes in indirect region
+The result is = 36
+i_size = 17408
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 19
+
+TO WRITE = 368
+3 - (1) Writing 368 bytes in indirect region
+i_size = 17776
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 18180
+
+TO WRITE = 404
+2 - (0) Writing 252 bytes in indirect region
+The result is = 252
+i_size = 18432
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 20
+
+TO WRITE = 152
+3 - (1) Writing 152 bytes in indirect region
+i_size = 18584
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 18988
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 19392
+
+TO WRITE = 404
+2 - (0) Writing 64 bytes in indirect region
+The result is = 64
+i_size = 19456
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 21
+
+TO WRITE = 340
+3 - (1) Writing 340 bytes in indirect region
+i_size = 19796
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 20200
+
+TO WRITE = 404
+2 - (0) Writing 280 bytes in indirect region
+The result is = 280
+i_size = 20480
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 22
+
+TO WRITE = 124
+3 - (1) Writing 124 bytes in indirect region
+i_size = 20604
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 21008
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 21412
+
+TO WRITE = 404
+2 - (0) Writing 92 bytes in indirect region
+The result is = 92
+i_size = 21504
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 23
+
+TO WRITE = 312
+3 - (1) Writing 312 bytes in indirect region
+i_size = 21816
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 22220
+
+TO WRITE = 404
+2 - (0) Writing 308 bytes in indirect region
+The result is = 308
+i_size = 22528
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 24
+
+TO WRITE = 96
+3 - (1) Writing 96 bytes in indirect region
+i_size = 22624
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 23028
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 23432
+
+TO WRITE = 404
+2 - (0) Writing 120 bytes in indirect region
+The result is = 120
+i_size = 23552
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 25
+
+TO WRITE = 284
+3 - (1) Writing 284 bytes in indirect region
+i_size = 23836
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 24240
+
+TO WRITE = 404
+2 - (0) Writing 336 bytes in indirect region
+The result is = 336
+i_size = 24576
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 26
+
+TO WRITE = 68
+3 - (1) Writing 68 bytes in indirect region
+i_size = 24644
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 25048
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 25452
+
+TO WRITE = 404
+2 - (0) Writing 148 bytes in indirect region
+The result is = 148
+i_size = 25600
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 27
+
+TO WRITE = 256
+3 - (1) Writing 256 bytes in indirect region
+i_size = 25856
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 26260
+
+TO WRITE = 404
+2 - (0) Writing 364 bytes in indirect region
+The result is = 364
+i_size = 26624
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 28
+
+TO WRITE = 40
+3 - (1) Writing 40 bytes in indirect region
+i_size = 26664
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 27068
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 27472
+
+TO WRITE = 404
+2 - (0) Writing 176 bytes in indirect region
+The result is = 176
+i_size = 27648
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 29
+
+TO WRITE = 228
+3 - (1) Writing 228 bytes in indirect region
+i_size = 27876
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 28280
+
+TO WRITE = 404
+2 - (0) Writing 392 bytes in indirect region
+The result is = 392
+i_size = 28672
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 30
+
+TO WRITE = 12
+3 - (1) Writing 12 bytes in indirect region
+i_size = 28684
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 29088
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 29492
+
+TO WRITE = 404
+2 - (0) Writing 204 bytes in indirect region
+The result is = 204
+i_size = 29696
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 31
+
+TO WRITE = 200
+3 - (1) Writing 200 bytes in indirect region
+i_size = 29896
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 30300
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 30704
+
+TO WRITE = 404
+2 - (0) Writing 16 bytes in indirect region
+The result is = 16
+i_size = 30720
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 32
+
+TO WRITE = 388
+3 - (1) Writing 388 bytes in indirect region
+i_size = 31108
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 31512
+
+TO WRITE = 404
+2 - (0) Writing 232 bytes in indirect region
+The result is = 232
+i_size = 31744
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 33
+
+TO WRITE = 172
+3 - (1) Writing 172 bytes in indirect region
+i_size = 31916
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 32320
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 32724
+
+TO WRITE = 404
+2 - (0) Writing 44 bytes in indirect region
+The result is = 44
+i_size = 32768
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 34
+
+TO WRITE = 360
+3 - (1) Writing 360 bytes in indirect region
+i_size = 33128
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 33532
+
+TO WRITE = 404
+2 - (0) Writing 260 bytes in indirect region
+The result is = 260
+i_size = 33792
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 35
+
+TO WRITE = 144
+3 - (1) Writing 144 bytes in indirect region
+i_size = 33936
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 34340
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 34744
+
+TO WRITE = 404
+2 - (0) Writing 72 bytes in indirect region
+The result is = 72
+i_size = 34816
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 36
+
+TO WRITE = 332
+3 - (1) Writing 332 bytes in indirect region
+i_size = 35148
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 35552
+
+TO WRITE = 404
+2 - (0) Writing 288 bytes in indirect region
+The result is = 288
+i_size = 35840
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 37
+
+TO WRITE = 116
+3 - (1) Writing 116 bytes in indirect region
+i_size = 35956
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 36360
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 36764
+
+TO WRITE = 404
+2 - (0) Writing 100 bytes in indirect region
+The result is = 100
+i_size = 36864
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 38
+
+TO WRITE = 304
+3 - (1) Writing 304 bytes in indirect region
+i_size = 37168
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 37572
+
+TO WRITE = 404
+2 - (0) Writing 316 bytes in indirect region
+The result is = 316
+i_size = 37888
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 39
+
+TO WRITE = 88
+3 - (1) Writing 88 bytes in indirect region
+i_size = 37976
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 38380
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 38784
+
+TO WRITE = 404
+2 - (0) Writing 128 bytes in indirect region
+The result is = 128
+i_size = 38912
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 40
+
+TO WRITE = 276
+3 - (1) Writing 276 bytes in indirect region
+i_size = 39188
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 39592
+
+TO WRITE = 404
+2 - (0) Writing 344 bytes in indirect region
+The result is = 344
+i_size = 39936
+================================> ENTREI E SOU FDP
+[data_block_alloc - state.c] Allocating block number 41
+
+TO WRITE = 60
+3 - (1) Writing 60 bytes in indirect region
+i_size = 39996
+
+TO WRITE = 404
+3 - (0) Writing 404 bytes in indirect region
+i_size = 40400
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+[ tfs_read ] to read = 404
+======> Sucessful test
+
