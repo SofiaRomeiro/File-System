@@ -413,10 +413,69 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         to_read = len;
     }
 
+    // como está a funcionar o file offset??
     if (to_read > 0) {
+        // se só lê blocos direto
+        if (to_read <= (BLOCK_SIZE * 10)) {
+            for (int i = 0; (to_read - file->of_offset) >= BLOCK_SIZE && (i < 10); i++) {
+                //reads block by block (da forma direta)
 
+                void *block = data_block_get(inode->i_block[i]);
+
+                if (block == NULL) {
+                    return -1;
+                }
+
+                if (to_read - file->of_offset >= BLOCK_SIZE) {
+                    memcpy(buffer, file->of_offset, BLOCK_SIZE);
+                    
+                }
+                else {
+                    memcpy(buffer, file->of_offset, to_read - file->of_offset);
+
+                }
+                file->of_offset += BLOCK_SIZE;
+            }
+        }
+        // se lê blocos diretos e indiretos
+        // temos de tratar dos handles?? (n percebi bem)
+        else {
+            // mesmo ciclo for dos blocos diretos
+            for (int i = 0; (to_read - file->of_offset) >= BLOCK_SIZE && (i < 10); i++) {
+                //reads block by block (da forma direta)
+
+                void *block = data_block_get(inode->i_block[i]);
+
+                if (block == NULL) {
+                    return -1;
+                }
+
+                if (to_read - file->of_offset >= BLOCK_SIZE) {
+                    memcpy(buffer, file->of_offset, BLOCK_SIZE);
+                    
+                }
+                else {
+                    memcpy(buffer, file->of_offset, to_read - file->of_offset);
+
+                }
+                file->of_offset += BLOCK_SIZE;
+            }
+            // + for para os blocos indiretos
+            for (int i = 0; (to_read - file->of_offset) >= BLOCK_SIZE && (i < 256); i++) {
+
+                void *block = data_block_get(inode->i_data_block);
+
+                // passa ao bloco seguinte
+
+                if (block == NULL) {
+                    return -1;
+                }
+                // memcpy() bloco a bloco
+                file->of_offset += BLOCK_SIZE;
+            }
+        }
+        /*
         file->of_offset = 0;
-
         void *block = data_block_get(inode->i_block[0]);
         if (block == NULL) {
             return -1;
@@ -425,9 +484,10 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         memcpy(buffer, block + file->of_offset, to_read);
 
         file->of_offset += to_read;
-
+        */
     }
-
+    // ainda é preciso este else?
+    /*
     else {
 
         file->of_offset=0;
@@ -442,7 +502,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     printf("[ tfs_read ] to read = %ld\n", to_read);
-
+    */
     return (ssize_t)to_read;
 }
 
