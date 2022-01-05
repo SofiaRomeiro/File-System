@@ -17,23 +17,17 @@
 
 int main() {
 
-    alarm(1);
-
-    char big_str[SIZE_TO_TEST];
+    char big_str[SIZE_TO_TEST];    
 
     memset(big_str, 'b', sizeof(big_str) / 2);
-    memset(big_str + (sizeof(big_str) / 2), 'u', sizeof(big_str) / 2);
+    memset(big_str + (sizeof(big_str) / 2), 'u', (sizeof(big_str) / 2) - 1);
 
     char buffer[SIZE_TO_TEST];
 
     char *path = "/f1";
-    char *path2 = "./tests/output/test10.txt";  
-
-    printf("Size to test = %ld\n", sizeof(buffer));
+    char *path2 = "./tests/output/test17.txt";  
 
     memset(buffer, '\0', sizeof(buffer));
-
-    memcpy(buffer, big_str, SIZE_TO_TEST);
 
     assert(tfs_init() != -1);
 
@@ -50,13 +44,15 @@ int main() {
 
     assert(fp != NULL);
 
-    assert(fread(buffer, sizeof(char), strlen(big_str), fp) == strlen(big_str));
+    size_t fr = fread(buffer, sizeof(char), strlen(big_str), fp);
+
+    assert(fr == strlen(big_str));
 
     assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
     
     assert(fclose(fp) != -1);
 
-    unlink(path2);
+    //unlink(path2);
 
     printf("======> Successful test.\n\n");
 
