@@ -52,7 +52,7 @@ int tfs_open(char const *name, int flags) {
 
     if (inum >= 0) {
         /* The file already exists */
-        inode_t *inode = inode_get(inum);
+        inode_t *inode = inode_get(inum);       // PROBLEMA AQUI
 
         if (inode == NULL) {
             return -1;
@@ -95,7 +95,7 @@ int tfs_open(char const *name, int flags) {
     /* Finally, add entry to the open file table and
      * return the corresponding handle */
     
-    return add_to_open_file_table(inum, offset);
+    return add_to_open_file_table(inum, offset); 
 
     /* Note: for simplification, if file was created with TFS_O_CREAT and there
      * is an error adding an entry to the open file table, the file is not
@@ -122,7 +122,6 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     } 
 
-
     if (inode->i_size + to_write <= MAX_DIRECT_DATA_SIZE) {
         ssize_t insert_status = tfs_write_direct_region(inode, file, buffer, to_write);
         if (insert_status == -1) {
@@ -134,7 +133,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     else if (inode->i_size >= MAX_DIRECT_DATA_SIZE) {
 
-        if (inode->i_size > 10 * BLOCK_SIZE) {
+        if (inode->i_block[MAX_DIRECT_BLOCKS] == 0) {
             tfs_handle_indirect_block(inode);
         }
 
@@ -155,7 +154,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
         ssize_t written_direct = tfs_write_direct_region(inode, file, buffer, direct_size);  //escrever parte na regiao direta
         
-        if (inode->i_size > 10 * BLOCK_SIZE) {
+        if (inode->i_block[MAX_DIRECT_BLOCKS] == 0) {
             tfs_handle_indirect_block(inode);
         }
 
@@ -177,7 +176,7 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
     size_t block_written_bytes = 0;
 
 
-    for (int i = 0; write_size > 0 && i < 10; i++) {
+    for (int i = 0; write_size > 0 && i < 11; i++) {
 
         if (inode->i_size % BLOCK_SIZE == 0) {                                                             
             int insert_status = direct_block_insert(inode);     
@@ -211,7 +210,6 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
             inode->i_size += write_size;
             bytes_written += write_size;
             write_size = 0;
-
         }
 
     }
@@ -222,6 +220,14 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 int direct_block_insert(inode_t *inode) {
 
     inode->i_data_block = data_block_alloc();
+
+    if (inode->i_data_block == -1) {
+        printf("[ direct_block_insert ] Error : alloc block failed\n");
+        return -1;
+    }
+
+    memset(data_block_get(inode->i_data_block),'\0', sizeof(data_block_get(inode->i_data_block)));
+
     inode->i_block[inode->i_data_block - 1] = inode->i_data_block;
     return 0;
 }
@@ -233,8 +239,8 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
 
     for (int i = 0; write_size > 0; i++) {
 
-        if (inode->i_size + write_size > 272384) {
-            write_size = 272384 - inode->i_size;
+        if (inode->i_size + write_size > MAX_BYTES) {
+            write_size = MAX_BYTES - inode->i_size;
         }
 
         if (inode->i_size % BLOCK_SIZE == 0) { 
@@ -283,18 +289,30 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
 
 int indirect_block_insert(inode_t *inode) {
 
-    int *block_from_i_block = (int *) data_block_get(inode->i_block[10]);
+    int *last_i_block = (int *) data_block_get(inode->i_block[MAX_DIRECT_BLOCKS]);
 
     int block_number = data_block_alloc();
 
+    //printf("[ indirect_block_insert] block_number = %d\n", block_number);
+
     if (block_number == -1) {
+        printf(" Error : Invalid block insertion\n");
         return -1;
     }
 
-    block_from_i_block[block_number - 10] = block_number;
-
     inode->i_data_block = block_number;
 
+    memset(data_block_get(block_number), '\0', sizeof(data_block_get(block_number)));
+
+    last_i_block[block_number - 12] = block_number;    
+
+    /*printf("block number %d\n", block_number);
+    for (int i = 0; i < block_number - 11; i++) {
+        printf("%d-%d ", i, last_i_block[i]);
+    }
+    printf("\n");
+    */
+   
     return 0;
 
 }
@@ -307,8 +325,11 @@ int tfs_handle_indirect_block(inode_t *inode) {
         return -1;
     }
 
-    inode->i_block[10] = block_number;
+    inode->i_block[MAX_DIRECT_BLOCKS] = block_number;
     inode->i_data_block = block_number;
+
+    memset(data_block_get(inode->i_data_block), '\0', sizeof(data_block_get(inode->i_data_block)));
+
     return 0;
 }
 
@@ -322,9 +343,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     inode_t *inode = inode_get(file->of_inumber);
-
-    printf("[ tfs_read ] inode i size = %ld\n", inode->i_size);
-    printf("[ tfs_read ] len = %ld\n", len);
     
     if (inode == NULL) {
         return -1;
@@ -333,6 +351,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     file->of_offset = 0;
 
     for (int i = 0; size_read <= len && (i < 10); i++) {
+
         void* block = data_block_get(inode->i_block[i]);
 
         if (block == NULL) {
@@ -342,16 +361,13 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
         if (len - size_read > 1024) {
             memcpy(buffer + size_read, block, 1024);
-            printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
             size_read += 1024;
         }
 
         else {
             memcpy(buffer + size_read, block, len - size_read);
-            printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
             size_read += (len - size_read);
         }
-        printf("size_read: %ld\n", size_read);
     }
 
     if ((len - size_read) > 0) {
@@ -406,12 +422,14 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     }
 
-    if (file->of_offset < 1024) {
+    printf("[ tfs_read ] i size = %ld\n", inode->i_size);
+
+    if (file->of_offset < BLOCK_SIZE) {
         to_read = inode->i_size - file->of_offset;
     }
 
     else {
-        to_read = (inode->i_size - 1024);
+        to_read = inode->i_size;
     }   
 
     if (to_read > len) {
@@ -427,15 +445,13 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
             return -1;
         }
 
-        memcpy(buffer,(char *) block + file->of_offset, to_read);
+        memcpy(buffer, block + file->of_offset, to_read);
 
         file->of_offset += to_read;
 
     }
 
     else {
-
-        printf("IM HEREEEEEEEEEEEEEEEEEEEEEE\n");
 
         file->of_offset=0;
         void *block = data_block_get(inode->i_data_block);

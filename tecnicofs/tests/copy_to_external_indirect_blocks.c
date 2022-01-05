@@ -1,3 +1,12 @@
+/*  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    *
+ *                                                                      *
+ *      MADE BY    :  Sofia Romeiro, ist198968, LETI                    *
+ *                                                                      *
+ *      BUG REPORT :  Karate Kid#9295 (Discord)                         *
+ *                    sofiaromeiro23@tecnico.ulisboa.pt (webmail)       *
+ *                                                                      *
+ *  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    */
+
 #include "fs/operations.h"
 #include <assert.h>
 #include <string.h>
@@ -16,7 +25,7 @@ int main() {
     char buffer[SIZE_TO_TEST];
 
     char *path = "/f1";
-    char *path2 = "./tests/test10.txt";  
+    char *path2 = "./tests/output/test10.txt";  
 
     printf("Size to test = %ld\n", sizeof(buffer));
 
@@ -34,8 +43,6 @@ int main() {
     assert(tfs_close(tfs_file) != -1);
 
     assert(tfs_copy_to_external_fs(path, path2) != -1);
-
-    // read to copied file - to to_read - and compare it to to_write
 
     FILE *fp = fopen(path2, "r");
 

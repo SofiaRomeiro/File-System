@@ -1,3 +1,12 @@
+/*  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    *
+ *                                                                      *
+ *      MADE BY    :  Sofia Romeiro, ist198968, LETI                    *
+ *                                                                      *
+ *      BUG REPORT :  Karate Kid#9295 (Discord)                         *
+ *                    sofiaromeiro23@tecnico.ulisboa.pt (webmail)       *
+ *                                                                      *
+ *  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    */
+
 #include "fs/operations.h"
 #include <assert.h>
 #include <string.h>

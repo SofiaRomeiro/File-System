@@ -115,8 +115,7 @@ int inode_create(inode_type n_type) {
                 inode_table[inumber].i_size = BLOCK_SIZE;
                 inode_table[inumber].i_data_block = b;
 
-                memset(inode_table[inumber].i_block, '\0', sizeof(inode_table[inumber].i_block));
-                //inode_table[inumber].i_block[0] = b;
+                memset(inode_table[inumber].i_block, -1, sizeof(inode_table[inumber].i_block));
 
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
                 if (dir_entry == NULL) {
@@ -204,16 +203,22 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
     /* Locates the block containing the directory's entries */
     dir_entry_t *dir_entry =
         (dir_entry_t *)data_block_get(inode_table[inumber].i_data_block);
+
     if (dir_entry == NULL) {
         return -1;
     }
 
     /* Finds and fills the first empty entry */
     for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
+
         if (dir_entry[i].d_inumber == -1) {
+
             dir_entry[i].d_inumber = sub_inumber;
+
             strncpy(dir_entry[i].d_name, sub_name, MAX_FILE_NAME - 1);
+
             dir_entry[i].d_name[MAX_FILE_NAME - 1] = 0;
+
             return 0;
         }
     }
@@ -230,14 +235,18 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 int find_in_dir(int inumber, char const *sub_name) {
     insert_delay(); // simulate storage access delay to i-node with inumber
 
+    /*printf("[ find_in_dir ] inumber = %d\n", inumber);
+    printf("[ find_in_dir ] i_data_block = %d\n", inode_table[1].i_data_block);
+    printf("[ find_in_dir ] inumber = %d\n", inumber);
+
+    printf("[ find_in_dir ] 1st inode size = %ld\n", inode_table[1].i_size);
+    */
     if (!valid_inumber(inumber) ||
         inode_table[inumber].i_node_type != T_DIRECTORY) {
         return -1;
     }
 
-    printf("[ find_in_dir ] i data block = %d\n", inode_table[inumber].i_data_block);
-
-    /* Locates the block containing the directory's entries */
+    /* Locates the block containing the DIRECTORY's entries */
     dir_entry_t *dir_entry =
         (dir_entry_t *)data_block_get(inode_table[inumber].i_data_block);
 
@@ -269,7 +278,6 @@ int data_block_alloc() {
 
         if (free_blocks[i] == FREE) {
             free_blocks[i] = TAKEN;
-            printf("[data_block_alloc - state.c] Allocating block number %d\n", i);
             return i;
         }
     }
@@ -313,7 +321,7 @@ void *data_block_get(int block_number) {
  */
 int data_block_insert(int i_block[], int block_number) {    
     int i;
-    for (i=0; i != MAX_DATA_BLOCKS_FOR_INODE && i_block[i] != '\0'; i++);
+    for (i=0; i != MAX_DATA_BLOCKS_FOR_INODE && i_block[i] != -1; i++);
     
     if (i == MAX_DATA_BLOCKS_FOR_INODE) {
         printf("[ - ] data_block_insert : Max size has been reached : %s\n", strerror(errno));
@@ -333,12 +341,11 @@ int data_block_insert(int i_block[], int block_number) {
  */
 int index_block_insert(int index_block[], int block_number) {
     int i;
-    for (i=0; i != BLOCK_SIZE && index_block[i] != '\0'; i++);
+    for (i=0; i != BLOCK_SIZE && index_block[i] != -1; i++);
     if (i == BLOCK_SIZE) {
         printf("[ - ] index_block_insert : Max size has been reached : %s\n", strerror(errno));
         return -1;
     }
-    printf("======================> Inserting block number %d\n", i);
     index_block[i] = block_number;
     insert_delay();
     return 0;
@@ -354,8 +361,6 @@ int add_to_open_file_table(int inumber, size_t offset) {
     for (int i = 0; i < MAX_OPEN_FILES; i++) {
         if (free_open_file_entries[i] == FREE) {
             free_open_file_entries[i] = TAKEN;
-
-            printf("CHANGING I NUMBER TO %d\n", inumber);
 
             open_file_table[i].of_inumber = inumber;
             open_file_table[i].of_offset = offset;

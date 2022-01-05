@@ -1,3 +1,12 @@
+/*  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    *
+ *                                                                      *
+ *      MADE BY    :  Sofia Romeiro, ist198968, LETI                    *
+ *                                                                      *
+ *      BUG REPORT :  Karate Kid#9295 (Discord)                         *
+ *                    sofiaromeiro23@tecnico.ulisboa.pt (webmail)       *
+ *                                                                      *
+ *  *   *   *   *   *   *  *   *   *   *   *    *  *   *   *   *   *    */
+
 #include "fs/operations.h"
 #include <assert.h>
 #include <string.h>
@@ -7,7 +16,7 @@ int main() {
 
     char *str = "AAA! AAA";
     char *path = "/f1";
-    char *path2 = "./tests/test16.txt";
+    char *path2 = "./tests/output/test16.txt";
     char to_read[40];
 
     assert(tfs_init() != -1);
