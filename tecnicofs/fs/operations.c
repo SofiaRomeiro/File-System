@@ -195,7 +195,7 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 
             block_written_bytes = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
 
-            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), block_written_bytes);
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, block_written_bytes);
 
             write_size -= block_written_bytes;
             file->of_offset += block_written_bytes;
@@ -204,7 +204,7 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 
         } else  {
 
-            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), write_size);
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, write_size);
            
             file->of_offset += write_size;
             inode->i_size += write_size;
@@ -263,7 +263,7 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
 
             block_written_bytes = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
 
-            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), block_written_bytes);
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, block_written_bytes);
 
             write_size -= block_written_bytes;
             file->of_offset += block_written_bytes;
@@ -274,7 +274,7 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
 
         else  {
 
-            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + (BLOCK_SIZE * i), write_size);
+            memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, write_size);
            
             file->of_offset += write_size;
             inode->i_size += write_size;
