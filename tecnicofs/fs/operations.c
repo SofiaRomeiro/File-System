@@ -48,7 +48,7 @@ int tfs_open(char const *name, int flags) {
         return -1;
     }
 
-    inum = tfs_lookup(name);            // inum = 0, name = /f1
+    inum = tfs_lookup(name);
 
     if (inum >= 0) {
         /* The file already exists */
@@ -211,7 +211,6 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
             inode->i_size += write_size;
             bytes_written += write_size;
             write_size = 0;
-
         }
 
     }
@@ -222,6 +221,14 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 int direct_block_insert(inode_t *inode) {
 
     inode->i_data_block = data_block_alloc();
+
+    if (inode->i_data_block == -1) {
+        printf("[ direct_block_insert ] Error : alloc block failed\n");
+        return -1;
+    }
+
+    memset(data_block_get(inode->i_data_block), -1, sizeof(data_block_get(inode->i_data_block)));
+
     inode->i_block[inode->i_data_block - 1] = inode->i_data_block;
     return 0;
 }
@@ -283,19 +290,38 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
 
 int indirect_block_insert(inode_t *inode) {
 
-    int *block_from_i_block = (int *) data_block_get(inode->i_block[10]);
+    int *last_i_block = (int *) data_block_get(inode->i_block[9]);
 
     int block_number = data_block_alloc();
 
-    if (block_number == -1) {
+    printf("[ indirect_block_insert] block_number = %d\n", block_number);
+
+    if (block_number == -1 || block_number < 10) {
+        printf(" Error : Invalid block insertion\n");
         return -1;
     }
 
-    block_from_i_block[block_number - 10] = block_number;
-
     inode->i_data_block = block_number;
 
+    memset(data_block_get(inode->i_data_block), -1, sizeof(data_block_get(inode->i_data_block)));
+
+    last_i_block[block_number - 11] = block_number;    
+
     return 0;
+
+}
+
+ssize_t search_for_free_pos(int block_number) {
+
+    int *block = data_block_get(block_number);
+
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        if (block[i] == -1) {
+            return i;
+        }
+    }
+
+    return -1;
 
 }
 
@@ -303,12 +329,15 @@ int tfs_handle_indirect_block(inode_t *inode) {
 
     int block_number = data_block_alloc();
 
-    if (block_number == -1) {
+    if (block_number == -1 || block_number < 10) {
         return -1;
     }
 
-    inode->i_block[10] = block_number;
+    inode->i_block[9] = block_number;
     inode->i_data_block = block_number;
+
+    memset(data_block_get(inode->i_data_block), -1, sizeof(data_block_get(inode->i_data_block)));
+
     return 0;
 }
 
@@ -401,7 +430,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     }
 
-    if (file->of_offset < 1024) {
+    if (file->of_offset < BLOCK_SIZE) {
         to_read = inode->i_size - file->of_offset;
     }
 

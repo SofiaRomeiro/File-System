@@ -31,6 +31,13 @@ int main() {
 
    assert(tfs_read(fd, output, SIZE) == SIZE);
 
+   for (int i = 0; i < SIZE; i++) {
+      if (input[i] != output[i]) {
+         printf("input is %c and output is %c\n", input[i], output[i]);
+         break;
+      }
+   }
+
    assert(memcmp(input, output, SIZE) == 0);
 
    assert(tfs_close(fd) != -1);

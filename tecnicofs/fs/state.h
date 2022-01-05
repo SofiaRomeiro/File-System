@@ -23,9 +23,8 @@ typedef enum { T_FILE, T_DIRECTORY } inode_type;
 typedef struct {
     inode_type i_node_type;
     size_t i_size;
-    int indirect_block_index;
     int i_data_block; //current block in use to write
-    int i_block[MAX_DATA_BLOCKS_FOR_INODE];   // 10 primeiras entradas sao diretas
+    int i_block[10];   // 10 primeiras entradas sao diretas
     /* in a real FS, more fields would exist here */
 } inode_t;
 
