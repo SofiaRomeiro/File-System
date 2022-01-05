@@ -380,6 +380,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
+
 
             } else {
 
@@ -388,6 +391,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += to_read;
                 total_read += to_read;
                 to_read = 0;
+
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
 
             }
         }
@@ -416,6 +422,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
+
 
             } else {
 
@@ -424,6 +433,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += to_read;
                 total_read += to_read;
                 to_read = 0;
+
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
 
             }
         }
@@ -463,6 +475,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
+
 
             } else {
 
@@ -471,6 +486,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += bytes_to_read_in_direct_region;
                 total_read += bytes_to_read_in_direct_region;
                 bytes_to_read_in_direct_region = 0;
+
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
             }
         }
 
@@ -496,6 +514,10 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
+               
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
+             
 
             } else {
 
@@ -504,6 +526,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += to_read;
                 total_read += to_read;
                 to_read = 0;
+
+                //char *b = (char *)buffer;
+               // b[total_read] = '\0';
 
             }
         }
