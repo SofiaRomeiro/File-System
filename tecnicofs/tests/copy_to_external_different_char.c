@@ -12,10 +12,12 @@
 #include <string.h>
 #include <unistd.h>
 
-#define SIZE_TO_TEST (1024*20)
+#define SIZE_TO_TEST (1024*10)
 
 
 int main() {
+
+    alarm(1);
 
     char big_str[SIZE_TO_TEST];
 
