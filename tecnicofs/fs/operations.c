@@ -305,13 +305,6 @@ int indirect_block_insert(inode_t *inode) {
     memset(data_block_get(block_number), '\0', sizeof(data_block_get(block_number)));
 
     last_i_block[block_number - 12] = block_number;    
-
-    /*printf("block number %d\n", block_number);
-    for (int i = 0; i < block_number - 11; i++) {
-        printf("%d-%d ", i, last_i_block[i]);
-    }
-    printf("\n");
-    */
    
     return 0;
 
@@ -332,143 +325,6 @@ int tfs_handle_indirect_block(inode_t *inode) {
 
     return 0;
 }
-
-/*
-ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
-    size_t size_read = 0;
-    
-    open_file_entry_t *file = get_open_file_entry(fhandle);
-    if (file == NULL) {
-        return -1;
-    }
-
-    inode_t *inode = inode_get(file->of_inumber);
-    
-    if (inode == NULL) {
-        return -1;
-    }
-
-    file->of_offset = 0;
-
-    for (int i = 0; size_read <= len && (i < 10); i++) {
-
-        void* block = data_block_get(inode->i_block[i]);
-
-        if (block == NULL) {
-            printf("[-] Error: NULL block\n");
-            return -1;
-        }
-
-        if (len - size_read > 1024) {
-            memcpy(buffer + size_read, block, 1024);
-            size_read += 1024;
-        }
-
-        else {
-            memcpy(buffer + size_read, block, len - size_read);
-            size_read += (len - size_read);
-        }
-    }
-
-    if ((len - size_read) > 0) {
-        int *block_from_i_block = (int *) data_block_get(inode->i_block[10]);
-
-        for (int i = 0; size_read <= len && (i < 256); i++) {
-            printf("i_block: block number %d\n", block_from_i_block[i]);
-            void* block = data_block_get(block_from_i_block[i]);
-            char* x_block = (char*) block;
-            printf("block: %ld\n", sizeof(x_block));
-
-            if (block == NULL) {
-                printf("[-] Error: NULL block_from_iblock\n");
-                return -1;
-            }
-
-            if (len - size_read > 1024) {
-                memcpy(buffer + size_read, block, 1024);
-                printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
-                size_read += 1024;
-            }
-
-            else {
-                memcpy(buffer + size_read, block, len - size_read);
-                printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
-                size_read += (len - size_read);
-            }
-            printf("size_read: %ld\n", size_read);
-        }
-    }
-    printf("FINALLLLLLLLLL ize_read: %ld\n", strlen(buffer));
-    return (ssize_t) size_read;
-}
-*/
-
-/*
-ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
-
-    size_t to_read = 0;
-
-    printf("[ tfs_read ] len = %ld\n", len);
-    
-    open_file_entry_t *file = get_open_file_entry(fhandle);
-    if (file == NULL) {
-        printf("A\n");
-        return -1;
-    }
-
-    inode_t *inode = inode_get(file->of_inumber);
-    
-    if (inode == NULL) {
-        return -1;
-    }
-
-    printf("[ tfs_read ] i size = %ld\n", inode->i_size);
-
-    if (file->of_offset < BLOCK_SIZE) {
-        to_read = inode->i_size - file->of_offset;
-    }
-
-    else {
-        to_read = inode->i_size;
-    }   
-
-    if (to_read > len) {
-        to_read = len;
-    }
-
-    if (to_read > 0) {
-
-        file->of_offset = 0;
-
-        void *block = data_block_get(inode->i_block[0]);
-        if (block == NULL) {
-            return -1;
-        }
-
-        memcpy(buffer, block + file->of_offset, to_read);
-
-        file->of_offset += to_read;
-
-    }
-
-    else {
-
-        file->of_offset=0;
-        void *block = data_block_get(inode->i_data_block);
-        if (block == NULL) {
-            return -1;
-        }
-
-        memcpy(buffer, (char *) block + file->of_offset, to_read); //????? DEST SRC NBYTES
-
-        file->of_offset += to_read;  
-    }
-
-    printf("[ tfs_read ] to read = %ld\n", to_read);
-
-    return (ssize_t)to_read;
-}
-*/
 
 ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
@@ -502,7 +358,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     
     if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
-        while (to_read != 0 && current_block <= MAX_DIRECT_BLOCKS) {
+        // ---------------------------------------- CASO DIRETO--------------------------------------------
+
+        while (to_read != 0 && current_block <= MAX_DIRECT_BLOCKS) {        
 
             current_block = (file->of_offset / BLOCK_SIZE) + 1;     // os blocos de escrita de dados começam no numero 1
             block_offset = file->of_offset % BLOCK_SIZE;
@@ -513,47 +371,19 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 return -1;
             }
 
-            //printf("\nbuffer : %s\n", (char*)buffer);
-
-
-            if (to_read + block_offset > BLOCK_SIZE ) {          // vai ultrapassar o bloco
-
-                printf("\nif\n");
-                printf("block offset = %ld\n", block_offset);
-                printf("current block = %ld\n", current_block);
-                printf("to read = %ld\n", to_read);
-
+            if (to_read + block_offset > BLOCK_SIZE ) { 
                 read_bytes_per_cycle = BLOCK_SIZE - block_offset;
 
-                printf("read buytes per cicle = %ld\n",read_bytes_per_cycle);
-
                 memcpy(buffer + total_read, block + block_offset, read_bytes_per_cycle);
-
-                char *b = (char *)buffer;
-                b[total_read + read_bytes_per_cycle] = '\0';
-
-                printf("\nbuffer if (%ld) : %s\n", strlen((char*)buffer), (char*)buffer);
 
                 to_read -= read_bytes_per_cycle;
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
-                printf("=============== file offset = %ld\n", file->of_offset);
 
             } else {
 
-                printf("\nelse\n");
-                printf("block offset = %ld\n", block_offset);
-                printf("current block = %ld\n", current_block);
-                printf("to read = %ld\n", to_read);
-                printf("total read = %ld\n", total_read);
-
                 memcpy(buffer + total_read, block + block_offset, to_read);
-
-                char *bl = (char *)block;
-                printf("block : %s\n", bl);
-
-                printf("\nbuffer else (%ld) : %s\n", strlen((char*)buffer), (char*)buffer);
            
                 file->of_offset += to_read;
                 total_read += to_read;
@@ -563,8 +393,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         }
     }
 
-    else if (file->of_offset > 10240) {
+    // ---------------------------------------- CASO INDIRETO -------------------------------------------
 
+    else if (file->of_offset >= 10240) {
         while (to_read != 0) {
 
             current_block = (file->of_offset / BLOCK_SIZE) + 2;     // os blocos indiretos começam no numero 12
@@ -575,7 +406,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 return -1;
             }
 
-            if (to_read + block_offset > BLOCK_SIZE) {          // vai ultrapassar o bloco
+            if (to_read + block_offset > BLOCK_SIZE ) { 
 
                 read_bytes_per_cycle = BLOCK_SIZE - block_offset;
 
@@ -585,11 +416,10 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
+
             } else {
 
-                read_bytes_per_cycle = to_read;
-
-                memcpy(buffer + total_read, block + block_offset, read_bytes_per_cycle);
+                memcpy(buffer + total_read, block + block_offset, to_read);
            
                 file->of_offset += to_read;
                 total_read += to_read;
@@ -599,11 +429,19 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         }
     }
 
+    // ---------------------------------------- CASO MISTO --------------------------------------------
+
     else {
 
-        while (to_read != 0 && current_block <= MAX_DIRECT_BLOCKS) {
+        size_t bytes_to_read_in_direct_region = 0;
 
-            printf("[ tfs_read ] while : total_read = %ld\n", total_read);
+        if (to_read + file->of_offset > MAX_DIRECT_DATA_SIZE) {
+            bytes_to_read_in_direct_region = MAX_DIRECT_DATA_SIZE - file->of_offset;
+        }
+
+        to_read -= bytes_to_read_in_direct_region;
+
+        while (bytes_to_read_in_direct_region != 0 && current_block < MAX_DIRECT_BLOCKS + 1) {
 
             current_block = (file->of_offset / BLOCK_SIZE) + 1;     // os blocos de escrita de dados começam no numero 1
             block_offset = file->of_offset % BLOCK_SIZE;
@@ -615,26 +453,24 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
             }
 
 
-            if (to_read + block_offset > BLOCK_SIZE) {          // vai ultrapassar o bloco
+           if (bytes_to_read_in_direct_region + block_offset > BLOCK_SIZE) {          // vai ultrapassar o bloco
 
                 read_bytes_per_cycle = BLOCK_SIZE - block_offset;
 
-                memcpy(buffer + total_read, block + block_offset, read_bytes_per_cycle);
+                memcpy(buffer + total_read, block + block_offset, read_bytes_per_cycle); 
 
-                to_read -= read_bytes_per_cycle;
+                bytes_to_read_in_direct_region -= read_bytes_per_cycle;
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
+
             } else {
 
-                read_bytes_per_cycle = to_read;
-
-                memcpy(buffer + total_read, block + block_offset, read_bytes_per_cycle);
+                memcpy(buffer + total_read, block + block_offset, bytes_to_read_in_direct_region);
            
-                file->of_offset += to_read;
-                total_read += to_read;
-                to_read = 0;
-
+                file->of_offset += bytes_to_read_in_direct_region;
+                total_read += bytes_to_read_in_direct_region;
+                bytes_to_read_in_direct_region = 0;
             }
         }
 
@@ -650,7 +486,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 return -1;
             }
 
-            if (to_read + block_offset > BLOCK_SIZE) {          // vai ultrapassar o bloco
+            if (to_read + block_offset > BLOCK_SIZE ) {          // vai ultrapassar o bloco
 
                 read_bytes_per_cycle = BLOCK_SIZE - block_offset;
 
@@ -660,11 +496,10 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
                 file->of_offset += read_bytes_per_cycle;
                 total_read += read_bytes_per_cycle;
 
+
             } else {
 
-                read_bytes_per_cycle = to_read;
-
-                memcpy(buffer + total_read, block + block_offset, read_bytes_per_cycle);
+                memcpy(buffer + total_read, block + block_offset, to_read);
            
                 file->of_offset += to_read;
                 total_read += to_read;
