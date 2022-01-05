@@ -17,6 +17,8 @@
 
 int main() {
 
+    alarm(1);
+
     char big_str[SIZE_TO_TEST+1];
 
     memset(big_str, 'b', sizeof(big_str));
