@@ -33,7 +33,7 @@ int main() {
 
    for (int i = 0; i < SIZE; i++) {
       if (input[i] != output[i]) {
-         printf("input is %c and output is %c\n", input[i], output[i]);
+         printf("(%d) input is %c and output is %c\n",i, input[i], output[i]);
          break;
       }
    }
