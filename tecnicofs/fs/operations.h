@@ -79,8 +79,6 @@ int indirect_block_insert(inode_t *inode);
 
 int tfs_handle_indirect_block(inode_t *inode);
 
-ssize_t search_for_free_pos(int block_number)
-
 /* Reads from an open file, starting at the current offset
  * * Input:
  * 	- file handle (obtained from a previous call to tfs_open)
