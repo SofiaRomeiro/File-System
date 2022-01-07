@@ -289,7 +289,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     dest_file = fopen(dest_path, "w");
 
     if (dest_file == NULL) {
-        printf("[ tfs_copy_to_external_fs ] (Dest : %s) %s", dest_file, OPEN_ERROR);
+        printf("[ tfs_copy_to_external_fs ] (Dest : %s) %s", dest_path, OPEN_ERROR);
 		return -1;
     }  
 
