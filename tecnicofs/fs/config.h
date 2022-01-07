@@ -19,5 +19,4 @@
 #define MAX_BYTES_DIRECT_DATA (10240)
 
 #define MAX_DIRECT_DATA_SIZE (10 * BLOCK_SIZE)
-
 #endif // CONFIG_H
