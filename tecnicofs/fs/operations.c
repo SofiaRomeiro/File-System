@@ -115,7 +115,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
     }   
 
     if (to_write == 0) {
-        printf("[ - ] Data error : Nothing to write\n");
+        printf("[ tfs_write ] %s", NOTHING_TO_WRITE);
         return -1;
     } 
 
@@ -156,14 +156,14 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         }
 
         if (direct_bytes == -1) {
-            printf("[ tfs_write ] Error writing\n");
+            printf("[ tfs_write ] %s", WRITE_ERROR);
             return -1;
         }
 
        indirect_bytes = tfs_write_indirect_region(inode, file, buffer + direct_size, indirect_size);
     
         if (indirect_bytes == -1) {
-            printf("[ tfs_write ] Error writing\n");
+            printf("[ tfs_write ] %s", WRITE_ERROR);
             return -1;
         }
 
@@ -192,7 +192,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }   
 
     if (len == 0) {
-        printf("[ tfs_read ] Data error : Nothing to read\n");
+        printf("[ tfs_read ] %s", NOTHING_TO_READ);
         return -1;
     } 
 
@@ -207,7 +207,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         direct_read = tfs_read_direct_region(file, to_read, buffer);
 
         if (direct_read == -1) {
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] %s", READ_ERROR);
             return -1;
         }
 
@@ -219,7 +219,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         indirect_read = tfs_read_indirect_region(file, to_read, buffer);
 
         if (indirect_read == -1) {
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] %s", READ_ERROR);
             return -1;
         } 
 
@@ -239,7 +239,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         direct_read = tfs_read_direct_region(file, bytes_to_read_in_direct_region, buffer);
 
         if (direct_read == -1){
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] %s", READ_ERROR);
             return -1;
         }
 
@@ -248,7 +248,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         indirect_read = tfs_read_indirect_region(file, to_read, buffer + total_read);
 
         if (indirect_read == -1){
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] %s", READ_ERROR);
             return -1;
         }
 
@@ -259,7 +259,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
-    char buffer[100];
+    char buffer[BUFFER_SIZE];
     int source_file;
     FILE *dest_file;
     ssize_t read_bytes = 0;
@@ -274,7 +274,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     memset(buffer, '\0', sizeof(buffer));
 
     if (tfs_lookup(source_path) == -1) {
-        printf("[ operations.c ] Error : Source file doesn't exist!\n");
+        printf("[ tfs_copy_to_external_fs ] %s", FILE_NOT_FOUND);
         return -1;
     }
     else {
@@ -282,14 +282,14 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     }    
 
     if (source_file < 0) {
-        printf("[-] Open error in src (%s): %s\n", source_path, strerror(errno));
+        printf("[ tfs_copy_to_external_fs ] (Source : %s) %s", source_path, OPEN_ERROR);
 		return -1;
     }
 
     dest_file = fopen(dest_path, "w");
 
     if (dest_file == NULL) {
-        printf("[-] Open error in dest (%s) : %s\n", dest_path, strerror(errno));
+        printf("[ tfs_copy_to_external_fs ] (Dest : %s) %s", dest_path, OPEN_ERROR);
 		return -1;
     }  
 
@@ -312,7 +312,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
         }
 
         if (buffer_read_bytes == -1) {
-            printf("[-] Read error: %s\n", strerror(errno));
+            printf("[ tfs_copy_to_external_fs ] %s", READ_ERROR);
 		    return -1;
         }
 
@@ -323,7 +323,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
         written_bytes = fwrite(buffer, sizeof(char), to_write_bytes, dest_file);
 
         if (written_bytes != buffer_read_bytes) {
-            printf("[-] Write error: %s\n", strerror(errno));
+            printf("[ tfs_copy_to_external_fs ] %s", WRITE_ERROR);
 		    return -1;
         }
 
@@ -335,7 +335,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     close_status_dest = fclose(dest_file);
 
     if (close_status_dest < 0 || close_status_source < 0) {
-        printf("[-] Close error: %s\n", strerror(errno));
+        printf("[ tfs_copy_to_external_fs ] %s", CLOSE_ERROR);
 		return -1;
     }
 
