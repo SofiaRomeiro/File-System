@@ -12,56 +12,50 @@
 #include <string.h>
 #include <unistd.h>
 
-#define SIZE_TO_TEST (1024*10)
+#define SIZE_TO_TEST (1024*15)
 
 
 int main() {
+    char str[SIZE_TO_TEST];
 
-    char big_str[SIZE_TO_TEST];
-    size_t fr = 0, str_len = 0; 
-
-    memset(big_str, '\0', sizeof(big_str));
-
-    memset(big_str, 'b', sizeof(big_str) / 2);
-    memset(big_str + (sizeof(big_str) / 2), 'u', (sizeof(big_str) / 2) - 1);
+    memset(str, 'i', BLOCK_SIZE * 6);
+    memset(str + (sizeof(str) / 2), 'e', BLOCK_SIZE * 9 - 1);
 
     char buffer[SIZE_TO_TEST+1];
 
     char *path = "/f1";
-    char *path2 = "./tests/output/test17.txt";  
+    char *path2 = "./tests/output/test18.txt";  
 
     memset(buffer, '\0', sizeof(buffer));
 
     assert(tfs_init() != -1);
 
-    printf("A\n");
-
     int tfs_file = tfs_open(path, TFS_O_CREAT);
     assert(tfs_file != -1);
-
-    assert(tfs_write(tfs_file, big_str, strlen(big_str)) == strlen(big_str));
+    
+    assert(tfs_write(tfs_file, str, strlen(str)) == strlen(str));
 
     assert(tfs_close(tfs_file) != -1);
-    printf("D\n"); 
+
     assert(tfs_copy_to_external_fs(path, path2) != -1);
-    printf("E\n"); 
+
     FILE *fp = fopen(path2, "r");
-    printf("F\n"); 
+
+    //como mudo o offset?
+    //fp->of_offset = (7*BLOCK_SIZE + 512);
+
     assert(fp != NULL);
 
-    fr = fread(buffer, sizeof(char), strlen(big_str), fp);
+    size_t fr = fread(buffer, sizeof(char), strlen(str), fp);
 
-    str_len = strlen(big_str);
+    size_t str_len = strlen(str);
 
     assert(fr == str_len);
 
-    assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
-    printf("I\n"); 
+    assert(strncmp(str, buffer, strlen(str)) == 0);
+
     assert(fclose(fp) != -1);
 
-    //unlink(path2);
-
     printf("======> Successful test.\n\n");
-
     return 0;
 }
