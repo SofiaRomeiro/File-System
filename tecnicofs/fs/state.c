@@ -125,18 +125,12 @@ int inode_create(inode_type n_type) {
 
                 for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
                     dir_entry[i].d_inumber = -1;
-
-                    pthread_mutex_init(&(dir_entry[i].dir_entry_mutex), NULL);          // onde destruir?
-                    pthread_rwlock_init(&(dir_entry[i].dir_entry_rwlock), NULL);        // onde destruir?
                 }
             } else {
                 /* In case of a new file, simply sets its size to 0 */
                 inode_table[inumber].i_size = 0;
                 inode_table[inumber].i_data_block = -1;
             }
-
-            pthread_mutex_init(&(inode_table[inumber].inode_mutex), NULL);
-            pthread_rwlock_init(&(inode_table[inumber].inode_rwlock), NULL);
 
             return inumber;
         }
@@ -158,9 +152,6 @@ int inode_delete(int inumber) {
     if (!valid_inumber(inumber) || freeinode_ts[inumber] == FREE) {
         return -1;
     }
-
-    pthread_mutex_destroy(&(inode_table[inumber].inode_mutex));
-    pthread_rwlock_destroy(&(inode_table[inumber].inode_rwlock));
 
     freeinode_ts[inumber] = FREE;
 
@@ -371,9 +362,6 @@ int add_to_open_file_table(int inumber, size_t offset) {
     for (int i = 0; i < MAX_OPEN_FILES; i++) {
         if (free_open_file_entries[i] == FREE) {
 
-            pthread_mutex_init(&(open_file_table[i].file_mutex), NULL);
-            pthread_rwlock_init(&(open_file_table[i].file_rwlock), NULL);   
-
             free_open_file_entries[i] = TAKEN;
 
             open_file_table[i].of_inumber = inumber;
@@ -394,9 +382,6 @@ int remove_from_open_file_table(int fhandle) {
         free_open_file_entries[fhandle] != TAKEN) {
         return -1;
     }
-
-    pthread_mutex_destroy(&(open_file_table[fhandle].file_mutex));
-    pthread_rwlock_destroy(&(open_file_table[fhandle].file_rwlock)); 
 
     free_open_file_entries[fhandle] = FREE;
     return 0;
