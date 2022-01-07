@@ -4,10 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
+#include <pthread.h>
 #include <assert.h>
 
 int tfs_init() {
+    
     state_init();
 
     /* create root inode */
@@ -52,7 +53,7 @@ int tfs_open(char const *name, int flags) {
 
     if (inum >= 0) {
         /* The file already exists */
-        inode_t *inode = inode_get(inum);       // PROBLEMA AQUI
+        inode_t *inode = inode_get(inum);
 
         if (inode == NULL) {
             return -1;

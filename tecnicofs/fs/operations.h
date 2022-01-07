@@ -4,6 +4,7 @@
 #include "config.h"
 #include "state.h"
 #include <sys/types.h>
+#include <pthread.h>
 
 enum {
     TFS_O_CREAT = 0b001,

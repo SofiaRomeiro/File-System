@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <pthread.h>
 
 
 /* Persistent FS state  (in reality, it should be maintained in secondary
@@ -101,7 +102,15 @@ int inode_create(inode_type n_type) {
             /* Found a free entry, so takes it for the new i-node*/
             freeinode_ts[inumber] = TAKEN;
             insert_delay(); // simulate storage access delay (to i-node)
+
+            pthread_mutex_init(&(inode_table[inumber].inode_mutex), NULL);
+            pthread_rwlock_init(&(inode_table[inumber].inode_rwlock), NULL);
+
+// -------------------------- CRITICAL SECTION --------------------------------------
+
             inode_table[inumber].i_node_type = n_type;
+
+// -------------------------- END CRITICAL SECTION --------------------------------------
 
             if (n_type == T_DIRECTORY) {
                 /* Initializes directory (filling its block with empty
@@ -112,10 +121,14 @@ int inode_create(inode_type n_type) {
                     return -1;
                 }
 
+// -------------------------- CRITICAL SECTION --------------------------------------
+
                 inode_table[inumber].i_size = BLOCK_SIZE;
                 inode_table[inumber].i_data_block = b;
 
                 memset(inode_table[inumber].i_block, -1, sizeof(inode_table[inumber].i_block));
+
+// -------------------------- END CRITICAL SECTION --------------------------------------
 
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
                 if (dir_entry == NULL) {
@@ -123,20 +136,30 @@ int inode_create(inode_type n_type) {
                     return -1;
                 }
 
-                for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
-                    dir_entry[i].d_inumber = -1;
+// -------------------------- CRITICAL SECTION --------------------------------------
 
+                for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
+                    
                     pthread_mutex_init(&(dir_entry[i].dir_entry_mutex), NULL);          // onde destruir?
                     pthread_rwlock_init(&(dir_entry[i].dir_entry_rwlock), NULL);        // onde destruir?
+
+                    dir_entry[i].d_inumber = -1;
+
+// -------------------------- END CRITICAL SECTION --------------------------------------
+
+                    
                 }
             } else {
-                /* In case of a new file, simply sets its size to 0 */
+                /* In case of a new file, simply sets its size to 0 */              
+
+// -------------------------- CRITICAL SECTION --------------------------------------               
+
                 inode_table[inumber].i_size = 0;
                 inode_table[inumber].i_data_block = -1;
-            }
 
-            pthread_mutex_init(&(inode_table[inumber].inode_mutex), NULL);
-            pthread_rwlock_init(&(inode_table[inumber].inode_rwlock), NULL);
+// -------------------------- END CRITICAL SECTION --------------------------------------
+
+            }           
 
             return inumber;
         }
@@ -159,16 +182,20 @@ int inode_delete(int inumber) {
         return -1;
     }
 
-    pthread_mutex_destroy(&(inode_table[inumber].inode_mutex));
-    pthread_rwlock_destroy(&(inode_table[inumber].inode_rwlock));
-
     freeinode_ts[inumber] = FREE;
+
+// -------------------------- CRITICAL SECTION -------------------------------------
 
     if (inode_table[inumber].i_size > 0) {
         if (data_block_free(inode_table[inumber].i_data_block) == -1) {
             return -1;
         }
     }
+
+// -------------------------- END CRITICAL SECTION -------------------------------------
+
+    pthread_mutex_destroy(&(inode_table[inumber].inode_mutex));
+    pthread_rwlock_destroy(&(inode_table[inumber].inode_rwlock));
 
     return 0;
 }
@@ -185,7 +212,12 @@ inode_t *inode_get(int inumber) {
     }
 
     insert_delay(); // simulate storage access delay to i-node
+
+// -------------------------- CRITICAL SECTION -------------------------------------
+
     return &inode_table[inumber];
+
+// -------------------------- END CRITICAL SECTION -------------------------------------
 }
 
 /*
@@ -202,6 +234,9 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
     }
 
     insert_delay(); // simulate storage access delay to i-node with inumber
+
+// -------------------------- CRITICAL SECTION -------------------------------------
+
     if (inode_table[inumber].i_node_type != T_DIRECTORY) {
         return -1;
     }
@@ -229,6 +264,8 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
             dir_entry[i].d_name[MAX_FILE_NAME - 1] = 0;
 
+// -------------------------- END CRITICAL SECTION -------------------------------------
+
             return 0;
         }
     }
@@ -245,12 +282,8 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 int find_in_dir(int inumber, char const *sub_name) {
     insert_delay(); // simulate storage access delay to i-node with inumber
 
-    /*printf("[ find_in_dir ] inumber = %d\n", inumber);
-    printf("[ find_in_dir ] i_data_block = %d\n", inode_table[1].i_data_block);
-    printf("[ find_in_dir ] inumber = %d\n", inumber);
+// --------------------------  CRITICAL SECTION -------------------------------------
 
-    printf("[ find_in_dir ] 1st inode size = %ld\n", inode_table[1].i_size);
-    */
     if (!valid_inumber(inumber) ||
         inode_table[inumber].i_node_type != T_DIRECTORY) {
         return -1;
@@ -264,13 +297,20 @@ int find_in_dir(int inumber, char const *sub_name) {
         return -1;
     }
 
+// -------------------------- END CRITICAL SECTION -------------------------------------
+
     /* Iterates over the directory entries looking for one that has the target
      * name */
+
+// -------------------------- CRITICAL SECTION -------------------------------------
+
     for (int i = 0; i < MAX_DIR_ENTRIES; i++)
         if ((dir_entry[i].d_inumber != -1) &&
             (strncmp(dir_entry[i].d_name, sub_name, MAX_FILE_NAME) == 0)) {
             return dir_entry[i].d_inumber;
         }
+
+// -------------------------- END CRITICAL SECTION -------------------------------------
 
     return -1;
 }
@@ -321,44 +361,6 @@ void *data_block_get(int block_number) {
 
     insert_delay(); // simulate storage access delay to block
     return &fs_data[block_number * BLOCK_SIZE];
-}
-
-/* Insert new block number to the array of blocks
- * Inputs:
- * 	- i_node data block's array
- *  - Block's index to be inserted
- * Returns: 0 if successful, -1 otherwise
- */
-int data_block_insert(int i_block[], int block_number) {    
-    int i;
-    for (i=0; i != MAX_DATA_BLOCKS_FOR_INODE && i_block[i] != -1; i++);
-    
-    if (i == MAX_DATA_BLOCKS_FOR_INODE) {
-        printf("[ - ] data_block_insert : Max size has been reached : %s\n", strerror(errno));
-        return -1;
-    }
-    printf("Inserting block number %d\n", i);
-    i_block[i] = block_number;
-    insert_delay();
-    return 0;
-}
-
-/* Insert new block number to the array of indirect indexes contained by a specific block
- * Inputs:
- * 	- Direct block containing indirect block's indexes
- *  - Block's index to be inserted
- * Returns: 0 if successful, -1 otherwise
- */
-int index_block_insert(int index_block[], int block_number) {
-    int i;
-    for (i=0; i != BLOCK_SIZE && index_block[i] != -1; i++);
-    if (i == BLOCK_SIZE) {
-        printf("[ - ] index_block_insert : Max size has been reached : %s\n", strerror(errno));
-        return -1;
-    }
-    index_block[i] = block_number;
-    insert_delay();
-    return 0;
 }
 
 /* Add new entry to the open file table
