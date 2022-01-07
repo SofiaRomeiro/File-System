@@ -3,8 +3,13 @@
 
 #include "config.h"
 #include "state.h"
+#include "aux_operations.h"
 #include <sys/types.h>
-#include <pthread.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 enum {
     TFS_O_CREAT = 0b001,
@@ -67,18 +72,6 @@ int tfs_close(int fhandle);
  * 	'len' if the maximum file size is exceeded), or -1 in case of error
  */
 ssize_t tfs_write(int fhandle, void const *buffer, size_t len);
-
-ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
-
-int direct_block_insert(inode_t *inode);
-
-ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
-
-// int indirect_block_insert(inode_t *inode, open_file_entry_t *file);
-
-int indirect_block_insert(inode_t *inode);
-
-int tfs_handle_indirect_block(inode_t *inode);
 
 /* Reads from an open file, starting at the current offset
  * * Input:

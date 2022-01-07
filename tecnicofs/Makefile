@@ -146,24 +146,24 @@ fmt: $(SOURCES) $(HEADERS)
 # Note the lack of a rule.
 # make uses a set of default rules, one of which compiles C binaries
 # the CC, LD, CFLAGS and LDFLAGS are used in this rule
-tests/tfs_built_in_functions: tests/tfs_built_in_functions.o fs/operations.o fs/state.o
-tests/copy_to_external_errors: tests/copy_to_external_errors.o fs/operations.o fs/state.o
-tests/copy_to_external_simple: tests/copy_to_external_simple.o fs/operations.o fs/state.o
-tests/copy_to_external_int: tests/copy_to_external_int.o fs/operations.o fs/state.o
-tests/copy_to_external_short_str: tests/copy_to_external_short_str.o fs/operations.o fs/state.o
-tests/copy_to_external_huge_file: tests/copy_to_external_huge_file.o fs/operations.o fs/state.o
-tests/copy_to_external_direct_blocks: tests/copy_to_external_direct_blocks.o fs/operations.o fs/state.o
-tests/copy_to_external_indirect_blocks: tests/copy_to_external_indirect_blocks.o fs/operations.o fs/state.o
-tests/write_10_blocks_spill: tests/write_10_blocks_spill.o fs/operations.o fs/state.o
-tests/write_10_blocks_simple: tests/write_10_blocks_simple.o fs/operations.o fs/state.o
-tests/write_more_than_10_blocks_simple: tests/write_more_than_10_blocks_simple.o fs/operations.o fs/state.o
-tests/write_more_than_10_blocks_spill: tests/write_more_than_10_blocks_spill.o fs/operations.o fs/state.o
-tests/write_all_direct_blocks: tests/write_all_direct_blocks.o fs/operations.o fs/state.o
-tests/write_more_than_1_block: tests/write_more_than_1_block.o fs/operations.o fs/state.o
-tests/write_max_bytes: tests/write_max_bytes.o fs/operations.o fs/state.o
-tests/max_storage_exceeded: tests/max_storage_exceeded.o fs/operations.o fs/state.o
-tests/copy_to_external_different_char: tests/copy_to_external_different_char.o fs/operations.o fs/state.o
-tests/copy_to_external_multiple_char: tests/copy_to_external_multiple_char.o fs/operations.o fs/state.o
+tests/tfs_built_in_functions: tests/tfs_built_in_functions.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_errors: tests/copy_to_external_errors.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_simple: tests/copy_to_external_simple.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_int: tests/copy_to_external_int.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_short_str: tests/copy_to_external_short_str.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_huge_file: tests/copy_to_external_huge_file.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_direct_blocks: tests/copy_to_external_direct_blocks.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_indirect_blocks: tests/copy_to_external_indirect_blocks.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/write_10_blocks_spill: tests/write_10_blocks_spill.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/write_10_blocks_simple: tests/write_10_blocks_simple.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/write_more_than_10_blocks_simple: tests/write_more_than_10_blocks_simple.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/write_more_than_10_blocks_spill: tests/write_more_than_10_blocks_spill.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/write_all_direct_blocks: tests/write_all_direct_blocks.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/write_more_than_1_block: tests/write_more_than_1_block.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/write_max_bytes: tests/write_max_bytes.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/max_storage_exceeded: tests/max_storage_exceeded.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_different_char: tests/copy_to_external_different_char.o fs/operations.o fs/state.o fs/aux_operations.o
+tests/copy_to_external_multiple_char: tests/copy_to_external_multiple_char.o fs/operations.o fs/state.o fs/aux_operations.o
 
 clean:
 	rm -f $(OBJECTS) $(TARGET_EXECS)
