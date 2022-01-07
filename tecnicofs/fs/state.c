@@ -227,12 +227,6 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 int find_in_dir(int inumber, char const *sub_name) {
     insert_delay(); // simulate storage access delay to i-node with inumber
 
-    /*printf("[ find_in_dir ] inumber = %d\n", inumber);
-    printf("[ find_in_dir ] i_data_block = %d\n", inode_table[1].i_data_block);
-    printf("[ find_in_dir ] inumber = %d\n", inumber);
-
-    printf("[ find_in_dir ] 1st inode size = %ld\n", inode_table[1].i_size);
-    */
     if (!valid_inumber(inumber) ||
         inode_table[inumber].i_node_type != T_DIRECTORY) {
         return -1;
