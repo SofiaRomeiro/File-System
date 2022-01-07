@@ -2,11 +2,13 @@
 #define STATE_H
 
 #include "config.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <pthread.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
 
 /*
  * Directory entry
