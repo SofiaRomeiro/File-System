@@ -17,7 +17,16 @@
 #define MAX_BYTES (272384)
 #define MAX_DIRECT_BLOCKS (10)
 #define MAX_BYTES_DIRECT_DATA (10240)
+#define I_BLOCK_SIZE (11)
 
-#define MAX_DIRECT_DATA_SIZE (10 * BLOCK_SIZE)
+#define BUFFER_SIZE (100)
+
+#define NOTHING_TO_WRITE "Data Error : Nothing to Write\n"
+#define WRITE_ERROR "Write Error: Error writting the content\n"
+#define NOTHING_TO_READ "Data Error : Nothing to Read\n"
+#define READ_ERROR "Read Error: Error reading the content\n"
+#define FILE_NOT_FOUND "File Error : File Not Found\n"
+#define OPEN_ERROR "Open Error : File Not Openned"
+#define CLOSE_ERROR "Close Error : File Not Closed"
 
 #endif // CONFIG_H

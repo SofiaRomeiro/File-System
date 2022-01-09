@@ -59,7 +59,7 @@ int main() {
     printf("I\n"); 
     assert(fclose(fp) != -1);
 
-    //unlink(path2);
+    unlink(path2);
 
     printf("======> Successful test.\n\n");
 

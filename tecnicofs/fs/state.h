@@ -9,7 +9,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+<<<<<<< HEAD
 #include <pthread.h>
+=======
+>>>>>>> dev
 
 
 /*
@@ -18,11 +21,13 @@
 typedef struct {
     char d_name[MAX_FILE_NAME];
     int d_inumber;
-    pthread_mutex_t dir_entry_mutex;
-    pthread_rwlock_t dir_entry_rwlock;
 } dir_entry_t;
 
 typedef enum { T_FILE, T_DIRECTORY } inode_type;
+
+typedef struct {
+    int block_number;
+} block_t;
 
 /*
  * I-node
@@ -32,8 +37,6 @@ typedef struct {
     size_t i_size;
     int i_data_block; //current block in use to write
     int i_block[11];   // 10 primeiras entradas sao diretas
-    pthread_mutex_t inode_mutex;
-    pthread_rwlock_t inode_rwlock;
     /* in a real FS, more fields would exist here */
 } inode_t;
 
@@ -47,8 +50,6 @@ typedef enum { FREE = 0, TAKEN = 1 } allocation_state_t;
 typedef struct {
     int of_inumber;
     size_t of_offset;
-    pthread_mutex_t file_mutex;
-    pthread_rwlock_t file_rwlock;
 } open_file_entry_t;
 
 #define MAX_DIR_ENTRIES (BLOCK_SIZE / sizeof(dir_entry_t))
