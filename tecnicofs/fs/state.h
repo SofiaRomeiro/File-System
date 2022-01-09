@@ -20,6 +20,10 @@ typedef struct {
 
 typedef enum { T_FILE, T_DIRECTORY } inode_type;
 
+typedef struct {
+    int block_number;
+} block_t;
+
 /*
  * I-node
  */

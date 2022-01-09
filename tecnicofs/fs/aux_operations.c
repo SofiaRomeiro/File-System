@@ -7,10 +7,13 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 
     size_t bytes_written = 0;
     size_t to_write_block = 0;
+
+    size_t local_offset = file->of_offset;
+    size_t local_isize = inode->i_size;
     
     for (int i = 0; write_size > 0 && i < REFERENCE_BLOCK_INDEX; i++) {
 
-        if (inode->i_size % BLOCK_SIZE == 0) {                                                             
+        if (local_isize % BLOCK_SIZE == 0) {                                                             
             int insert_status = direct_block_insert(inode);     
             if (insert_status == -1) {
                 printf("[ tfs_write_direct_region ] Error writing in direct region: %s\n", strerror(errno));
@@ -23,8 +26,8 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
             return -1;
         }
         
-        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (file->of_offset % BLOCK_SIZE) < write_size) {
-            to_write_block = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
+        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (local_offset % BLOCK_SIZE) < write_size) {
+            to_write_block = BLOCK_SIZE - (local_offset % BLOCK_SIZE);
             write_size -= to_write_block;
 
         } else  {   
@@ -32,13 +35,16 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
             write_size = 0;
         }
 
-        memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
+        memcpy(block + (local_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
 
-        file->of_offset += to_write_block;
-        inode->i_size += to_write_block;
+        local_offset += to_write_block;
+        local_isize += to_write_block;
         bytes_written += to_write_block;
 
     }
+
+    file->of_offset = local_offset;
+    inode->i_size = local_isize;
 
     return (ssize_t)bytes_written;
 }
@@ -63,14 +69,17 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
     size_t bytes_written = 0;
     size_t to_write_block = 0;
     int insert_status = 0;
+    
+    size_t local_offset = file->of_offset;
+    size_t local_isize = inode->i_size;
 
     for (int i = 0; write_size > 0; i++) {
 
-        if (inode->i_size + write_size > MAX_BYTES) {
-            write_size = MAX_BYTES - inode->i_size;
+        if (local_isize + write_size > MAX_BYTES) {
+            write_size = MAX_BYTES - local_isize;
         }
 
-        if (inode->i_size % BLOCK_SIZE == 0) { 
+        if (local_isize % BLOCK_SIZE == 0) { 
 
             insert_status = indirect_block_insert(inode);  
 
@@ -86,8 +95,8 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
             return -1;
         }
         
-        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (file->of_offset % BLOCK_SIZE) < write_size) {
-            to_write_block = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);           
+        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (local_offset % BLOCK_SIZE) < write_size) {
+            to_write_block = BLOCK_SIZE - (local_offset % BLOCK_SIZE);           
             write_size -= to_write_block;
         }
 
@@ -96,12 +105,15 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
             write_size = 0;
         }
 
-        memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
+        memcpy(block + (local_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
 
-        file->of_offset += to_write_block;
-        inode->i_size += to_write_block;
+        local_offset += to_write_block;
+        local_isize += to_write_block;
         bytes_written += to_write_block;
     }
+
+    file->of_offset = local_offset;
+    inode->i_size = local_isize;
     
     return (ssize_t)bytes_written;
 }
@@ -145,12 +157,14 @@ int tfs_handle_indirect_block(inode_t *inode) {
 
 ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
-    size_t current_block = (file->of_offset / BLOCK_SIZE) + 1;     // os blocos começam no numero 1
-    size_t block_offset = file->of_offset % BLOCK_SIZE;
+    size_t local_offset = file->of_offset;
+
+    size_t current_block = (local_offset / BLOCK_SIZE) + 1;
+    size_t block_offset = local_offset % BLOCK_SIZE;
     size_t to_read_block = 0;
     size_t total_read = 0;
     
-    if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
+    if (local_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
         while (to_read > 0 && current_block <= MAX_DIRECT_BLOCKS) {        
 
@@ -171,22 +185,27 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
 
             memcpy(buffer + total_read, block + block_offset, to_read_block);
 
-            file->of_offset += to_read_block;
+            local_offset += to_read_block;
             total_read += to_read_block;
 
-            current_block = (file->of_offset / BLOCK_SIZE) + 1;
-            block_offset = file->of_offset % BLOCK_SIZE;
+            current_block = (local_offset / BLOCK_SIZE) + 1;
+            block_offset = local_offset % BLOCK_SIZE;
         }
     }
+
+    file->of_offset = local_offset;
+
     return (ssize_t) total_read;
 }
 
 ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
+    size_t local_offset = file->of_offset;
+
     size_t to_read_block = 0;
     size_t total_read = 0;
-    size_t current_block = (file->of_offset / BLOCK_SIZE) + 2;
-    size_t block_offset = file->of_offset % BLOCK_SIZE;
+    size_t current_block = (local_offset / BLOCK_SIZE) + 1;
+    size_t block_offset = local_offset % BLOCK_SIZE;
 
     while (to_read > 0) {        
 
@@ -206,12 +225,14 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
 
         memcpy(buffer + total_read, block + block_offset, to_read_block);
 
-        file->of_offset += to_read_block;
+        local_offset += to_read_block;
         total_read += to_read_block;
 
-        current_block = (file->of_offset / BLOCK_SIZE) + 2;
-        block_offset = file->of_offset % BLOCK_SIZE;
+        current_block = (local_offset / BLOCK_SIZE) + 2;
+        block_offset = local_offset % BLOCK_SIZE;
     }
+
+    file->of_offset = local_offset;
 
     return (ssize_t)total_read;
 

@@ -17,6 +17,7 @@
 #define MAX_BYTES (272384)
 #define MAX_DIRECT_BLOCKS (10)
 #define MAX_BYTES_DIRECT_DATA (10240)
+#define I_BLOCK_SIZE (11)
 
 #define BUFFER_SIZE (100)
 
