@@ -200,14 +200,18 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
 
 ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
+// ----------------------------------- CRIT SPOT -----------------------------------------
+
     size_t local_offset = file->of_offset;
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
 
     size_t to_read_block = 0;
     size_t total_read = 0;
-    size_t current_block = (local_offset / BLOCK_SIZE) + 1;
+    size_t current_block = (local_offset / BLOCK_SIZE) + 2;
     size_t block_offset = local_offset % BLOCK_SIZE;
 
-    while (to_read > 0) {        
+    while (to_read > 0) {      
 
         void *block = data_block_get((int) current_block);
         if (block == NULL) {
@@ -235,5 +239,4 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
     file->of_offset = local_offset;
 
     return (ssize_t)total_read;
-
 }

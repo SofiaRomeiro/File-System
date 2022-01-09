@@ -43,15 +43,20 @@ int tfs_open(char const *name, int flags) {
     inum = tfs_lookup(name);
 
     if (inum >= 0) {
+
+// ----------------------------------- CRIT SPOT -----------------------------------------
+
         /* The file already exists */
-        inode_t *inode = inode_get(inum);       // PROBLEMA AQUI
+        inode_t *inode = inode_get(inum);
 
         if (inode == NULL) {
             return -1;
         }
 
+
         /* Trucate (if requested) */
         if (flags & TFS_O_TRUNC) {
+
             if (inode->i_size > 0) {
                 if (data_block_free(inode->i_data_block) == -1) {
                     return -1;
@@ -65,6 +70,8 @@ int tfs_open(char const *name, int flags) {
         } else {
             offset = 0;
         }
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
 
     } else if (flags & TFS_O_CREAT) {
         /* The file doesn't exist; the flags specify that it should be created*/
@@ -103,13 +110,20 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
     size_t direct_size = 0;
     size_t indirect_size = 0;
 
+    size_t local_isize;
+
     open_file_entry_t *file = get_open_file_entry(fhandle);
 
     if (file == NULL) {
         return -1;
     }
 
+// ----------------------------------- CRIT SPOT -----------------------------------------
+
     inode_t *inode = inode_get(file->of_inumber);
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
+
     if (inode == NULL) {
         return -1;
     }   
@@ -119,7 +133,13 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     } 
 
-    if (inode->i_size + to_write <= MAX_BYTES_DIRECT_DATA) {
+// ----------------------------------- CRIT SPOT -----------------------------------------
+
+    local_isize = inode->i_size;
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
+
+    if (local_isize + to_write <= MAX_BYTES_DIRECT_DATA) {
         direct_bytes = tfs_write_direct_region(inode, file, buffer, to_write);
         if (direct_bytes == -1) {
             return -1;
@@ -128,7 +148,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         to_write = (size_t)direct_bytes;
     }
 
-    else if (inode->i_size >= MAX_BYTES_DIRECT_DATA) {
+    else if (local_isize >= MAX_BYTES_DIRECT_DATA) {
 
         if (inode->i_block[MAX_DIRECT_BLOCKS] == 0) {
             tfs_handle_indirect_block(inode);
@@ -146,7 +166,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     else {
 
-        direct_size = MAX_BYTES_DIRECT_DATA - inode->i_size;
+        direct_size = MAX_BYTES_DIRECT_DATA - local_isize;
         indirect_size = to_write - direct_size;
 
         direct_bytes = tfs_write_direct_region(inode, file, buffer, direct_size);
@@ -180,13 +200,20 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     ssize_t direct_read = 0;
     ssize_t indirect_read = 0;
 
+    size_t local_offset = 0; 
+
     open_file_entry_t *file = get_open_file_entry(fhandle);
 
     if (file == NULL) {
         return -1;
     }
 
+// ----------------------------------- CRIT SPOT -----------------------------------------
+
     inode_t *inode = inode_get(file->of_inumber);
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
+
     if (inode == NULL) {
         return -1;
     }   
@@ -196,13 +223,18 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     } 
 
+// ----------------------------------- CRIT SPOT -----------------------------------------
+
     to_read = inode->i_size - file->of_offset;
+    local_offset = file->of_offset;
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
 
     if (to_read > len) {
         to_read = len;
     } 
 
-    if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
+    if (local_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
         direct_read = tfs_read_direct_region(file, to_read, buffer);
 
@@ -215,7 +247,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
     }
 
-    else if (file->of_offset >= MAX_BYTES_DIRECT_DATA) {
+    else if (local_offset >= MAX_BYTES_DIRECT_DATA) {
         indirect_read = tfs_read_indirect_region(file, to_read, buffer);
 
         if (indirect_read == -1) {
@@ -230,8 +262,8 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
         size_t bytes_to_read_in_direct_region = 0;
 
-        if (to_read + file->of_offset > MAX_BYTES_DIRECT_DATA) {
-            bytes_to_read_in_direct_region = MAX_BYTES_DIRECT_DATA - file->of_offset;
+        if (to_read + local_offset > MAX_BYTES_DIRECT_DATA) {
+            bytes_to_read_in_direct_region = MAX_BYTES_DIRECT_DATA - local_offset;
         }
 
         to_read -= bytes_to_read_in_direct_region;
@@ -256,6 +288,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
     return (ssize_t)total_read;
 }
+
 
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
@@ -293,12 +326,18 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 		return -1;
     }  
 
+// ----------------------------------- CRIT SPOT -----------------------------------------
+
+
     open_file_entry_t *file = get_open_file_entry(source_file);
     inode_t *inode = inode_get(file->of_inumber);
 
     file->of_offset = 0;
 
     total_size_to_read = (ssize_t) inode->i_size;
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
+
 
     do {
 

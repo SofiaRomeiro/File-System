@@ -84,6 +84,50 @@ void state_destroy() { /* nothing to do */
  * Returns:
  *  new i-node's number if successfully created, -1 otherwise
  */
+
+int inode_create(inode_type n_type) {
+    for (int inumber = 0; inumber < INODE_TABLE_SIZE; inumber++) {
+        if ((inumber * (int) sizeof(allocation_state_t) % BLOCK_SIZE) == 0) {
+            insert_delay(); // simulate storage access delay (to freeinode_ts)
+        }
+
+        if (freeinode_ts[inumber] == FREE) {
+            freeinode_ts[inumber] = TAKEN;
+            insert_delay();
+            inode_table[inumber].i_node_type = n_type;
+
+            if (n_type == T_DIRECTORY) {
+                int b = data_block_alloc();
+                if (b == -1) {
+                    freeinode_ts[inumber] = FREE;
+                    return -1;
+                }
+
+                inode_table[inumber].i_size = BLOCK_SIZE;
+                inode_table[inumber].i_data_block = b;
+
+                memset(inode_table[inumber].i_block, -1, sizeof(inode_table[inumber].i_block));
+
+                dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
+                if (dir_entry == NULL) {
+                    freeinode_ts[inumber] = FREE;
+                    return -1;
+                }
+
+                for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
+                    dir_entry[i].d_inumber = -1;
+                }
+            } else {
+                inode_table[inumber].i_size = 0;
+                inode_table[inumber].i_data_block = -1;
+            }
+            return inumber;
+        }
+    }
+    return -1;
+}
+
+/*
 int inode_create(inode_type n_type) {
     for (int inumber = 0; inumber < INODE_TABLE_SIZE; inumber++) {
         if ((inumber * (int) sizeof(allocation_state_t) % BLOCK_SIZE) == 0) {
@@ -92,9 +136,9 @@ int inode_create(inode_type n_type) {
 
 // ----------------------------------- CRIT SPOT -----------------------------------------
 
-        /* Finds first free entry in i-node table */
+        // Finds first free entry in i-node table 
         if (freeinode_ts[inumber] == FREE) {
-            /* Found a free entry, so takes it for the new i-node*/
+            // Found a free entry, so takes it for the new i-node
             freeinode_ts[inumber] = TAKEN;
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
@@ -110,11 +154,9 @@ int inode_create(inode_type n_type) {
 
             local_inode.i_node_type = n_type;
 
-// -------------------------- END CRITICAL SECTION --------------------------------------
-
             if (n_type == T_DIRECTORY) {
-                /* Initializes directory (filling its block with empty
-                 * entries, labeled with inumber==-1) */
+                // Initializes directory (filling its block with empty
+                // entries, labeled with inumber==-1) 
                 int b = data_block_alloc();
                 if (b == -1) {
 
@@ -130,9 +172,7 @@ int inode_create(inode_type n_type) {
                 local_inode.i_size = BLOCK_SIZE;
                 local_inode.i_data_block = b;
 
-                memset(local_inode.i_block, -1, I_BLOCK_SIZE);
-
-// -------------------------- END CRITICAL SECTION --------------------------------------
+                memset(local_inode.i_block, -1, sizeof(local_inode.i_block));
 
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
                 if (dir_entry == NULL) {
@@ -150,7 +190,7 @@ int inode_create(inode_type n_type) {
                     dir_entry[i].d_inumber = -1;
                 }
             } else {
-                /* In case of a new file, simply sets its size to 0 */
+                // In case of a new file, simply sets its size to 0 
                 local_inode.i_size = 0;
                 local_inode.i_data_block = -1;
             }
@@ -160,6 +200,7 @@ int inode_create(inode_type n_type) {
     }
     return -1;
 }
+*/
 
 /*
  * Deletes the i-node.
@@ -380,11 +421,11 @@ void *data_block_get(int block_number) {
 
 // ----------------------------------- CRIT SPOT -----------------------------------------
 
-    allocation_state_t local_state = &fs_data[block_number * BLOCK_SIZE];
+    //allocation_state_t *local_state = &fs_data[block_number * BLOCK_SIZE];
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
-    return local_state;
+    return &fs_data[block_number * BLOCK_SIZE];
 }
 
 /* Add new entry to the open file table

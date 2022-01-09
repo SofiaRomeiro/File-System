@@ -9,10 +9,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-<<<<<<< HEAD
-#include <pthread.h>
-=======
->>>>>>> dev
 
 
 /*
