@@ -3,18 +3,45 @@
 /* Persistent FS state  (in reality, it should be maintained in secondary
  * memory; for simplicity, this project maintains it in primary memory) */
 
-/* I-node table */
-static inode_t inode_table[INODE_TABLE_SIZE];
-static allocation_state_t freeinode_ts[INODE_TABLE_SIZE];
+/* I-node table - It can be a struct */
+//static inode_t inode_table[INODE_TABLE_SIZE];
+//static allocation_state_t freeinode_ts[INODE_TABLE_SIZE];
 
-/* Data blocks */
-static allocation_state_t fs_data[BLOCK_SIZE * DATA_BLOCKS];
-static allocation_state_t free_blocks[DATA_BLOCKS];
+typedef struct {
+    inode_t inode_table[INODE_TABLE_SIZE];
+    allocation_state_t freeinode_ts[INODE_TABLE_SIZE];
+    pthread_mutex_t inode_table_mutex;
+    pthread_rwlock_t inode_table_rwlock;
+} inode_table_t;
+
+static inode_table_t inode_table_s;
+
+/* Data blocks - It can be a struct */
+//static allocation_state_t fs_data[BLOCK_SIZE * DATA_BLOCKS];
+//static allocation_state_t free_blocks[DATA_BLOCKS];
+
+typedef struct {
+    allocation_state_t fs_data[BLOCK_SIZE * DATA_BLOCKS];
+    allocation_state_t free_blocks[DATA_BLOCKS];
+    pthread_mutex_t data_blocks_mutex;
+    pthread_rwlock_t data_blocks_rwlock;
+} data_blocks_t;
+
+static data_blocks_t data_blocks_s;
 
 /* Volatile FS state */
 
-static open_file_entry_t open_file_table[MAX_OPEN_FILES];
-static char free_open_file_entries[MAX_OPEN_FILES];
+//static open_file_entry_t open_file_table[MAX_OPEN_FILES];
+//static char free_open_file_entries[MAX_OPEN_FILES];
+
+typedef struct {
+    open_file_entry_t open_file_table[MAX_OPEN_FILES];
+    char free_open_file_entries[MAX_OPEN_FILES]; 
+    pthread_mutex_t fs_state_mutex;
+    pthread_rwlock_t fs_state_rwlock;   
+} fs_state_t;
+
+static fs_state_t fs_state_s;
 
 static inline bool valid_inumber(int inumber) {
     return inumber >= 0 && inumber < INODE_TABLE_SIZE;
@@ -60,16 +87,17 @@ static void insert_delay() {
  */
 // no need to be thread safe since it's called only once before threading 
 void state_init() {
+
     for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
-        freeinode_ts[i] = FREE;
+        inode_table_s.freeinode_ts[i] = FREE;
     }
 
     for (size_t i = 0; i < DATA_BLOCKS; i++) {
-        free_blocks[i] = FREE;
+        data_blocks_s.free_blocks[i] = FREE;
     }
 
     for (size_t i = 0; i < MAX_OPEN_FILES; i++) {
-        free_open_file_entries[i] = FREE;
+        fs_state_s.free_open_file_entries[i] = FREE;
     }
 }
 
@@ -85,71 +113,27 @@ void state_destroy() { /* nothing to do */
  *  new i-node's number if successfully created, -1 otherwise
  */
 
-
 int inode_create(inode_type n_type) {
     for (int inumber = 0; inumber < INODE_TABLE_SIZE; inumber++) {
         if ((inumber * (int) sizeof(allocation_state_t) % BLOCK_SIZE) == 0) {
             insert_delay(); // simulate storage access delay (to freeinode_ts)
         }
 
-        if (freeinode_ts[inumber] == FREE) {
-            freeinode_ts[inumber] = TAKEN;
-            insert_delay();
-            inode_table[inumber].i_node_type = n_type;
-
-            if (n_type == T_DIRECTORY) {
-                int b = data_block_alloc();
-                if (b == -1) {
-                    freeinode_ts[inumber] = FREE;
-                    return -1;
-                }
-
-                inode_table[inumber].i_size = BLOCK_SIZE;
-                inode_table[inumber].i_data_block = b;
-
-                memset(inode_table[inumber].i_block, -1, sizeof(inode_table[inumber].i_block));
-
-                dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
-                if (dir_entry == NULL) {
-                    freeinode_ts[inumber] = FREE;
-                    return -1;
-                }
-
-                for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
-                    dir_entry[i].d_inumber = -1;
-                }
-            } else {
-                inode_table[inumber].i_size = 0;
-                inode_table[inumber].i_data_block = -1;
-            }
-            return inumber;
-        }
-    }
-    return -1;
-}
-
-/*
-int inode_create(inode_type n_type) {
-    for (int inumber = 0; inumber < INODE_TABLE_SIZE; inumber++) {
-        if ((inumber * (int) sizeof(allocation_state_t) % BLOCK_SIZE) == 0) {
-            insert_delay(); // simulate storage access delay (to freeinode_ts)
-        }
-
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
         // Finds first free entry in i-node table 
-        if (freeinode_ts[inumber] == FREE) {
+        if (inode_table_s.freeinode_ts[inumber] == FREE) {
             // Found a free entry, so takes it for the new i-node
-            freeinode_ts[inumber] = TAKEN;
+            inode_table_s.freeinode_ts[inumber] = TAKEN;
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
             insert_delay(); // simulate storage access delay (to i-node)
 
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
-            inode_t *local_inode = &inode_table[inumber];
+            inode_t *local_inode = &(inode_table_s.inode_table[inumber]);
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
@@ -161,9 +145,9 @@ int inode_create(inode_type n_type) {
                 int b = data_block_alloc();
                 if (b == -1) {
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK W -----------------------------------------
 
-                    freeinode_ts[inumber] = FREE;
+                    inode_table_s.freeinode_ts[inumber] = FREE;
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
@@ -178,9 +162,9 @@ int inode_create(inode_type n_type) {
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
                 if (dir_entry == NULL) {
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK W -----------------------------------------
 
-                    freeinode_ts[inumber] = FREE;
+                    inode_table_s.freeinode_ts[inumber] = FREE;
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
@@ -201,7 +185,7 @@ int inode_create(inode_type n_type) {
     }
     return -1;
 }
-*/
+
 
 /*
  * Deletes the i-node.
@@ -213,15 +197,15 @@ int inode_delete(int inumber) {
     // simulate storage access delay (to i-node and freeinode_ts)
     insert_delay();
     insert_delay();
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
-    if (!valid_inumber(inumber) || freeinode_ts[inumber] == FREE) {
+    if (!valid_inumber(inumber) || inode_table_s.freeinode_ts[inumber] == FREE) {
         return -1;
     }
 
-    freeinode_ts[inumber] = FREE;
+    inode_table_s.freeinode_ts[inumber] = FREE;
 
-    inode_t local_inode = inode_table[inumber];
+    inode_t local_inode = inode_table_s.inode_table[inumber];
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
@@ -230,8 +214,6 @@ int inode_delete(int inumber) {
             return -1;
         }
     }
-
-// -------------------------- END CRITICAL SECTION -------------------------------------
 
 
     return 0;
@@ -250,9 +232,9 @@ inode_t *inode_get(int inumber) {
 
     insert_delay(); // simulate storage access delay to i-node
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
-    inode_t *address = &inode_table[inumber];
+    inode_t *address = &(inode_table_s.inode_table[inumber]);
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
@@ -272,9 +254,9 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
         return -1;
     }
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
-    inode_t local_inode = inode_table[inumber];
+    inode_t local_inode = inode_table_s.inode_table[inumber];
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
@@ -306,8 +288,6 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
             dir_entry[i].d_name[MAX_FILE_NAME - 1] = 0;
 
-// -------------------------- END CRITICAL SECTION -------------------------------------
-
             return 0;
         }
     }
@@ -324,10 +304,10 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 int find_in_dir(int inumber, char const *sub_name) {
     insert_delay(); // simulate storage access delay to i-node with inumber
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
     if (!valid_inumber(inumber) ||
-        inode_table[inumber].i_node_type != T_DIRECTORY) {
+        inode_table_s.inode_table[inumber].i_node_type != T_DIRECTORY) {
         return -1;
     }
 
@@ -336,26 +316,20 @@ int find_in_dir(int inumber, char const *sub_name) {
 
     /* Locates the block containing the DIRECTORY's entries */
     dir_entry_t *dir_entry =
-        (dir_entry_t *)data_block_get(inode_table[inumber].i_data_block);
+        (dir_entry_t *)data_block_get(inode_table_s.inode_table[inumber].i_data_block);
 
     if (dir_entry == NULL) {
         return -1;
     }
 
-// -------------------------- END CRITICAL SECTION -------------------------------------
-
     /* Iterates over the directory entries looking for one that has the target
      * name */
-
-// -------------------------- CRITICAL SECTION -------------------------------------
 
     for (int i = 0; i < MAX_DIR_ENTRIES; i++)
         if ((dir_entry[i].d_inumber != -1) &&
             (strncmp(dir_entry[i].d_name, sub_name, MAX_FILE_NAME) == 0)) {
             return dir_entry[i].d_inumber;
         }
-
-// -------------------------- END CRITICAL SECTION -------------------------------------
 
     return -1;
 }
@@ -366,15 +340,15 @@ int find_in_dir(int inumber, char const *sub_name) {
  */
 int data_block_alloc() {
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
     for (int i = 0; i < DATA_BLOCKS; i++) {
         if (i * (int) sizeof(allocation_state_t) % BLOCK_SIZE == 0) {
             insert_delay(); // simulate storage access delay to free_blocks
         }
 
-        if (free_blocks[i] == FREE) {
-            free_blocks[i] = TAKEN;
+        if (data_blocks_s.free_blocks[i] == FREE) {
+            data_blocks_s.free_blocks[i] = TAKEN;
 
 // --------------------------------- END CRIT SPOT (if) ---------------------------------------
 
@@ -399,9 +373,9 @@ int data_block_free(int block_number) {
 
     insert_delay(); // simulate storage access delay to free_blocks
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK W -----------------------------------------
 
-    free_blocks[block_number] = FREE;
+    data_blocks_s.free_blocks[block_number] = FREE;
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
@@ -420,13 +394,13 @@ void *data_block_get(int block_number) {
 
     insert_delay(); // simulate storage access delay to block
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
-    //allocation_state_t *local_state = &fs_data[block_number * BLOCK_SIZE];
+    allocation_state_t *local_state = &(data_blocks_s.fs_data[block_number * BLOCK_SIZE]);
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
-    return &fs_data[block_number * BLOCK_SIZE];
+    return local_state;
 }
 
 /* Add new entry to the open file table
@@ -437,27 +411,24 @@ void *data_block_get(int block_number) {
  */
 int add_to_open_file_table(int inumber, size_t offset) {
 
-// ----------------------------------- CRIT SPOT 1 -----------------------------------------
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
     for (int i = 0; i < MAX_OPEN_FILES; i++) {
 
-        if (free_open_file_entries[i] == FREE) {
+        if (fs_state_s.free_open_file_entries[i] == FREE) {
 
-            free_open_file_entries[i] = TAKEN;
+            fs_state_s.free_open_file_entries[i] = TAKEN;
 
-// ----------------------------------- CRIT SPOT 2 -----------------------------------------
+            fs_state_s.open_file_table[i].of_inumber = inumber;
+            fs_state_s.open_file_table[i].of_offset = offset;
 
-            open_file_table[i].of_inumber = inumber;
-            open_file_table[i].of_offset = offset;
-
-// --------------------------------- END CRIT SPOT 2 ---------------------------------------
-// --------------------------------- END CRIT SPOT 1 ---------------------------------------
+// --------------------------------- END CRIT SPOT ---------------------------------------
 
             return i;
         }
     }
 
-// --------------------------------- END CRIT SPOT 1 ---------------------------------------
+// --------------------------------- END CRIT SPOT ---------------------------------------
 
     return -1;
 }
@@ -469,19 +440,19 @@ int add_to_open_file_table(int inumber, size_t offset) {
  */
 int remove_from_open_file_table(int fhandle) {
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
     if (!valid_file_handle(fhandle) ||
-        free_open_file_entries[fhandle] != TAKEN) {
+        fs_state_s.free_open_file_entries[fhandle] != TAKEN) {
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+// --------------------------------- END CRIT SPOT (if)---------------------------------------
 
         return -1;
     }
 
-    free_open_file_entries[fhandle] = FREE;
+    fs_state_s.free_open_file_entries[fhandle] = FREE;
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+// --------------------------------- END CRIT SPOT (!if)---------------------------------------
 
     return 0;
 }
@@ -496,9 +467,9 @@ open_file_entry_t *get_open_file_entry(int fhandle) {
         return NULL;
     }
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
-    open_file_entry_t *local_file = &open_file_table[fhandle];
+    open_file_entry_t *local_file = &(fs_state_s.open_file_table[fhandle]);
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 

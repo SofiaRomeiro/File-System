@@ -8,8 +8,12 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
     size_t bytes_written = 0;
     size_t to_write_block = 0;
 
+// ------------------------------------------------ CRIT SPOT - RWLOCK R ----------------------------------
+
     size_t local_offset = file->of_offset;
     size_t local_isize = inode->i_size;
+
+// ------------------------------------------------- END CRIT SPOT ----------------------------------------
     
     for (int i = 0; write_size > 0 && i < REFERENCE_BLOCK_INDEX; i++) {
 
@@ -43,13 +47,19 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 
     }
 
+// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
+
     file->of_offset = local_offset;
     inode->i_size = local_isize;
+
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
 
     return (ssize_t)bytes_written;
 }
 
 int direct_block_insert(inode_t *inode) {
+
+// ------------------------------------------------ CRIT SPOT - MUTEX ----------------------------------
 
     inode->i_data_block = data_block_alloc();
 
@@ -61,6 +71,9 @@ int direct_block_insert(inode_t *inode) {
     memset(data_block_get(inode->i_data_block),'\0', sizeof(data_block_get(inode->i_data_block)));
 
     inode->i_block[inode->i_data_block - 1] = inode->i_data_block;
+
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
+
     return 0;
 }
 
@@ -69,9 +82,13 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
     size_t bytes_written = 0;
     size_t to_write_block = 0;
     int insert_status = 0;
-    
+
+// ------------------------------------------------ CRIT SPOT - RWLOCK R ----------------------------------
+
     size_t local_offset = file->of_offset;
     size_t local_isize = inode->i_size;
+
+// ------------------------------------------------- END CRIT SPOT ----------------------------------------
 
     for (int i = 0; write_size > 0; i++) {
 
@@ -112,13 +129,19 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
         bytes_written += to_write_block;
     }
 
+// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
+
     file->of_offset = local_offset;
     inode->i_size = local_isize;
+
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
     
     return (ssize_t)bytes_written;
 }
 
 int indirect_block_insert(inode_t *inode) {
+
+// ------------------------------------------------ CRIT SPOT - MUTEX ----------------------------------
 
     int *last_i_block = (int *)data_block_get(inode->i_block[MAX_DIRECT_BLOCKS]);
 
@@ -134,12 +157,16 @@ int indirect_block_insert(inode_t *inode) {
     memset(data_block_get(block_number), '\0', sizeof(data_block_get(block_number)));
 
     last_i_block[block_number - FIRST_INDIRECT_BLOCK] = block_number;    
-   
+
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
+
     return 0;
 
 }
 
 int tfs_handle_indirect_block(inode_t *inode) {
+
+// ------------------------------------------------ CRIT SPOT - MUTEX ----------------------------------
 
     int block_number = data_block_alloc();
 
@@ -152,12 +179,19 @@ int tfs_handle_indirect_block(inode_t *inode) {
 
     memset(data_block_get(inode->i_data_block), '\0', sizeof(data_block_get(inode->i_data_block)));
 
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
+
     return 0;
 }
 
 ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
+// ------------------------------------------------ CRIT SPOT - RWLOCK R ----------------------------------
+
     size_t local_offset = file->of_offset;
+
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
+
 
     size_t current_block = (local_offset / BLOCK_SIZE) + 1;
     size_t block_offset = local_offset % BLOCK_SIZE;
@@ -193,14 +227,19 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
         }
     }
 
+// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
+
     file->of_offset = local_offset;
+
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
+
 
     return (ssize_t) total_read;
 }
 
 ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
     size_t local_offset = file->of_offset;
 
@@ -236,7 +275,11 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
         block_offset = local_offset % BLOCK_SIZE;
     }
 
+// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
+
     file->of_offset = local_offset;
+
+// ------------------------------------------------ END CRIT SPOT ----------------------------------
 
     return (ssize_t)total_read;
 }

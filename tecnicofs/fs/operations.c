@@ -44,7 +44,7 @@ int tfs_open(char const *name, int flags) {
 
     if (inum >= 0) {
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
         /* The file already exists */
         inode_t *inode = inode_get(inum);
@@ -118,7 +118,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     }
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
     inode_t *inode = inode_get(file->of_inumber);
 
@@ -133,7 +133,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     } 
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
     local_isize = inode->i_size;
 
@@ -208,7 +208,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     }
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
     inode_t *inode = inode_get(file->of_inumber);
 
@@ -223,7 +223,7 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     } 
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
 
     to_read = inode->i_size - file->of_offset;
     local_offset = file->of_offset;
@@ -326,7 +326,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 		return -1;
     }  
 
-// ----------------------------------- CRIT SPOT -----------------------------------------
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
 
     open_file_entry_t *file = get_open_file_entry(source_file);

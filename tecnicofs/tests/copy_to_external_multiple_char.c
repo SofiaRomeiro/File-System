@@ -17,15 +17,15 @@
 
 int main() {
 
-    char big_str[SIZE_TO_TEST];    
+    char big_str[SIZE_TO_TEST];  
+
+    memset(big_str, '\0', sizeof(big_str));  
 
     memset(big_str, 's', sizeof(big_str) / 5);
     memset(big_str + (sizeof(big_str) / 5), 'o', sizeof(big_str) / 5);
     memset(big_str + 2 * (sizeof(big_str) / 5), 'f', sizeof(big_str) / 5);
     memset(big_str + 3 * (sizeof(big_str) / 5), 'i', sizeof(big_str) / 5);
     memset(big_str + 4 * (sizeof(big_str) / 5), 'a', (sizeof(big_str) / 5) - 1);
-
-    printf("%s\n", big_str);
 
     char buffer[SIZE_TO_TEST];
 

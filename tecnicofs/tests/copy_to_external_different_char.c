@@ -34,19 +34,16 @@ int main() {
 
     assert(tfs_init() != -1);
 
-    printf("A\n");
-
     int tfs_file = tfs_open(path, TFS_O_CREAT);
     assert(tfs_file != -1);
 
     assert(tfs_write(tfs_file, big_str, strlen(big_str)) == strlen(big_str));
 
     assert(tfs_close(tfs_file) != -1);
-    printf("D\n"); 
+
     assert(tfs_copy_to_external_fs(path, path2) != -1);
-    printf("E\n"); 
+
     FILE *fp = fopen(path2, "r");
-    printf("F\n"); 
     assert(fp != NULL);
 
     fr = fread(buffer, sizeof(char), strlen(big_str), fp);
@@ -56,7 +53,6 @@ int main() {
     assert(fr == str_len);
 
     assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
-    printf("I\n"); 
     assert(fclose(fp) != -1);
 
     unlink(path2);
