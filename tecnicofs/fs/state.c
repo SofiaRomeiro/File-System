@@ -85,6 +85,7 @@ void state_destroy() { /* nothing to do */
  *  new i-node's number if successfully created, -1 otherwise
  */
 
+
 int inode_create(inode_type n_type) {
     for (int inumber = 0; inumber < INODE_TABLE_SIZE; inumber++) {
         if ((inumber * (int) sizeof(allocation_state_t) % BLOCK_SIZE) == 0) {
@@ -148,11 +149,11 @@ int inode_create(inode_type n_type) {
 
 // ----------------------------------- CRIT SPOT -----------------------------------------
 
-            inode_t local_inode = inode_table[inumber];
+            inode_t *local_inode = &inode_table[inumber];
 
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
-            local_inode.i_node_type = n_type;
+            local_inode->i_node_type = n_type;
 
             if (n_type == T_DIRECTORY) {
                 // Initializes directory (filling its block with empty
@@ -169,10 +170,10 @@ int inode_create(inode_type n_type) {
                     return -1;
                 }
 
-                local_inode.i_size = BLOCK_SIZE;
-                local_inode.i_data_block = b;
+                local_inode->i_size = BLOCK_SIZE;
+                local_inode->i_data_block = b;
 
-                memset(local_inode.i_block, -1, sizeof(local_inode.i_block));
+                memset(local_inode->i_block, -1, sizeof(local_inode->i_block));
 
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
                 if (dir_entry == NULL) {
@@ -191,8 +192,8 @@ int inode_create(inode_type n_type) {
                 }
             } else {
                 // In case of a new file, simply sets its size to 0 
-                local_inode.i_size = 0;
-                local_inode.i_data_block = -1;
+                local_inode->i_size = 0;
+                local_inode->i_data_block = -1;
             }
 
             return inumber;
