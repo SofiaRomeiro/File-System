@@ -171,7 +171,7 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
         direct_bytes = tfs_write_direct_region(inode, file, buffer, direct_size);
         
-        if (inode->i_block[MAX_DIRECT_BLOCKS] == 0) {
+        if (inode->i_block[MAX_DIRECT_BLOCKS] == -1) {
             tfs_handle_indirect_block(inode);
         }
 

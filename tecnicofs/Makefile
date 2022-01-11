@@ -53,7 +53,7 @@ all: clean $(TARGET_EXECS)
 
 valgrind :
 	@echo ------- Starting Valgrind -------
-	valgrind -s --tool=memcheck --leak-check=full --track-origins=yes ./tests/copy_to_external_multiple_char
+	valgrind -s --tool=memcheck --leak-check=full --track-origins=yes ./tests/write_10_blocks_simple
 
 test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 test18
 	@echo "Ending tests :)"

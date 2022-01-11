@@ -68,7 +68,7 @@ int direct_block_insert(inode_t *inode) {
         return -1;
     }
 
-    memset(data_block_get(inode->i_data_block),'\0', sizeof(data_block_get(inode->i_data_block)));
+    memset(data_block_get(inode->i_data_block),-1, sizeof(data_block_get(inode->i_data_block)));
 
     inode->i_block[inode->i_data_block - 1] = inode->i_data_block;
 
@@ -154,7 +154,9 @@ int indirect_block_insert(inode_t *inode) {
 
     inode->i_data_block = block_number;
 
-    memset(data_block_get(block_number), '\0', sizeof(data_block_get(block_number)));
+    memset(data_block_get(block_number), -1, BLOCK_SIZE / sizeof(int));
+
+    printf("index %d\n", block_number);
 
     last_i_block[block_number - FIRST_INDIRECT_BLOCK] = block_number;    
 
@@ -177,7 +179,7 @@ int tfs_handle_indirect_block(inode_t *inode) {
     inode->i_block[MAX_DIRECT_BLOCKS] = block_number;
     inode->i_data_block = block_number;
 
-    memset(data_block_get(inode->i_data_block), '\0', sizeof(data_block_get(inode->i_data_block)));
+    memset(data_block_get(inode->i_data_block), -1, sizeof(data_block_get(inode->i_data_block)));
 
 // ------------------------------------------------ END CRIT SPOT ----------------------------------
 
@@ -216,6 +218,11 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
                 to_read_block = to_read;
                 to_read = 0;
             }
+
+            printf("current block %ld\n", current_block);
+            printf("%s\n", (char *)block);
+            printf("buffer : %s\n", (char *)buffer);
+            printf("hi\n");
 
             memcpy(buffer + total_read, block + block_offset, to_read_block);
 

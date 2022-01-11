@@ -3,22 +3,16 @@
 /* Persistent FS state  (in reality, it should be maintained in secondary
  * memory; for simplicity, this project maintains it in primary memory) */
 
-/* I-node table - It can be a struct */
-//static inode_t inode_table[INODE_TABLE_SIZE];
-//static allocation_state_t freeinode_ts[INODE_TABLE_SIZE];
-
+/* I-node table */
 typedef struct {
     inode_t inode_table[INODE_TABLE_SIZE];
     allocation_state_t freeinode_ts[INODE_TABLE_SIZE];
+    // mutexes array to match freeinode_ts
     pthread_mutex_t inode_table_mutex;
     pthread_rwlock_t inode_table_rwlock;
 } inode_table_t;
 
 static inode_table_t inode_table_s;
-
-/* Data blocks - It can be a struct */
-//static allocation_state_t fs_data[BLOCK_SIZE * DATA_BLOCKS];
-//static allocation_state_t free_blocks[DATA_BLOCKS];
 
 typedef struct {
     allocation_state_t fs_data[BLOCK_SIZE * DATA_BLOCKS];
@@ -29,9 +23,6 @@ typedef struct {
 static data_blocks_t data_blocks_s;
 
 /* Volatile FS state */
-
-//static open_file_entry_t open_file_table[MAX_OPEN_FILES];
-//static char free_open_file_entries[MAX_OPEN_FILES];
 
 typedef struct {
     open_file_entry_t open_file_table[MAX_OPEN_FILES];
@@ -88,6 +79,7 @@ void state_init() {
 
     for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
         inode_table_s.freeinode_ts[i] = FREE;
+        pthread_mutex_init(&(inode_table_s.inode_table[i].inode_mutex), NULL);
     }
 
     for (size_t i = 0; i < DATA_BLOCKS; i++) {
@@ -96,6 +88,8 @@ void state_init() {
 
     for (size_t i = 0; i < MAX_OPEN_FILES; i++) {
         fs_state_s.free_open_file_entries[i] = FREE;
+        pthread_mutex_init(&(fs_state_s.open_file_table[i].open_file_mutex), NULL);
+
     }
 }
 
@@ -117,12 +111,12 @@ int inode_create(inode_type n_type) {
             insert_delay(); // simulate storage access delay (to freeinode_ts)
         }
 
-// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
+    // ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
 
         pthread_mutex_lock(&inode_table_s.inode_table_mutex);
 
         // Finds first free entry in i-node table 
-        if (inode_table_s.freeinode_ts[inumber] == FREE) {
+        if (inode_table_s.freeinode_ts[inumber] == FREE) {      
             // Found a free entry, so takes it for the new i-node
             inode_table_s.freeinode_ts[inumber] = TAKEN;
 
@@ -130,28 +124,17 @@ int inode_create(inode_type n_type) {
 
             inode_t *local_inode = &(inode_table_s.inode_table[inumber]);
 
-            pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
-
-
-// --------------------------------- END CRIT SPOT ---------------------------------------
-
             local_inode->i_node_type = n_type;
 
-            if (n_type == T_DIRECTORY) {
+            if (n_type == T_DIRECTORY) {            // apenas corre uma vez em toda a excução do programa cliente, ponderar se vale a pena gastar um lock para isto
                 // Initializes directory (filling its block with empty
                 // entries, labeled with inumber==-1) 
                 int b = data_block_alloc();
                 if (b == -1 && ((dir_entry_t *)data_block_get(b)) == NULL) {
 
-// ----------------------------------- CRIT SPOT - RWLOCK W -----------------------------------------
-
-                    pthread_rwlock_wrlock(&inode_table_s.inode_table_rwlock);
-
                     inode_table_s.freeinode_ts[inumber] = FREE;
 
-                    pthread_rwlock_unlock(&inode_table_s.inode_table_rwlock);
-
-// --------------------------------- END CRIT SPOT ---------------------------------------
+                    pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
 
                     return -1;
                 }
@@ -163,31 +146,17 @@ int inode_create(inode_type n_type) {
 
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
 
-                /*
-                if (dir_entry == NULL) {
-
-// ----------------------------------- CRIT SPOT - RWLOCK W -----------------------------------------
-
-                    pthread_rwlock_wrlock(&inode_table_s.inode_table_rwlock);
-
-                    inode_table_s.freeinode_ts[inumber] = FREE;
-
-                    pthread_rwlock_unlock(&inode_table_s.inode_table_rwlock);
-
-
-// --------------------------------- END CRIT SPOT ---------------------------------------
-
-                    return -1;
-                }*/
-
                 for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
                     dir_entry[i].d_inumber = -1;
                 }
-            } else {
+            } else {        // proteger o inode !
                 // In case of a new file, simply sets its size to 0 
                 local_inode->i_size = 0;
                 local_inode->i_data_block = -1;
+                memset(local_inode->i_block, -1, sizeof(local_inode->i_block));
             }
+
+            pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
 
             return inumber;
         }
