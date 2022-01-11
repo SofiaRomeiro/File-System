@@ -27,7 +27,8 @@ static data_blocks_t data_blocks_s;
 typedef struct {
     open_file_entry_t open_file_table[MAX_OPEN_FILES];
     char free_open_file_entries[MAX_OPEN_FILES]; 
-    pthread_mutex_t fs_state_mutex;  
+    pthread_mutex_t fs_state_mutex; 
+    pthread_rwlock_t fs_state_rwlock; 
 } fs_state_t;
 
 static fs_state_t fs_state_s;
@@ -80,6 +81,7 @@ void state_init() {
     for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
         inode_table_s.freeinode_ts[i] = FREE;
         pthread_mutex_init(&(inode_table_s.inode_table[i].inode_mutex), NULL);
+        pthread_rwlock_init(&(inode_table_s.inode_table[i].inode_rwlock), NULL);
     }
 
     for (size_t i = 0; i < DATA_BLOCKS; i++) {
@@ -89,12 +91,22 @@ void state_init() {
     for (size_t i = 0; i < MAX_OPEN_FILES; i++) {
         fs_state_s.free_open_file_entries[i] = FREE;
         pthread_mutex_init(&(fs_state_s.open_file_table[i].open_file_mutex), NULL);
-
+        pthread_rwlock_init(&(fs_state_s.open_file_table[i].open_file_rwlock), NULL);
     }
 }
 
 // mutexes and rwlocks created to static variables should only be destroyed here
 void state_destroy() { /* nothing to do */ 
+    for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
+        pthread_mutex_destroy(&(inode_table_s.inode_table[i].inode_mutex));
+        pthread_rwlock_destroy(&(inode_table_s.inode_table[i].inode_rwlock));
+    }
+
+    for (size_t i = 0; i < MAX_OPEN_FILES; i++) {
+        pthread_mutex_destroy(&(fs_state_s.open_file_table[i].open_file_mutex));
+        pthread_rwlock_destroy(&(fs_state_s.open_file_table[i].open_file_rwlock));
+
+    }
 }
 
 /*
@@ -126,22 +138,27 @@ int inode_create(inode_type n_type) {
 
             local_inode->i_node_type = n_type;
 
-            if (n_type == T_DIRECTORY) {            // apenas corre uma vez em toda a excução do programa cliente, ponderar se vale a pena gastar um lock para isto
+            /*
+                NOTA 
+                Este if apenas uma vez por cada programa cliente, ou seja, no tfs_init()
+                Logo, pensamos que nao vale a pena ter mutexes nesta zona, visto que não há possibilidade de acesso concorrente
+            */
+
+           pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
+
+            if (n_type == T_DIRECTORY) {
                 // Initializes directory (filling its block with empty
                 // entries, labeled with inumber==-1) 
                 int b = data_block_alloc();
                 if (b == -1 && ((dir_entry_t *)data_block_get(b)) == NULL) {
-
                     inode_table_s.freeinode_ts[inumber] = FREE;
-
-                    pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
-
                     return -1;
                 }
 
+                // NOTA : pensamos que aqui também não é necessário proteger o inode pela mesma razão que não é necessário proteger esta secção de código (if)
+
                 local_inode->i_size = BLOCK_SIZE;
                 local_inode->i_data_block = b;
-
                 memset(local_inode->i_block, -1, sizeof(local_inode->i_block));
 
                 dir_entry_t *dir_entry = (dir_entry_t *)data_block_get(b);
@@ -149,19 +166,21 @@ int inode_create(inode_type n_type) {
                 for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
                     dir_entry[i].d_inumber = -1;
                 }
-            } else {        // proteger o inode !
+            } else {
                 // In case of a new file, simply sets its size to 0 
+                pthread_rwlock_wrlock(&(local_inode->inode_rwlock));
+
                 local_inode->i_size = 0;
                 local_inode->i_data_block = -1;
                 memset(local_inode->i_block, -1, sizeof(local_inode->i_block));
+
+                pthread_rwlock_unlock(&(local_inode->inode_rwlock));
             }
 
-            pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
 
             return inumber;
         }
 
-        // unlock lock's if
         pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
 
     }
@@ -179,24 +198,29 @@ int inode_delete(int inumber) {
     // simulate storage access delay (to i-node and freeinode_ts)
     insert_delay();
     insert_delay();
-// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
+
+    /*
+        NOTA 
+        Esta seccao precisa de proteção pois pode aceder a inodes que nao representem a root
+    */
+
+    pthread_mutex_lock(&(inode_table_s.inode_table_mutex));
 
     if (!valid_inumber(inumber) || inode_table_s.freeinode_ts[inumber] == FREE) {
+        pthread_mutex_unlock(&(inode_table_s.inode_table_mutex));
         return -1;
     }
 
     inode_table_s.freeinode_ts[inumber] = FREE;
 
-    inode_t local_inode = inode_table_s.inode_table[inumber];
+    inode_t *local_inode = &inode_table_s.inode_table[inumber];
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
-
-    if (local_inode.i_size > 0) {
-        if (data_block_free(local_inode.i_data_block) == -1) {
-            return -1;
-        }
+    if (local_inode->i_size > 0 && (data_block_free(local_inode->i_data_block) == -1)) {
+        pthread_mutex_unlock(&(inode_table_s.inode_table_mutex));
+        return -1;
     }
 
+    pthread_mutex_unlock(&(inode_table_s.inode_table_mutex));
 
     return 0;
 }
@@ -212,13 +236,19 @@ inode_t *inode_get(int inumber) {
         return NULL;
     }
 
+    /*
+        NOTA
+        Como proteger adequadamente aqui? Visto que entre a "leitura" e o "return" pode haver uma mudança
+        Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
+    */ 
+
     insert_delay(); // simulate storage access delay to i-node
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+    pthread_rwlock_rdlock(&(inode_table_s.inode_table_rwlock));
 
     inode_t *address = &(inode_table_s.inode_table[inumber]);
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+    pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
 
     return address;
 }
@@ -236,14 +266,18 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
         return -1;
     }
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+    /*
+        NOTA
+        Como estamos apenas a focar-nos em operações com um determinado inode, o da posicao inumber, podemos trancar a posicao 
+        para leitura e logo de seguida usar o trinco do inode para libertar por completo a tabela de inodes para outras threads acederem?
+    */
 
-    inode_t local_inode = inode_table_s.inode_table[inumber];
+    pthread_rwlock_rdlock(&(inode_table_s.inode_table_rwlock));
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+    inode_t *local_inode = &(inode_table_s.inode_table[inumber]);
 
     insert_delay(); // simulate storage access delay to i-node with inumber
-    if (local_inode.i_node_type != T_DIRECTORY) {
+    if (local_inode->i_node_type != T_DIRECTORY) {
         return -1;
     }
 
@@ -253,7 +287,15 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
     /* Locates the block containing the directory's entries */
     dir_entry_t *dir_entry =
-        (dir_entry_t *)data_block_get(local_inode.i_data_block);
+        (dir_entry_t *)data_block_get(local_inode->i_data_block);
+
+    pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
+
+    /*
+        NOTA
+        Dado o tamanho da secção critica, o custo de um lock e um unlock justifica trancar e destrancar duas vezes ou ter esta secção critica "grande"?
+        (linhas 275 a 292)
+    */
 
     if (dir_entry == NULL) {
         return -1;
@@ -261,6 +303,8 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
     /* Finds and fills the first empty entry */
     for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
+
+        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
         if (dir_entry[i].d_inumber == -1) {
 
@@ -270,8 +314,12 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
             dir_entry[i].d_name[MAX_FILE_NAME - 1] = 0;
 
+            pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
+
             return 0;
         }
+
+        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
     }
 
     return -1;
@@ -286,19 +334,18 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 int find_in_dir(int inumber, char const *sub_name) {
     insert_delay(); // simulate storage access delay to i-node with inumber
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+    pthread_rwlock_rdlock(&(inode_table_s.inode_table_rwlock));
 
     if (!valid_inumber(inumber) ||
         inode_table_s.inode_table[inumber].i_node_type != T_DIRECTORY) {
         return -1;
     }
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
-
-
     /* Locates the block containing the DIRECTORY's entries */
     dir_entry_t *dir_entry =
         (dir_entry_t *)data_block_get(inode_table_s.inode_table[inumber].i_data_block);
+
+        pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
 
     if (dir_entry == NULL) {
         return -1;
@@ -307,11 +354,19 @@ int find_in_dir(int inumber, char const *sub_name) {
     /* Iterates over the directory entries looking for one that has the target
      * name */
 
-    for (int i = 0; i < MAX_DIR_ENTRIES; i++)
+    for (int i = 0; i < MAX_DIR_ENTRIES; i++) {
+
+        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
+
         if ((dir_entry[i].d_inumber != -1) &&
             (strncmp(dir_entry[i].d_name, sub_name, MAX_FILE_NAME) == 0)) {
+
+            pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
             return dir_entry[i].d_inumber;
         }
+
+        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
+    }
 
     return -1;
 }
@@ -322,24 +377,24 @@ int find_in_dir(int inumber, char const *sub_name) {
  */
 int data_block_alloc() {
 
-// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
-
     for (int i = 0; i < DATA_BLOCKS; i++) {
         if (i * (int) sizeof(allocation_state_t) % BLOCK_SIZE == 0) {
             insert_delay(); // simulate storage access delay to free_blocks
         }
 
+        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
+
         if (data_blocks_s.free_blocks[i] == FREE) {
             data_blocks_s.free_blocks[i] = TAKEN;
-
-// --------------------------------- END CRIT SPOT (if) ---------------------------------------
+        
+        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
             return i;
         }
+
+        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
+
     }
-
-// --------------------------------- END CRIT SPOT (!if) ---------------------------------------
-
     return -1;
 }
 
@@ -355,11 +410,11 @@ int data_block_free(int block_number) {
 
     insert_delay(); // simulate storage access delay to free_blocks
 
-// ----------------------------------- CRIT SPOT - RWLOCK W -----------------------------------------
+    pthread_rwlock_wrlock(&(fs_state_s.fs_state_rwlock));
 
     data_blocks_s.free_blocks[block_number] = FREE;
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+    pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock));
 
     return 0;
 }
@@ -376,11 +431,17 @@ void *data_block_get(int block_number) {
 
     insert_delay(); // simulate storage access delay to block
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+    /*
+        NOTA
+        Como proteger adequadamente aqui? Visto que entre a "leitura" e o "return" pode haver uma mudança
+        Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
+    */ 
+
+    pthread_rwlock_rdlock(&(fs_state_s.fs_state_rwlock));
 
     allocation_state_t *local_state = &(data_blocks_s.fs_data[block_number * BLOCK_SIZE]);
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+    pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock));
 
     return local_state;
 }
@@ -393,24 +454,23 @@ void *data_block_get(int block_number) {
  */
 int add_to_open_file_table(int inumber, size_t offset) {
 
-// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
-
     for (int i = 0; i < MAX_OPEN_FILES; i++) {
 
+        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
+
         if (fs_state_s.free_open_file_entries[i] == FREE) {
-
             fs_state_s.free_open_file_entries[i] = TAKEN;
-
             fs_state_s.open_file_table[i].of_inumber = inumber;
             fs_state_s.open_file_table[i].of_offset = offset;
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+            pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
             return i;
         }
-    }
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
+
+    }
 
     return -1;
 }
@@ -422,19 +482,19 @@ int add_to_open_file_table(int inumber, size_t offset) {
  */
 int remove_from_open_file_table(int fhandle) {
 
-// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
+    pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
     if (!valid_file_handle(fhandle) ||
         fs_state_s.free_open_file_entries[fhandle] != TAKEN) {
 
-// --------------------------------- END CRIT SPOT (if)---------------------------------------
+        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
         return -1;
     }
 
     fs_state_s.free_open_file_entries[fhandle] = FREE;
 
-// --------------------------------- END CRIT SPOT (!if)---------------------------------------
+    pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
     return 0;
 }
@@ -449,11 +509,17 @@ open_file_entry_t *get_open_file_entry(int fhandle) {
         return NULL;
     }
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+    /*
+        NOTA
+        Como proteger adequadamente aqui? Visto que entre a "leitura" e o "return" pode haver uma mudança
+        Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
+    */ 
+
+    pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
     open_file_entry_t *local_file = &(fs_state_s.open_file_table[fhandle]);
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
+    pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
     return local_file;
 }

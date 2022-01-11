@@ -156,8 +156,6 @@ int indirect_block_insert(inode_t *inode) {
 
     memset(data_block_get(block_number), -1, BLOCK_SIZE / sizeof(int));
 
-    printf("==============> index %d\n", block_number);
-
     last_i_block[block_number - FIRST_INDIRECT_BLOCK] = block_number;    
 
 // ------------------------------------------------ END CRIT SPOT ----------------------------------
