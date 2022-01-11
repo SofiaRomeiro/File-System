@@ -156,7 +156,7 @@ int indirect_block_insert(inode_t *inode) {
 
     memset(data_block_get(block_number), -1, BLOCK_SIZE / sizeof(int));
 
-    printf("index %d\n", block_number);
+    printf("==============> index %d\n", block_number);
 
     last_i_block[block_number - FIRST_INDIRECT_BLOCK] = block_number;    
 
@@ -199,6 +199,9 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
     size_t block_offset = local_offset % BLOCK_SIZE;
     size_t to_read_block = 0;
     size_t total_read = 0;
+
+    printf("reading...\nlocal offset is %ld and to read is %ld\n", local_offset, to_read);
+    printf("current block is %ld\n", current_block);
     
     if (local_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
@@ -220,17 +223,24 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
             }
 
             printf("current block %ld\n", current_block);
-            printf("%s\n", (char *)block);
-            printf("buffer : %s\n", (char *)buffer);
-            printf("hi\n");
+            //printf("(%ld) %s\n", strlen((char *)block), (char *)block);
+            printf("buffer : %ld\n", strlen((char *)buffer));
+            //printf("hi\n");
 
             memcpy(buffer + total_read, block + block_offset, to_read_block);
+
+            printf("after buffer : %ld\n", strlen((char *)buffer));
 
             local_offset += to_read_block;
             total_read += to_read_block;
 
             current_block = (local_offset / BLOCK_SIZE) + 1;
             block_offset = local_offset % BLOCK_SIZE;
+
+            printf("to read = %ld\n", to_read);
+
+            printf("total_read = %ld\n", total_read);
+
         }
     }
 
@@ -240,6 +250,7 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
 
 // ------------------------------------------------ END CRIT SPOT ----------------------------------
 
+    printf("total_read at return = %ld\n", total_read);
 
     return (ssize_t) total_read;
 }

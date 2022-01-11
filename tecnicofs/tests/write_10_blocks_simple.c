@@ -34,9 +34,7 @@ int main() {
     assert(fd != -1 );
 
     for (int i = 0; i < COUNT; i++) {
-        ssize_t a = tfs_read(fd, output, SIZE);
-        printf("(%d)read : %ld\n",i, tfs_read(fd, output, SIZE));
-        assert(a == SIZE);
+        assert(tfs_read(fd, output, SIZE) == SIZE);
         assert(memcmp(input, output, SIZE) == 0);
     }
 
