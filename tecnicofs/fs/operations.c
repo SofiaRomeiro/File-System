@@ -43,15 +43,24 @@ int tfs_open(char const *name, int flags) {
     inum = tfs_lookup(name);
 
     if (inum >= 0) {
+
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
+
+    inode_t *inode = inode_get(inum);
+
+    pthread_mutex_lock(&inode->inode_mutex);
+
         /* The file already exists */
-        inode_t *inode = inode_get(inum);       // PROBLEMA AQUI
+        //inode_t *inode = inode_get(inum);
 
         if (inode == NULL) {
             return -1;
         }
 
+
         /* Trucate (if requested) */
         if (flags & TFS_O_TRUNC) {
+
             if (inode->i_size > 0) {
                 if (data_block_free(inode->i_data_block) == -1) {
                     return -1;
@@ -65,6 +74,9 @@ int tfs_open(char const *name, int flags) {
         } else {
             offset = 0;
         }
+
+    pthread_mutex_unlock(&inode->inode_mutex);
+// --------------------------------- END CRIT SPOT ---------------------------------------
 
     } else if (flags & TFS_O_CREAT) {
         /* The file doesn't exist; the flags specify that it should be created*/
@@ -109,18 +121,36 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     }
 
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+
+    pthread_mutex_lock(&file->open_file_mutex);
+
     inode_t *inode = inode_get(file->of_inumber);
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
+    pthread_mutex_unlock(&file->open_file_mutex);
+
+
     if (inode == NULL) {
         return -1;
     }   
 
     if (to_write == 0) {
-        printf("[ - ] Data error : Nothing to write\n");
+        printf("[ tfs_write ] %s", NOTHING_TO_WRITE);
         return -1;
     } 
 
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
+
+    pthread_mutex_lock(&inode->inode_mutex);
+
     if (inode->i_size + to_write <= MAX_BYTES_DIRECT_DATA) {
         direct_bytes = tfs_write_direct_region(inode, file, buffer, to_write);
+
+        pthread_mutex_unlock(&inode->inode_mutex);
+
         if (direct_bytes == -1) {
             return -1;
         }
@@ -130,12 +160,15 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     else if (inode->i_size >= MAX_BYTES_DIRECT_DATA) {
 
-        if (inode->i_block[MAX_DIRECT_BLOCKS] == 0) {
+        if (inode->i_block[MAX_DIRECT_BLOCKS] == -1) {
             tfs_handle_indirect_block(inode);
         }
 
         
         indirect_bytes = tfs_write_indirect_region(inode, file, buffer, to_write);
+
+        pthread_mutex_unlock(&inode->inode_mutex);
+
         if (indirect_bytes == -1) {
             return -1;
         }
@@ -146,24 +179,27 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     else {
 
-        direct_size = MAX_BYTES_DIRECT_DATA - inode->i_size;
+        direct_size = MAX_BYTES_DIRECT_DATA - inode->i_size;;
         indirect_size = to_write - direct_size;
 
         direct_bytes = tfs_write_direct_region(inode, file, buffer, direct_size);
         
-        if (inode->i_block[MAX_DIRECT_BLOCKS] == 0) {
+        if (inode->i_block[MAX_DIRECT_BLOCKS] == -1) {
             tfs_handle_indirect_block(inode);
         }
 
         if (direct_bytes == -1) {
-            printf("[ tfs_write ] Error writing\n");
+            printf("[ tfs_write ] %s", WRITE_ERROR);
+            pthread_mutex_unlock(&inode->inode_mutex);
             return -1;
         }
 
        indirect_bytes = tfs_write_indirect_region(inode, file, buffer + direct_size, indirect_size);
+
+       pthread_mutex_unlock(&inode->inode_mutex);
     
         if (indirect_bytes == -1) {
-            printf("[ tfs_write ] Error writing\n");
+            printf("[ tfs_write ] %s", WRITE_ERROR);
             return -1;
         }
 
@@ -186,28 +222,44 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     }
 
-    inode_t *inode = inode_get(file->of_inumber);
-    if (inode == NULL) {
-        return -1;
-    }   
+    printf("\n===> TFS READ\nArgs:\n\t-fhandle %d\n\t-len %ld\n\t-offset %ld\n", fhandle, len, file->of_offset);
 
     if (len == 0) {
-        printf("[ tfs_read ] Data error : Nothing to read\n");
+        printf("[ tfs_read ] %s", NOTHING_TO_READ);
         return -1;
     } 
 
+// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
+    pthread_rwlock_rdlock(&file->open_file_rwlock);
+
+    inode_t *inode = inode_get(file->of_inumber);
+
+    if (inode == NULL) {
+        return -1;
+    }
+
     to_read = inode->i_size - file->of_offset;
+
+    pthread_rwlock_unlock(&file->open_file_rwlock);    
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
 
     if (to_read > len) {
         to_read = len;
     } 
 
+    pthread_mutex_lock(&file->open_file_mutex);
+
     if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
         direct_read = tfs_read_direct_region(file, to_read, buffer);
 
+        printf("[to read] buffer |%s|\n", (char *)buffer);
+
+        pthread_mutex_unlock(&file->open_file_mutex);
+
         if (direct_read == -1) {
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] 1 %s", READ_ERROR);
             return -1;
         }
 
@@ -218,8 +270,10 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     else if (file->of_offset >= MAX_BYTES_DIRECT_DATA) {
         indirect_read = tfs_read_indirect_region(file, to_read, buffer);
 
+        pthread_mutex_unlock(&file->open_file_mutex);
+
         if (indirect_read == -1) {
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] 2 %s", READ_ERROR);
             return -1;
         } 
 
@@ -239,7 +293,8 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         direct_read = tfs_read_direct_region(file, bytes_to_read_in_direct_region, buffer);
 
         if (direct_read == -1){
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] 3 %s", READ_ERROR);
+            pthread_mutex_unlock(&file->open_file_mutex);
             return -1;
         }
 
@@ -247,8 +302,10 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
       
         indirect_read = tfs_read_indirect_region(file, to_read, buffer + total_read);
 
+        pthread_mutex_unlock(&file->open_file_mutex);
+
         if (indirect_read == -1){
-            printf("[ tfs_read ] Read error: Aborting\n");
+            printf("[ tfs_read ] 4 %s", READ_ERROR);
             return -1;
         }
 
@@ -257,9 +314,10 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     return (ssize_t)total_read;
 }
 
+
 int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 
-    char buffer[100];
+    char buffer[BUFFER_SIZE];
     int source_file;
     FILE *dest_file;
     ssize_t read_bytes = 0;
@@ -274,7 +332,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     memset(buffer, '\0', sizeof(buffer));
 
     if (tfs_lookup(source_path) == -1) {
-        printf("[ operations.c ] Error : Source file doesn't exist!\n");
+        printf("[ tfs_copy_to_external_fs ] %s", FILE_NOT_FOUND);
         return -1;
     }
     else {
@@ -282,16 +340,19 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     }    
 
     if (source_file < 0) {
-        printf("[-] Open error in src (%s): %s\n", source_path, strerror(errno));
+        printf("[ tfs_copy_to_external_fs ] (Source : %s) %s", source_path, OPEN_ERROR);
 		return -1;
     }
 
     dest_file = fopen(dest_path, "w");
 
     if (dest_file == NULL) {
-        printf("[-] Open error in dest (%s) : %s\n", dest_path, strerror(errno));
+        printf("[ tfs_copy_to_external_fs ] (Dest : %s) %s", dest_path, OPEN_ERROR);
 		return -1;
     }  
+
+// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
+
 
     open_file_entry_t *file = get_open_file_entry(source_file);
     inode_t *inode = inode_get(file->of_inumber);
@@ -299,6 +360,9 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     file->of_offset = 0;
 
     total_size_to_read = (ssize_t) inode->i_size;
+
+// --------------------------------- END CRIT SPOT ---------------------------------------
+
 
     do {
 
@@ -312,7 +376,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
         }
 
         if (buffer_read_bytes == -1) {
-            printf("[-] Read error: %s\n", strerror(errno));
+            printf("[ tfs_copy_to_external_fs ] %s", READ_ERROR);
 		    return -1;
         }
 
@@ -323,7 +387,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
         written_bytes = fwrite(buffer, sizeof(char), to_write_bytes, dest_file);
 
         if (written_bytes != buffer_read_bytes) {
-            printf("[-] Write error: %s\n", strerror(errno));
+            printf("[ tfs_copy_to_external_fs ] %s", WRITE_ERROR);
 		    return -1;
         }
 
@@ -335,7 +399,7 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     close_status_dest = fclose(dest_file);
 
     if (close_status_dest < 0 || close_status_source < 0) {
-        printf("[-] Close error: %s\n", strerror(errno));
+        printf("[ tfs_copy_to_external_fs ] %s", CLOSE_ERROR);
 		return -1;
     }
 

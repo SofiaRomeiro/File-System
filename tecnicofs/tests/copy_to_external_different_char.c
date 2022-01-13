@@ -17,12 +17,15 @@
 
 int main() {
 
-    char big_str[SIZE_TO_TEST];    
+    char big_str[SIZE_TO_TEST];
+    size_t fr = 0, str_len = 0; 
+
+    memset(big_str, '\0', sizeof(big_str));
 
     memset(big_str, 'b', sizeof(big_str) / 2);
     memset(big_str + (sizeof(big_str) / 2), 'u', (sizeof(big_str) / 2) - 1);
 
-    char buffer[SIZE_TO_TEST];
+    char buffer[SIZE_TO_TEST+1];
 
     char *path = "/f1";
     char *path2 = "./tests/output/test17.txt";  
@@ -41,18 +44,18 @@ int main() {
     assert(tfs_copy_to_external_fs(path, path2) != -1);
 
     FILE *fp = fopen(path2, "r");
-
     assert(fp != NULL);
 
-    size_t fr = fread(buffer, sizeof(char), strlen(big_str), fp);
+    fr = fread(buffer, sizeof(char), strlen(big_str), fp);
 
-    assert(fr == strlen(big_str));
+    str_len = strlen(big_str);
+
+    assert(fr == str_len);
 
     assert(strncmp(big_str, buffer, strlen(big_str)) == 0);
-    
     assert(fclose(fp) != -1);
 
-    //unlink(path2);
+    unlink(path2);
 
     printf("======> Successful test.\n\n");
 

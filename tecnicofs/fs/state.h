@@ -9,6 +9,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <pthread.h>
 
 /*
  * Directory entry
@@ -16,6 +17,8 @@
 typedef struct {
     char d_name[MAX_FILE_NAME];
     int d_inumber;
+    pthread_mutex_t dir_entry_mutex;
+    pthread_rwlock_t dir_entry_rwlock;
 } dir_entry_t;
 
 typedef enum { T_FILE, T_DIRECTORY } inode_type;
@@ -28,6 +31,8 @@ typedef struct {
     size_t i_size;
     int i_data_block; //current block in use to write
     int i_block[11];   // 10 primeiras entradas sao diretas
+    pthread_mutex_t inode_mutex;
+    pthread_rwlock_t inode_rwlock;
     /* in a real FS, more fields would exist here */
 } inode_t;
 
@@ -41,9 +46,13 @@ typedef enum { FREE = 0, TAKEN = 1 } allocation_state_t;
 typedef struct {
     int of_inumber;
     size_t of_offset;
+    pthread_mutex_t open_file_mutex;
+    pthread_rwlock_t open_file_rwlock;
 } open_file_entry_t;
 
+
 #define MAX_DIR_ENTRIES (BLOCK_SIZE / sizeof(dir_entry_t))
+
 
 void state_init();
 void state_destroy();
@@ -65,5 +74,18 @@ int index_block_insert(int index_block[], int block_number);
 int add_to_open_file_table(int inumber, size_t offset);
 int remove_from_open_file_table(int fhandle);
 open_file_entry_t *get_open_file_entry(int fhandle);
+
+
+ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
+int direct_block_insert(inode_t *inode);
+ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
+int indirect_block_insert(inode_t *inode);
+int tfs_handle_indirect_block(inode_t *inode);
+ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer);
+ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer);
+/*
+void inode_lock(inode_table_t inode_table_s);
+void inode_unlock(inode_table_t inode_table_s);
+*/
 
 #endif // STATE_H
