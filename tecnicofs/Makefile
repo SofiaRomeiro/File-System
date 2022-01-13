@@ -14,7 +14,7 @@ INCLUDES = $(addprefix -I, $(INCLUDE_DIRS))
 SOURCES  := $(wildcard */*.c)
 HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
-TARGET_EXECS := tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_short_str tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes tests/max_storage_exceeded tests/copy_to_external_different_char tests/copy_to_external_multiple_char
+TARGET_EXECS := tests/thread_1 tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_short_str tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes tests/max_storage_exceeded tests/copy_to_external_different_char tests/copy_to_external_multiple_char
 
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
@@ -53,9 +53,9 @@ all: clean $(TARGET_EXECS)
 
 valgrind :
 	@echo ------- Starting Valgrind -------
-	valgrind -s --tool=memcheck --leak-check=full --track-origins=yes ./tests/write_more_than_10_blocks_simple
+	valgrind -s --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes ./tests/thread_1
 
-test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 test18
+test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 test18 test19
 	@echo "Ending tests :)"
 
 test1:
@@ -130,6 +130,10 @@ test18:
 	@echo ----- Test 18 ------
 	./tests/copy_to_external_multiple_char
 
+test19:
+	@echo ----- Test 19 ------
+	./tests/thread_1
+
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
 # in the file '.clang-format'.
@@ -164,6 +168,7 @@ tests/write_max_bytes: tests/write_max_bytes.o fs/operations.o fs/state.o
 tests/max_storage_exceeded: tests/max_storage_exceeded.o fs/operations.o fs/state.o 
 tests/copy_to_external_different_char: tests/copy_to_external_different_char.o fs/operations.o fs/state.o 
 tests/copy_to_external_multiple_char: tests/copy_to_external_multiple_char.o fs/operations.o fs/state.o 
+tests/thread_1: tests/thread_1.o fs/operations.o fs/state.o 
 
 clean:
 	rm -f $(OBJECTS) $(TARGET_EXECS)
