@@ -228,8 +228,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     to_read = inode->i_size - file->of_offset;
     local_offset = file->of_offset;
 
-    printf("[ tfs_read ] local_offset is %ld and sum is %ld\n", local_offset, local_offset + to_read);
-
 // --------------------------------- END CRIT SPOT ---------------------------------------
 
     if (to_read > len) {
