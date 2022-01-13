@@ -6,6 +6,8 @@
 /* Persistent FS state  (in reality, it should be maintained in secondary
  * memory; for simplicity, this project maintains it in primary memory) */
 
+pthread_mutex_t global_mutex;
+
 /* I-node table */
 typedef struct {
     inode_t inode_table[INODE_TABLE_SIZE];
@@ -81,6 +83,8 @@ static void insert_delay() {
 // no need to be thread safe since it's called only once before threading 
 void state_init() {
 
+    pthread_mutex_init(&global_mutex, NULL);
+
     for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
         inode_table_s.freeinode_ts[i] = FREE;
         pthread_mutex_init(&(inode_table_s.inode_table[i].inode_mutex), NULL);
@@ -100,6 +104,9 @@ void state_init() {
 
 // mutexes and rwlocks created to static variables should only be destroyed here
 void state_destroy() { /* nothing to do */ 
+
+    pthread_mutex_destroy(&global_mutex);
+
     for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
         pthread_mutex_destroy(&(inode_table_s.inode_table[i].inode_mutex));
         pthread_rwlock_destroy(&(inode_table_s.inode_table[i].inode_rwlock));
@@ -463,9 +470,9 @@ void *data_block_get(int block_number) {
  */
 int add_to_open_file_table(int inumber, size_t offset) {
 
-    for (int i = 0; i < MAX_OPEN_FILES; i++) {
+    pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
-        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
+    for (int i = 0; i < MAX_OPEN_FILES; i++) {
 
         if (fs_state_s.free_open_file_entries[i] == FREE) {
             fs_state_s.free_open_file_entries[i] = TAKEN;
@@ -475,11 +482,11 @@ int add_to_open_file_table(int inumber, size_t offset) {
             pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
             return i;
-        }
-
-        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
+        }       
 
     }
+
+    pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
     return -1;
 }
@@ -720,7 +727,13 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
 
 // ------------------------------------------------ CRIT SPOT - RWLOCK R ----------------------------------
 
+    pthread_rwlock_rdlock(&file->open_file_rwlock);
+
+    printf("\n===> TFS READ DIRECT REGION\nArgs:\n\t-len %ld\n\t-offset %ld\n", to_read, file->of_offset);
+
     size_t local_offset = file->of_offset;
+
+    pthread_rwlock_unlock(&file->open_file_rwlock);
 
 // ------------------------------------------------ END CRIT SPOT ----------------------------------
 
@@ -749,7 +762,11 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
                 to_read = 0;
             }
 
+            //pthread_mutex_lock(&global_mutex);
+
             memcpy(buffer + total_read, block + block_offset, to_read_block);
+
+            //pthread_mutex_unlock(&global_mutex);
 
             local_offset += to_read_block;
             total_read += to_read_block;
@@ -762,7 +779,11 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
 
 // ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
 
+    pthread_rwlock_wrlock(&file->open_file_rwlock);
+
     file->of_offset = local_offset;
+
+    pthread_rwlock_unlock(&file->open_file_rwlock);
 
 // ------------------------------------------------ END CRIT SPOT ----------------------------------
     return (ssize_t) total_read;

@@ -2,7 +2,6 @@
 #define STATE_H
 
 #include "config.h"
-#include "operations.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
