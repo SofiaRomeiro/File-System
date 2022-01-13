@@ -2,6 +2,7 @@
 #define STATE_H
 
 #include "config.h"
+#include "operations.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -74,5 +75,18 @@ int index_block_insert(int index_block[], int block_number);
 int add_to_open_file_table(int inumber, size_t offset);
 int remove_from_open_file_table(int fhandle);
 open_file_entry_t *get_open_file_entry(int fhandle);
+
+
+ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
+int direct_block_insert(inode_t *inode);
+ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size);
+int indirect_block_insert(inode_t *inode);
+int tfs_handle_indirect_block(inode_t *inode);
+ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer);
+ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer);
+/*
+void inode_lock(inode_table_t inode_table_s);
+void inode_unlock(inode_table_t inode_table_s);
+*/
 
 #endif // STATE_H
