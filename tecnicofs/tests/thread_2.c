@@ -4,11 +4,18 @@
 #include <pthread.h>
 #include <time.h>
 
-#define WRITE 3072
-#define N_THREADS 3
 
-static int counter;
-static pthread_mutex_t mutex;
+/*
+ * This test uses multiple threads to write on the same file (and same fh) and checks whether the result
+ * was the correct one.
+ * A maximum of N_THREADS = 10476 can be used (if the value is exceeded, an error will occur because
+ * it exceeds the file size.
+ * N_THREADS threads are created and each thread writes the abecedary to the file, by calling the
+ * function `tfs_write`.
+ */
+
+#define WRITE 1024
+#define N_THREADS 20
 
 static char buffer[WRITE];
 
@@ -26,8 +33,6 @@ void *fn(void *arg) {
     ssize_t total_written = tfs_write(args.fh, buffer + args.offset, BLOCK_SIZE);
 
     assert(total_written != -1);
-
-    pthread_mutex_unlock(&mutex);
 
     return (void *)NULL;
 }
@@ -48,10 +53,6 @@ int check() {
 int main() {
 
     char *path = "/f5";
-
-    pthread_mutex_init(&mutex, NULL);
-
-    counter = 0;
 
     int fhs[N_THREADS];
 
@@ -92,9 +93,6 @@ int main() {
     }
 
     memset(buffer, '\0', sizeof(buffer));
-
-
-    pthread_mutex_destroy(&mutex);
 
     int fh = tfs_open(path, 0);
 

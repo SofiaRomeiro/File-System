@@ -4,9 +4,13 @@
 #include <pthread.h>
 #include <time.h>
 
-/* 
- *  TEST N1 TO SUBMIT
- *  It tests the concurrent creation of file handlers
+/*
+ * This test uses multiple threads to write on the same file (and same fh) and checks whether the result
+ * was the correct one.
+ * A maximum of N_THREADS = 10476 can be used (if the value is exceeded, an error will occur because
+ * it exceeds the file size.
+ * N_THREADS threads are created and each thread writes the abecedary to the file, by calling the
+ * function `tfs_write`.
  */
 
 #define N_THREADS 20
