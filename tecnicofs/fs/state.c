@@ -455,7 +455,7 @@ void *data_block_get(int block_number) {
  */
 int add_to_open_file_table(int inumber, size_t offset) {
 
-    pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
+    //pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
     for (int i = 0; i < MAX_OPEN_FILES; i++) {
 
@@ -464,14 +464,14 @@ int add_to_open_file_table(int inumber, size_t offset) {
             fs_state_s.open_file_table[i].of_inumber = inumber;
             fs_state_s.open_file_table[i].of_offset = offset;
 
-            pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
+            //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
             return i;
         }       
 
     }
 
-    pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
+    //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
     return -1;
 }

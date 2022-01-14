@@ -8,18 +8,10 @@
  *  USAR
  */
 
-#define SIZE 4096
-#define N_THREADS 4
+#define N_THREADS 20
 
 #define PATH ("/f1")
 
-#define PATH_SIZE (sizeof(PATH))
-
-
-typedef struct {
-    char path[PATH_SIZE];
-    
-} myargs_t;
 
 int fhandlers[N_THREADS];
 
@@ -43,10 +35,9 @@ int check_array() {
     return 0;
 }
 
-void *fn(void *arg) {
-    myargs_t args = *((myargs_t *)arg);
+void *fn() {
 
-    int fhandler = tfs_open(args.path, TFS_O_CREAT);
+    int fhandler = tfs_open(PATH, 0);
 
     pthread_mutex_lock(&mutex);
 
@@ -68,17 +59,15 @@ int main() {
     pthread_t tids[N_THREADS];
     memset(tids, 0, sizeof(tids));
 
-    char *path = PATH;
+    assert(tfs_init() != -1);   
 
-    myargs_t *args = (myargs_t *)malloc(sizeof(myargs_t));
-
-    memcpy(args->path, path, PATH_SIZE);
-
-    assert(tfs_init() != -1);    
+    int fx = tfs_open(PATH, TFS_O_CREAT);
+    assert(fx != -1);
+    assert(tfs_close(fx) != -1); 
 
     for (size_t i = 0; i < N_THREADS; i++) {
         
-        assert(pthread_create(&tids[i], NULL, fn, (void *)args) == 0);
+        assert(pthread_create(&tids[i], NULL, fn, NULL) == 0);
     }  
 
     for (int i = 0; i < N_THREADS; i++) {
@@ -86,7 +75,6 @@ int main() {
     }  
 
     int check = check_array();
-    free(args);
     pthread_mutex_destroy(&mutex);
 
     assert(check == 0);
