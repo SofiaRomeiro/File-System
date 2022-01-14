@@ -29,7 +29,7 @@ LDFLAGS = -lpthread -pthread  -fsanitize=address
 LDFLAGS += $(INCLUDES)
 
 # Warnings
-CFLAGS += -fsanitize=thread -fdiagnostics-color=always -Wall -Werror -Wextra -Wcast-align -Wconversion -Wfloat-equal -Wformat=2 -Wnull-dereference -Wshadow -Wsign-conversion -Wswitch-default -Wswitch-enum -Wundef -Wunreachable-code -Wunused
+CFLAGS += -fsanitize=address -fdiagnostics-color=always -Wall -Werror -Wextra -Wcast-align -Wconversion -Wfloat-equal -Wformat=2 -Wnull-dereference -Wshadow -Wsign-conversion -Wswitch-default -Wswitch-enum -Wundef -Wunreachable-code -Wunused
 # Warning suppressions
 CFLAGS += -Wno-sign-compare
 
