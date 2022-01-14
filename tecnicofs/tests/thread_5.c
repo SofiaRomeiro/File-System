@@ -18,15 +18,13 @@ void *fn(void *args) {
 
     printf("fh is %d\n", fh);
 
-    ssize_t total_written = tfs_write(fh, buffer, WRITE);
+    ssize_t total_written = tfs_write(fh, buffer, WRITE / 3);
 
     printf("total written is %ld\n", total_written);
 
     assert(total_written != -1);
 
-    pthread_mutex_lock(&mutex);
-
-    counter += (int) total_written;
+    printf("buffer %s\n", buffer);
     
     pthread_mutex_unlock(&mutex);
 
@@ -65,7 +63,7 @@ int main() {
 
     printf("Counter is %d\n", counter);
 
-    assert(counter == N_THREADS * WRITE);
+    //assert(counter == N_THREADS * WRITE);
 
     pthread_mutex_destroy(&mutex);
 
