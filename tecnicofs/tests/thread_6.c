@@ -4,21 +4,21 @@
 #include <pthread.h>
 #include <time.h>
 
+/* 
+ *  USAR
+ */
+
 #define READ 100000
 #define WRITE 100000
 
 static int counter;
 static pthread_mutex_t mutex;
 
-
-
 void *fn(void *args) {
 
     char buffer[READ];
 
     int fh = *((int *)args);
-
-    printf("fh is %d\n", fh);
 
     ssize_t total_read = tfs_read(fh, buffer, READ);
 
