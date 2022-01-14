@@ -5,12 +5,12 @@
 #include <time.h>
 
 /*
- * This test uses multiple threads to write on the same file (and same fh) and checks whether the result
- * was the correct one.
- * A maximum of N_THREADS = 10476 can be used (if the value is exceeded, an error will occur because
- * it exceeds the file size.
- * N_THREADS threads are created and each thread writes the abecedary to the file, by calling the
- * function `tfs_write`.
+ * This test uses multiple threads to read on the same file using the same file handler.
+ * The objective is to read only the amount requested, which could only be possible when using
+ * thread-safe applications/ programms.
+ * The number of threads chosen is 2, but any other number could be chosen.
+ * READ and WRITE are such huge numbers because for small "counts" there are no differences 
+ * between thread-safe and not thread-safe applications/ programms. 
  */
 
 #define READ 100000

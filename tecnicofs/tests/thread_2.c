@@ -6,12 +6,14 @@
 
 
 /*
- * This test uses multiple threads to write on the same file (and same fh) and checks whether the result
- * was the correct one.
- * A maximum of N_THREADS = 10476 can be used (if the value is exceeded, an error will occur because
- * it exceeds the file size.
- * N_THREADS threads are created and each thread writes the abecedary to the file, by calling the
- * function `tfs_write`.
+ * This test uses multiple threads to write on the same file (and with the same fh), targeting only 
+ * the first block.
+ * The objective is to evaluate the final buffer which should contain 1024 characters, all equals
+ * between them, since the tfs_write() and the write itself would be concurrent.
+ * A number of (N_THREADS = 8) will be used for CPU architecture reasons (theoretical reasons), but 
+ * any other number could be chosen
+ * WRITE = 20 represents he total number of bytes written, but only BLOCK_SIZE = 1024 will actual be 
+ * written when the test is over 
  */
 
 #define WRITE 20480

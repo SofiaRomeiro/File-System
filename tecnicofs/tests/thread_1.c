@@ -5,15 +5,16 @@
 #include <time.h>
 
 /*
- * This test uses multiple threads to write on the same file (and same fh) and checks whether the result
- * was the correct one.
- * A maximum of N_THREADS = 10476 can be used (if the value is exceeded, an error will occur because
- * it exceeds the file size.
- * N_THREADS threads are created and each thread writes the abecedary to the file, by calling the
- * function `tfs_write`.
+ * This test uses multiple threads to create multiple file handlers for the same file (macro PATH)
+ * A number of (N_THREADS = 8) will be used for CPU architecture reasons (theoretical reasons), but 
+ * any other number could be chosen
+ * The key objetive is to check if each created file handler is different from the others -> check()
+ * function does this job
+ * A mutex is used to read and write two global variables created to make the test easier to evaluate
+ * This mutex DOESN't affect the tfs itself since when tfs_open() is called, any mutex is locked
  */
 
-#define N_THREADS 20
+#define N_THREADS 8
 
 #define PATH ("/f1")
 
