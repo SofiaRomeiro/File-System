@@ -107,8 +107,14 @@ int tfs_open(char const *name, int flags) {
 
     /* Finally, add entry to the open file table and
      * return the corresponding handle */
+
+    file_allocation_map_lock(MUTEX);
+
+    int fhandle = add_to_open_file_table(inum, offset);
+
+    file_allocation_map_unlock(MUTEX);
     
-    return add_to_open_file_table(inum, offset); 
+    return fhandle; 
 
     /* Note: for simplification, if file was created with TFS_O_CREAT and there
      * is an error adding an entry to the open file table, the file is not
@@ -257,6 +263,8 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
         to_write = (size_t)(direct_bytes + indirect_bytes);
     }
+
+    printf("file handler is %ld\n", file->of_offset);
 
     return (ssize_t)to_write;
 }

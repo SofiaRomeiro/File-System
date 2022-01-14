@@ -8,8 +8,6 @@
 
 int main() {
 
-    
-
     char *path = "/f1";
 
     char input[SIZE]; 

@@ -14,7 +14,7 @@ INCLUDES = $(addprefix -I, $(INCLUDE_DIRS))
 SOURCES  := $(wildcard */*.c)
 HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
-TARGET_EXECS := tests/thread_1 tests/thread_2 tests/sequential_2 tests/thread_3 tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_short_str tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes tests/max_storage_exceeded tests/copy_to_external_different_char tests/copy_to_external_multiple_char
+TARGET_EXECS := tests/thread_1 tests/thread_2 tests/sequential_2 tests/thread_3 tests/thread_4 tests/thread_5 tests/thread_6 tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_short_str tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes tests/max_storage_exceeded tests/copy_to_external_different_char tests/copy_to_external_multiple_char
 
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
@@ -60,7 +60,7 @@ valgrind :
 	@echo ------- Starting Valgrind -------
 	valgrind -s --tool=helgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes ./tests/thread_2
 
-test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 test18 test19 test20 test21 test22
+test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 test18 test19 test20 test21 test22 test23 test24 test25
 	@echo "Ending tests :)"
 
 test1:
@@ -151,6 +151,19 @@ test22:
 	@echo ----- Test 22 ------
 	./tests/sequential_2
 
+test23:
+	@echo ----- Test 23 ------
+	./tests/thread_4
+
+test24:
+	@echo ----- Test 24 ------
+	./tests/thread_5
+
+test25:
+	@echo ----- Test 25 ------
+	./tests/thread_6
+
+
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
 # in the file '.clang-format'.
@@ -188,6 +201,9 @@ tests/copy_to_external_multiple_char: tests/copy_to_external_multiple_char.o fs/
 tests/thread_1: tests/thread_1.o fs/operations.o fs/state.o 
 tests/thread_2: tests/thread_2.o fs/operations.o fs/state.o 
 tests/thread_3: tests/thread_3.o fs/operations.o fs/state.o 
+tests/thread_4: tests/thread_4.o fs/operations.o fs/state.o 
+tests/thread_5: tests/thread_5.o fs/operations.o fs/state.o 
+tests/thread_6: tests/thread_6.o fs/operations.o fs/state.o 
 tests/sequential_2: tests/sequential_2.o fs/operations.o fs/state.o 
 
 

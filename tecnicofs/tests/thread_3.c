@@ -4,7 +4,11 @@
 #include <pthread.h>
 
 #define SIZE 26
-#define N_THREADS 16
+#define N_THREADS 8
+
+/*
+ *   NAO USAR 
+ */ 
 
 /**
    This test uses multiple threads to write on the same file (and same fh) and checks whether the result
@@ -42,7 +46,7 @@ int main() {
     /* Variable used to write */
     char write[SIZE+1] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     /* The expected output variable */
-    char output[SIZE * N_THREADS + 1];
+    char output[SIZE * N_THREADS +1];
 
     /* Creates the expected output */
     /* It's the abecedary multiple times */
@@ -55,7 +59,9 @@ int main() {
     output[of] = '\0';
 
     /* My output. Used to compare to the expected output */
-    char *myoutput = (char*) malloc(sizeof(char) * (SIZE*N_THREADS+1));
+    char myoutput[SIZE * N_THREADS];
+
+    memset(myoutput, '\0', sizeof(myoutput));
 
     // ----------------------
 
@@ -95,14 +101,15 @@ int main() {
     /* Reads the content of the file to `myoutput`.
      * The content must be of size SIZE*N_THREADS (where SIZE is the length of
      * the abecedary. */
-    ssize_t res = tfs_read(fd, myoutput,SIZE*N_THREADS);
+    ssize_t res = tfs_read(fd, myoutput, SIZE*N_THREADS);
     assert(res == SIZE*N_THREADS);
+
+
 
     /* Compares if the output and the expected output are the same */
     assert(memcmp(output,myoutput, SIZE*N_THREADS)==0);
 
     /* Frees the buffer */
-    free(myoutput);
     free(s);
 
     printf("Successful test\n");
