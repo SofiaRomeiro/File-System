@@ -14,7 +14,7 @@
  * function `tfs_write`.
  */
 
-#define WRITE 1024
+#define WRITE 20480
 #define N_THREADS 20
 
 static char buffer[WRITE];
@@ -38,6 +38,7 @@ void *fn(void *arg) {
 }
 
 int check() {
+    
     char control = read_info[0];
 
     for (int i = 1; i < BLOCK_SIZE; i++) {
@@ -68,7 +69,6 @@ int main() {
 
     memset(read_info, '\0', sizeof(read_info));
 
-
     assert(tfs_init() != -1);
 
     for (int i = 0; i < N_THREADS; i++) {
@@ -94,6 +94,7 @@ int main() {
 
     memset(buffer, '\0', sizeof(buffer));
 
+
     int fh = tfs_open(path, 0);
 
     ssize_t read = tfs_read(fh, read_info, BLOCK_SIZE);
@@ -101,7 +102,7 @@ int main() {
     assert(check() == 0);
     assert(read = BLOCK_SIZE);
 
-    printf("Successfull est\n");
+    printf("Successfull test\n");
 
     return 0;
 

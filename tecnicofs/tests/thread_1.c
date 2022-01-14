@@ -62,7 +62,7 @@ int main() {
     count = 0;
 
     pthread_t tids[N_THREADS];
-    memset(tids, -1, sizeof(tids));
+    memset(tids, 0, sizeof(tids));
 
     assert(tfs_init() != -1);   
 

@@ -80,7 +80,7 @@ int main() {
 
     assert(tfs_close(fh) != -1);
 
-    printf("Successfull Test\n");
+    printf("Successfull test\n");
 
     return 0;
 
