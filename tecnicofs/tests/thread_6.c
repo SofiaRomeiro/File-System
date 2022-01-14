@@ -5,7 +5,8 @@
 #include <time.h>
 
 /* 
- *  USAR
+ *  TEST N1 TO SUBMIT
+ *  It tests the concurrent read of the same file handler
  */
 
 #define READ 100000

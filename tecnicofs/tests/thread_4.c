@@ -5,7 +5,8 @@
 #include <time.h>
 
 /* 
- *  USAR
+ *  TEST N1 TO SUBMIT
+ *  It tests the concurrent creation of file handlers
  */
 
 #define N_THREADS 20
