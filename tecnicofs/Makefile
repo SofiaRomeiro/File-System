@@ -25,7 +25,7 @@ CFLAGS = -std=c11 -D_POSIX_C_SOURCE=200809L
 CFLAGS += $(INCLUDES)
 
 #thread flags 
-LDFLAGS = -lpthread -fsanitize=thread
+LDFLAGS = -lpthread -pthread  -fsanitize=address
 LDFLAGS += $(INCLUDES)
 
 # Warnings
