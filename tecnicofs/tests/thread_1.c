@@ -58,7 +58,7 @@ int main() {
     count = 0;
 
     pthread_t tids[N_THREADS];
-    memset(tids, 0, sizeof(tids));
+    memset(tids, -1, sizeof(tids));
 
     assert(tfs_init() != -1);   
 
@@ -80,7 +80,7 @@ int main() {
 
     assert(check == 0);
 
-    printf("======> Sucessful test\n\n");
+    printf("Sucessful test\n");
 
     return 0;
     

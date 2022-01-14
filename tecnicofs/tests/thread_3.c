@@ -76,6 +76,8 @@ int main() {
 
     assert(tfs_close(fh) != -1);
 
+    printf("Successfull Test\n");
+
     return 0;
 
 }
