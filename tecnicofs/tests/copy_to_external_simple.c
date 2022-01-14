@@ -7,7 +7,7 @@ int main() {
 
     char *str = "AAA! AAA! AAA! ";
     char *path = "/f1";
-    char *path2 = "external_file.txt";
+    char *path2 = "./tests/output/external_file.txt";
     char to_read[40];
 
     assert(tfs_init() != -1);
@@ -27,7 +27,7 @@ int main() {
 
     assert(fread(to_read, sizeof(char), strlen(str), fp) == strlen(str));
     
-    assert(strcmp(str, to_read) == 0);
+    assert(strncmp(str, to_read, strlen(str)) == 0);
 
     assert(fclose(fp) != -1);
 

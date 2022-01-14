@@ -1,0 +1,805 @@
+----- Test 14 ------
+./tests/write_max_bytes
+[ data_block_alloc ] alloc block 0
+[data block insert] after - block 0 = 0
+[data block insert] before -  block 0 = 0
+[ data_block_alloc ] alloc block 1
+[data block insert] after - block 1 = 0
+[data block insert] before -  block 1 = 1
+[ data_block_alloc ] alloc block 2
+[data block insert] after - block 2 = 0
+[data block insert] before -  block 2 = 2
+[ data_block_alloc ] alloc block 3
+[data block insert] after - block 3 = 0
+[data block insert] before -  block 3 = 3
+[ data_block_alloc ] alloc block 4
+[data block insert] after - block 4 = 0
+[data block insert] before -  block 4 = 4
+[ data_block_alloc ] alloc block 5
+[data block insert] after - block 5 = 0
+[data block insert] before -  block 5 = 5
+[ data_block_alloc ] alloc block 6
+[data block insert] after - block 6 = 0
+[data block insert] before -  block 6 = 6
+[ data_block_alloc ] alloc block 7
+[data block insert] after - block 7 = 0
+[data block insert] before -  block 7 = 7
+[ data_block_alloc ] alloc block 8
+[data block insert] after - block 8 = 0
+[data block insert] before -  block 8 = 8
+[ data_block_alloc ] alloc block 9
+[data block insert] after - block 9 = 0
+[data block insert] before -  block 9 = 9
+[ data_block_alloc ] alloc block 10
+[data block insert] after - block 10 = 0
+[data block insert] before -  block 10 = 10
+[ data_block_alloc ] alloc block 11
+[data block insert] after - block 11 = 0
+[data block insert] before -  block 11 = 11
+[ data_block_alloc ] alloc block 12
+[data block insert] after - block 12 = 0
+[data block insert] before -  block 12 = 12
+[ data_block_alloc ] alloc block 13
+[data block insert] after - block 13 = 0
+[data block insert] before -  block 13 = 13
+[ data_block_alloc ] alloc block 14
+[data block insert] after - block 14 = 0
+[data block insert] before -  block 14 = 14
+[ data_block_alloc ] alloc block 15
+[data block insert] after - block 15 = 0
+[data block insert] before -  block 15 = 15
+[ data_block_alloc ] alloc block 16
+[data block insert] after - block 16 = 0
+[data block insert] before -  block 16 = 16
+[ data_block_alloc ] alloc block 17
+[data block insert] after - block 17 = 0
+[data block insert] before -  block 17 = 17
+[ data_block_alloc ] alloc block 18
+[data block insert] after - block 18 = 0
+[data block insert] before -  block 18 = 18
+[ data_block_alloc ] alloc block 19
+[data block insert] after - block 19 = 0
+[data block insert] before -  block 19 = 19
+[ data_block_alloc ] alloc block 20
+[data block insert] after - block 20 = 0
+[data block insert] before -  block 20 = 20
+[ data_block_alloc ] alloc block 21
+[data block insert] after - block 21 = 0
+[data block insert] before -  block 21 = 21
+[ data_block_alloc ] alloc block 22
+[data block insert] after - block 22 = 0
+[data block insert] before -  block 22 = 22
+[ data_block_alloc ] alloc block 23
+[data block insert] after - block 23 = 0
+[data block insert] before -  block 23 = 23
+[ data_block_alloc ] alloc block 24
+[data block insert] after - block 24 = 0
+[data block insert] before -  block 24 = 24
+[ data_block_alloc ] alloc block 25
+[data block insert] after - block 25 = 0
+[data block insert] before -  block 25 = 25
+[ data_block_alloc ] alloc block 26
+[data block insert] after - block 26 = 0
+[data block insert] before -  block 26 = 26
+[ data_block_alloc ] alloc block 27
+[data block insert] after - block 27 = 0
+[data block insert] before -  block 27 = 27
+[ data_block_alloc ] alloc block 28
+[data block insert] after - block 28 = 0
+[data block insert] before -  block 28 = 28
+[ data_block_alloc ] alloc block 29
+[data block insert] after - block 29 = 0
+[data block insert] before -  block 29 = 29
+[ data_block_alloc ] alloc block 30
+[data block insert] after - block 30 = 0
+[data block insert] before -  block 30 = 30
+[ data_block_alloc ] alloc block 31
+[data block insert] after - block 31 = 0
+[data block insert] before -  block 31 = 31
+[ data_block_alloc ] alloc block 32
+[data block insert] after - block 32 = 0
+[data block insert] before -  block 32 = 32
+[ data_block_alloc ] alloc block 33
+[data block insert] after - block 33 = 0
+[data block insert] before -  block 33 = 33
+[ data_block_alloc ] alloc block 34
+[data block insert] after - block 34 = 0
+[data block insert] before -  block 34 = 34
+[ data_block_alloc ] alloc block 35
+[data block insert] after - block 35 = 0
+[data block insert] before -  block 35 = 35
+[ data_block_alloc ] alloc block 36
+[data block insert] after - block 36 = 0
+[data block insert] before -  block 36 = 36
+[ data_block_alloc ] alloc block 37
+[data block insert] after - block 37 = 0
+[data block insert] before -  block 37 = 37
+[ data_block_alloc ] alloc block 38
+[data block insert] after - block 38 = 0
+[data block insert] before -  block 38 = 38
+[ data_block_alloc ] alloc block 39
+[data block insert] after - block 39 = 0
+[data block insert] before -  block 39 = 39
+[ data_block_alloc ] alloc block 40
+[data block insert] after - block 40 = 0
+[data block insert] before -  block 40 = 40
+[ data_block_alloc ] alloc block 41
+[data block insert] after - block 41 = 0
+[data block insert] before -  block 41 = 41
+[ data_block_alloc ] alloc block 42
+[data block insert] after - block 42 = 0
+[data block insert] before -  block 42 = 42
+[ data_block_alloc ] alloc block 43
+[data block insert] after - block 43 = 0
+[data block insert] before -  block 43 = 43
+[ data_block_alloc ] alloc block 44
+[data block insert] after - block 44 = 0
+[data block insert] before -  block 44 = 44
+[ data_block_alloc ] alloc block 45
+[data block insert] after - block 45 = 0
+[data block insert] before -  block 45 = 45
+[ data_block_alloc ] alloc block 46
+[data block insert] after - block 46 = 0
+[data block insert] before -  block 46 = 46
+[ data_block_alloc ] alloc block 47
+[data block insert] after - block 47 = 0
+[data block insert] before -  block 47 = 47
+[ data_block_alloc ] alloc block 48
+[data block insert] after - block 48 = 0
+[data block insert] before -  block 48 = 48
+[ data_block_alloc ] alloc block 49
+[data block insert] after - block 49 = 0
+[data block insert] before -  block 49 = 49
+[ data_block_alloc ] alloc block 50
+[data block insert] after - block 50 = 0
+[data block insert] before -  block 50 = 50
+[ data_block_alloc ] alloc block 51
+[data block insert] after - block 51 = 0
+[data block insert] before -  block 51 = 51
+[ data_block_alloc ] alloc block 52
+[data block insert] after - block 52 = 0
+[data block insert] before -  block 52 = 52
+[ data_block_alloc ] alloc block 53
+[data block insert] after - block 53 = 0
+[data block insert] before -  block 53 = 53
+[ data_block_alloc ] alloc block 54
+[data block insert] after - block 54 = 0
+[data block insert] before -  block 54 = 54
+[ data_block_alloc ] alloc block 55
+[data block insert] after - block 55 = 0
+[data block insert] before -  block 55 = 55
+[ data_block_alloc ] alloc block 56
+[data block insert] after - block 56 = 0
+[data block insert] before -  block 56 = 56
+[ data_block_alloc ] alloc block 57
+[data block insert] after - block 57 = 0
+[data block insert] before -  block 57 = 57
+[ data_block_alloc ] alloc block 58
+[data block insert] after - block 58 = 0
+[data block insert] before -  block 58 = 58
+[ data_block_alloc ] alloc block 59
+[data block insert] after - block 59 = 0
+[data block insert] before -  block 59 = 59
+[ data_block_alloc ] alloc block 60
+[data block insert] after - block 60 = 0
+[data block insert] before -  block 60 = 60
+[ data_block_alloc ] alloc block 61
+[data block insert] after - block 61 = 0
+[data block insert] before -  block 61 = 61
+[ data_block_alloc ] alloc block 62
+[data block insert] after - block 62 = 0
+[data block insert] before -  block 62 = 62
+[ data_block_alloc ] alloc block 63
+[data block insert] after - block 63 = 0
+[data block insert] before -  block 63 = 63
+[ data_block_alloc ] alloc block 64
+[data block insert] after - block 64 = 0
+[data block insert] before -  block 64 = 64
+[ data_block_alloc ] alloc block 65
+[data block insert] after - block 65 = 0
+[data block insert] before -  block 65 = 65
+[ data_block_alloc ] alloc block 66
+[data block insert] after - block 66 = 0
+[data block insert] before -  block 66 = 66
+[ data_block_alloc ] alloc block 67
+[data block insert] after - block 67 = 0
+[data block insert] before -  block 67 = 67
+[ data_block_alloc ] alloc block 68
+[data block insert] after - block 68 = 0
+[data block insert] before -  block 68 = 68
+[ data_block_alloc ] alloc block 69
+[data block insert] after - block 69 = 0
+[data block insert] before -  block 69 = 69
+[ data_block_alloc ] alloc block 70
+[data block insert] after - block 70 = 0
+[data block insert] before -  block 70 = 70
+[ data_block_alloc ] alloc block 71
+[data block insert] after - block 71 = 0
+[data block insert] before -  block 71 = 71
+[ data_block_alloc ] alloc block 72
+[data block insert] after - block 72 = 0
+[data block insert] before -  block 72 = 72
+[ data_block_alloc ] alloc block 73
+[data block insert] after - block 73 = 0
+[data block insert] before -  block 73 = 73
+[ data_block_alloc ] alloc block 74
+[data block insert] after - block 74 = 0
+[data block insert] before -  block 74 = 74
+[ data_block_alloc ] alloc block 75
+[data block insert] after - block 75 = 0
+[data block insert] before -  block 75 = 75
+[ data_block_alloc ] alloc block 76
+[data block insert] after - block 76 = 0
+[data block insert] before -  block 76 = 76
+[ data_block_alloc ] alloc block 77
+[data block insert] after - block 77 = 0
+[data block insert] before -  block 77 = 77
+[ data_block_alloc ] alloc block 78
+[data block insert] after - block 78 = 0
+[data block insert] before -  block 78 = 78
+[ data_block_alloc ] alloc block 79
+[data block insert] after - block 79 = 0
+[data block insert] before -  block 79 = 79
+[ data_block_alloc ] alloc block 80
+[data block insert] after - block 80 = 0
+[data block insert] before -  block 80 = 80
+[ data_block_alloc ] alloc block 81
+[data block insert] after - block 81 = 0
+[data block insert] before -  block 81 = 81
+[ data_block_alloc ] alloc block 82
+[data block insert] after - block 82 = 0
+[data block insert] before -  block 82 = 82
+[ data_block_alloc ] alloc block 83
+[data block insert] after - block 83 = 0
+[data block insert] before -  block 83 = 83
+[ data_block_alloc ] alloc block 84
+[data block insert] after - block 84 = 0
+[data block insert] before -  block 84 = 84
+[ data_block_alloc ] alloc block 85
+[data block insert] after - block 85 = 0
+[data block insert] before -  block 85 = 85
+[ data_block_alloc ] alloc block 86
+[data block insert] after - block 86 = 0
+[data block insert] before -  block 86 = 86
+[ data_block_alloc ] alloc block 87
+[data block insert] after - block 87 = 0
+[data block insert] before -  block 87 = 87
+[ data_block_alloc ] alloc block 88
+[data block insert] after - block 88 = 0
+[data block insert] before -  block 88 = 88
+[ data_block_alloc ] alloc block 89
+[data block insert] after - block 89 = 0
+[data block insert] before -  block 89 = 89
+[ data_block_alloc ] alloc block 90
+[data block insert] after - block 90 = 0
+[data block insert] before -  block 90 = 90
+[ data_block_alloc ] alloc block 91
+[data block insert] after - block 91 = 0
+[data block insert] before -  block 91 = 91
+[ data_block_alloc ] alloc block 92
+[data block insert] after - block 92 = 0
+[data block insert] before -  block 92 = 92
+[ data_block_alloc ] alloc block 93
+[data block insert] after - block 93 = 0
+[data block insert] before -  block 93 = 93
+[ data_block_alloc ] alloc block 94
+[data block insert] after - block 94 = 0
+[data block insert] before -  block 94 = 94
+[ data_block_alloc ] alloc block 95
+[data block insert] after - block 95 = 0
+[data block insert] before -  block 95 = 95
+[ data_block_alloc ] alloc block 96
+[data block insert] after - block 96 = 0
+[data block insert] before -  block 96 = 96
+[ data_block_alloc ] alloc block 97
+[data block insert] after - block 97 = 0
+[data block insert] before -  block 97 = 97
+[ data_block_alloc ] alloc block 98
+[data block insert] after - block 98 = 0
+[data block insert] before -  block 98 = 98
+[ data_block_alloc ] alloc block 99
+[data block insert] after - block 99 = 0
+[data block insert] before -  block 99 = 99
+[ data_block_alloc ] alloc block 100
+[data block insert] after - block 100 = 0
+[data block insert] before -  block 100 = 100
+[ data_block_alloc ] alloc block 101
+[data block insert] after - block 101 = 0
+[data block insert] before -  block 101 = 101
+[ data_block_alloc ] alloc block 102
+[data block insert] after - block 102 = 0
+[data block insert] before -  block 102 = 102
+[ data_block_alloc ] alloc block 103
+[data block insert] after - block 103 = 0
+[data block insert] before -  block 103 = 103
+[ data_block_alloc ] alloc block 104
+[data block insert] after - block 104 = 0
+[data block insert] before -  block 104 = 104
+[ data_block_alloc ] alloc block 105
+[data block insert] after - block 105 = 0
+[data block insert] before -  block 105 = 105
+[ data_block_alloc ] alloc block 106
+[data block insert] after - block 106 = 0
+[data block insert] before -  block 106 = 106
+[ data_block_alloc ] alloc block 107
+[data block insert] after - block 107 = 0
+[data block insert] before -  block 107 = 107
+[ data_block_alloc ] alloc block 108
+[data block insert] after - block 108 = 0
+[data block insert] before -  block 108 = 108
+[ data_block_alloc ] alloc block 109
+[data block insert] after - block 109 = 0
+[data block insert] before -  block 109 = 109
+[ data_block_alloc ] alloc block 110
+[data block insert] after - block 110 = 0
+[data block insert] before -  block 110 = 110
+[ data_block_alloc ] alloc block 111
+[data block insert] after - block 111 = 0
+[data block insert] before -  block 111 = 111
+[ data_block_alloc ] alloc block 112
+[data block insert] after - block 112 = 0
+[data block insert] before -  block 112 = 112
+[ data_block_alloc ] alloc block 113
+[data block insert] after - block 113 = 0
+[data block insert] before -  block 113 = 113
+[ data_block_alloc ] alloc block 114
+[data block insert] after - block 114 = 0
+[data block insert] before -  block 114 = 114
+[ data_block_alloc ] alloc block 115
+[data block insert] after - block 115 = 0
+[data block insert] before -  block 115 = 115
+[ data_block_alloc ] alloc block 116
+[data block insert] after - block 116 = 0
+[data block insert] before -  block 116 = 116
+[ data_block_alloc ] alloc block 117
+[data block insert] after - block 117 = 0
+[data block insert] before -  block 117 = 117
+[ data_block_alloc ] alloc block 118
+[data block insert] after - block 118 = 0
+[data block insert] before -  block 118 = 118
+[ data_block_alloc ] alloc block 119
+[data block insert] after - block 119 = 0
+[data block insert] before -  block 119 = 119
+[ data_block_alloc ] alloc block 120
+[data block insert] after - block 120 = 0
+[data block insert] before -  block 120 = 120
+[ data_block_alloc ] alloc block 121
+[data block insert] after - block 121 = 0
+[data block insert] before -  block 121 = 121
+[ data_block_alloc ] alloc block 122
+[data block insert] after - block 122 = 0
+[data block insert] before -  block 122 = 122
+[ data_block_alloc ] alloc block 123
+[data block insert] after - block 123 = 0
+[data block insert] before -  block 123 = 123
+[ data_block_alloc ] alloc block 124
+[data block insert] after - block 124 = 0
+[data block insert] before -  block 124 = 124
+[ data_block_alloc ] alloc block 125
+[data block insert] after - block 125 = 0
+[data block insert] before -  block 125 = 125
+[ data_block_alloc ] alloc block 126
+[data block insert] after - block 126 = 0
+[data block insert] before -  block 126 = 126
+[ data_block_alloc ] alloc block 127
+[data block insert] after - block 127 = 0
+[data block insert] before -  block 127 = 127
+[ data_block_alloc ] alloc block 128
+[data block insert] after - block 128 = 0
+[data block insert] before -  block 128 = 128
+[ data_block_alloc ] alloc block 129
+[data block insert] after - block 129 = 0
+[data block insert] before -  block 129 = 129
+[ data_block_alloc ] alloc block 130
+[data block insert] after - block 130 = 0
+[data block insert] before -  block 130 = 130
+[ data_block_alloc ] alloc block 131
+[data block insert] after - block 131 = 0
+[data block insert] before -  block 131 = 131
+[ data_block_alloc ] alloc block 132
+[data block insert] after - block 132 = 0
+[data block insert] before -  block 132 = 132
+[ data_block_alloc ] alloc block 133
+[data block insert] after - block 133 = 0
+[data block insert] before -  block 133 = 133
+[ data_block_alloc ] alloc block 134
+[data block insert] after - block 134 = 0
+[data block insert] before -  block 134 = 134
+[ data_block_alloc ] alloc block 135
+[data block insert] after - block 135 = 0
+[data block insert] before -  block 135 = 135
+[ data_block_alloc ] alloc block 136
+[data block insert] after - block 136 = 0
+[data block insert] before -  block 136 = 136
+[ data_block_alloc ] alloc block 137
+[data block insert] after - block 137 = 0
+[data block insert] before -  block 137 = 137
+[ data_block_alloc ] alloc block 138
+[data block insert] after - block 138 = 0
+[data block insert] before -  block 138 = 138
+[ data_block_alloc ] alloc block 139
+[data block insert] after - block 139 = 0
+[data block insert] before -  block 139 = 139
+[ data_block_alloc ] alloc block 140
+[data block insert] after - block 140 = 0
+[data block insert] before -  block 140 = 140
+[ data_block_alloc ] alloc block 141
+[data block insert] after - block 141 = 0
+[data block insert] before -  block 141 = 141
+[ data_block_alloc ] alloc block 142
+[data block insert] after - block 142 = 0
+[data block insert] before -  block 142 = 142
+[ data_block_alloc ] alloc block 143
+[data block insert] after - block 143 = 0
+[data block insert] before -  block 143 = 143
+[ data_block_alloc ] alloc block 144
+[data block insert] after - block 144 = 0
+[data block insert] before -  block 144 = 144
+[ data_block_alloc ] alloc block 145
+[data block insert] after - block 145 = 0
+[data block insert] before -  block 145 = 145
+[ data_block_alloc ] alloc block 146
+[data block insert] after - block 146 = 0
+[data block insert] before -  block 146 = 146
+[ data_block_alloc ] alloc block 147
+[data block insert] after - block 147 = 0
+[data block insert] before -  block 147 = 147
+[ data_block_alloc ] alloc block 148
+[data block insert] after - block 148 = 0
+[data block insert] before -  block 148 = 148
+[ data_block_alloc ] alloc block 149
+[data block insert] after - block 149 = 0
+[data block insert] before -  block 149 = 149
+[ data_block_alloc ] alloc block 150
+[data block insert] after - block 150 = 0
+[data block insert] before -  block 150 = 150
+[ data_block_alloc ] alloc block 151
+[data block insert] after - block 151 = 0
+[data block insert] before -  block 151 = 151
+[ data_block_alloc ] alloc block 152
+[data block insert] after - block 152 = 0
+[data block insert] before -  block 152 = 152
+[ data_block_alloc ] alloc block 153
+[data block insert] after - block 153 = 0
+[data block insert] before -  block 153 = 153
+[ data_block_alloc ] alloc block 154
+[data block insert] after - block 154 = 0
+[data block insert] before -  block 154 = 154
+[ data_block_alloc ] alloc block 155
+[data block insert] after - block 155 = 0
+[data block insert] before -  block 155 = 155
+[ data_block_alloc ] alloc block 156
+[data block insert] after - block 156 = 0
+[data block insert] before -  block 156 = 156
+[ data_block_alloc ] alloc block 157
+[data block insert] after - block 157 = 0
+[data block insert] before -  block 157 = 157
+[ data_block_alloc ] alloc block 158
+[data block insert] after - block 158 = 0
+[data block insert] before -  block 158 = 158
+[ data_block_alloc ] alloc block 159
+[data block insert] after - block 159 = 0
+[data block insert] before -  block 159 = 159
+[ data_block_alloc ] alloc block 160
+[data block insert] after - block 160 = 0
+[data block insert] before -  block 160 = 160
+[ data_block_alloc ] alloc block 161
+[data block insert] after - block 161 = 0
+[data block insert] before -  block 161 = 161
+[ data_block_alloc ] alloc block 162
+[data block insert] after - block 162 = 0
+[data block insert] before -  block 162 = 162
+[ data_block_alloc ] alloc block 163
+[data block insert] after - block 163 = 0
+[data block insert] before -  block 163 = 163
+[ data_block_alloc ] alloc block 164
+[data block insert] after - block 164 = 0
+[data block insert] before -  block 164 = 164
+[ data_block_alloc ] alloc block 165
+[data block insert] after - block 165 = 0
+[data block insert] before -  block 165 = 165
+[ data_block_alloc ] alloc block 166
+[data block insert] after - block 166 = 0
+[data block insert] before -  block 166 = 166
+[ data_block_alloc ] alloc block 167
+[data block insert] after - block 167 = 0
+[data block insert] before -  block 167 = 167
+[ data_block_alloc ] alloc block 168
+[data block insert] after - block 168 = 0
+[data block insert] before -  block 168 = 168
+[ data_block_alloc ] alloc block 169
+[data block insert] after - block 169 = 0
+[data block insert] before -  block 169 = 169
+[ data_block_alloc ] alloc block 170
+[data block insert] after - block 170 = 0
+[data block insert] before -  block 170 = 170
+[ data_block_alloc ] alloc block 171
+[data block insert] after - block 171 = 0
+[data block insert] before -  block 171 = 171
+[ data_block_alloc ] alloc block 172
+[data block insert] after - block 172 = 0
+[data block insert] before -  block 172 = 172
+[ data_block_alloc ] alloc block 173
+[data block insert] after - block 173 = 0
+[data block insert] before -  block 173 = 173
+[ data_block_alloc ] alloc block 174
+[data block insert] after - block 174 = 0
+[data block insert] before -  block 174 = 174
+[ data_block_alloc ] alloc block 175
+[data block insert] after - block 175 = 0
+[data block insert] before -  block 175 = 175
+[ data_block_alloc ] alloc block 176
+[data block insert] after - block 176 = 0
+[data block insert] before -  block 176 = 176
+[ data_block_alloc ] alloc block 177
+[data block insert] after - block 177 = 0
+[data block insert] before -  block 177 = 177
+[ data_block_alloc ] alloc block 178
+[data block insert] after - block 178 = 0
+[data block insert] before -  block 178 = 178
+[ data_block_alloc ] alloc block 179
+[data block insert] after - block 179 = 0
+[data block insert] before -  block 179 = 179
+[ data_block_alloc ] alloc block 180
+[data block insert] after - block 180 = 0
+[data block insert] before -  block 180 = 180
+[ data_block_alloc ] alloc block 181
+[data block insert] after - block 181 = 0
+[data block insert] before -  block 181 = 181
+[ data_block_alloc ] alloc block 182
+[data block insert] after - block 182 = 0
+[data block insert] before -  block 182 = 182
+[ data_block_alloc ] alloc block 183
+[data block insert] after - block 183 = 0
+[data block insert] before -  block 183 = 183
+[ data_block_alloc ] alloc block 184
+[data block insert] after - block 184 = 0
+[data block insert] before -  block 184 = 184
+[ data_block_alloc ] alloc block 185
+[data block insert] after - block 185 = 0
+[data block insert] before -  block 185 = 185
+[ data_block_alloc ] alloc block 186
+[data block insert] after - block 186 = 0
+[data block insert] before -  block 186 = 186
+[ data_block_alloc ] alloc block 187
+[data block insert] after - block 187 = 0
+[data block insert] before -  block 187 = 187
+[ data_block_alloc ] alloc block 188
+[data block insert] after - block 188 = 0
+[data block insert] before -  block 188 = 188
+[ data_block_alloc ] alloc block 189
+[data block insert] after - block 189 = 0
+[data block insert] before -  block 189 = 189
+[ data_block_alloc ] alloc block 190
+[data block insert] after - block 190 = 0
+[data block insert] before -  block 190 = 190
+[ data_block_alloc ] alloc block 191
+[data block insert] after - block 191 = 0
+[data block insert] before -  block 191 = 191
+[ data_block_alloc ] alloc block 192
+[data block insert] after - block 192 = 0
+[data block insert] before -  block 192 = 192
+[ data_block_alloc ] alloc block 193
+[data block insert] after - block 193 = 0
+[data block insert] before -  block 193 = 193
+[ data_block_alloc ] alloc block 194
+[data block insert] after - block 194 = 0
+[data block insert] before -  block 194 = 194
+[ data_block_alloc ] alloc block 195
+[data block insert] after - block 195 = 0
+[data block insert] before -  block 195 = 195
+[ data_block_alloc ] alloc block 196
+[data block insert] after - block 196 = 0
+[data block insert] before -  block 196 = 196
+[ data_block_alloc ] alloc block 197
+[data block insert] after - block 197 = 0
+[data block insert] before -  block 197 = 197
+[ data_block_alloc ] alloc block 198
+[data block insert] after - block 198 = 0
+[data block insert] before -  block 198 = 198
+[ data_block_alloc ] alloc block 199
+[data block insert] after - block 199 = 0
+[data block insert] before -  block 199 = 199
+[ data_block_alloc ] alloc block 200
+[data block insert] after - block 200 = 0
+[data block insert] before -  block 200 = 200
+[ data_block_alloc ] alloc block 201
+[data block insert] after - block 201 = 0
+[data block insert] before -  block 201 = 201
+[ data_block_alloc ] alloc block 202
+[data block insert] after - block 202 = 0
+[data block insert] before -  block 202 = 202
+[ data_block_alloc ] alloc block 203
+[data block insert] after - block 203 = 0
+[data block insert] before -  block 203 = 203
+[ data_block_alloc ] alloc block 204
+[data block insert] after - block 204 = 0
+[data block insert] before -  block 204 = 204
+[ data_block_alloc ] alloc block 205
+[data block insert] after - block 205 = 0
+[data block insert] before -  block 205 = 205
+[ data_block_alloc ] alloc block 206
+[data block insert] after - block 206 = 0
+[data block insert] before -  block 206 = 206
+[ data_block_alloc ] alloc block 207
+[data block insert] after - block 207 = 0
+[data block insert] before -  block 207 = 207
+[ data_block_alloc ] alloc block 208
+[data block insert] after - block 208 = 0
+[data block insert] before -  block 208 = 208
+[ data_block_alloc ] alloc block 209
+[data block insert] after - block 209 = 0
+[data block insert] before -  block 209 = 209
+[ data_block_alloc ] alloc block 210
+[data block insert] after - block 210 = 0
+[data block insert] before -  block 210 = 210
+[ data_block_alloc ] alloc block 211
+[data block insert] after - block 211 = 0
+[data block insert] before -  block 211 = 211
+[ data_block_alloc ] alloc block 212
+[data block insert] after - block 212 = 0
+[data block insert] before -  block 212 = 212
+[ data_block_alloc ] alloc block 213
+[data block insert] after - block 213 = 0
+[data block insert] before -  block 213 = 213
+[ data_block_alloc ] alloc block 214
+[data block insert] after - block 214 = 0
+[data block insert] before -  block 214 = 214
+[ data_block_alloc ] alloc block 215
+[data block insert] after - block 215 = 0
+[data block insert] before -  block 215 = 215
+[ data_block_alloc ] alloc block 216
+[data block insert] after - block 216 = 0
+[data block insert] before -  block 216 = 216
+[ data_block_alloc ] alloc block 217
+[data block insert] after - block 217 = 0
+[data block insert] before -  block 217 = 217
+[ data_block_alloc ] alloc block 218
+[data block insert] after - block 218 = 0
+[data block insert] before -  block 218 = 218
+[ data_block_alloc ] alloc block 219
+[data block insert] after - block 219 = 0
+[data block insert] before -  block 219 = 219
+[ data_block_alloc ] alloc block 220
+[data block insert] after - block 220 = 0
+[data block insert] before -  block 220 = 220
+[ data_block_alloc ] alloc block 221
+[data block insert] after - block 221 = 0
+[data block insert] before -  block 221 = 221
+[ data_block_alloc ] alloc block 222
+[data block insert] after - block 222 = 0
+[data block insert] before -  block 222 = 222
+[ data_block_alloc ] alloc block 223
+[data block insert] after - block 223 = 0
+[data block insert] before -  block 223 = 223
+[ data_block_alloc ] alloc block 224
+[data block insert] after - block 224 = 0
+[data block insert] before -  block 224 = 224
+[ data_block_alloc ] alloc block 225
+[data block insert] after - block 225 = 0
+[data block insert] before -  block 225 = 225
+[ data_block_alloc ] alloc block 226
+[data block insert] after - block 226 = 0
+[data block insert] before -  block 226 = 226
+[ data_block_alloc ] alloc block 227
+[data block insert] after - block 227 = 0
+[data block insert] before -  block 227 = 227
+[ data_block_alloc ] alloc block 228
+[data block insert] after - block 228 = 0
+[data block insert] before -  block 228 = 228
+[ data_block_alloc ] alloc block 229
+[data block insert] after - block 229 = 0
+[data block insert] before -  block 229 = 229
+[ data_block_alloc ] alloc block 230
+[data block insert] after - block 230 = 0
+[data block insert] before -  block 230 = 230
+[ data_block_alloc ] alloc block 231
+[data block insert] after - block 231 = 0
+[data block insert] before -  block 231 = 231
+[ data_block_alloc ] alloc block 232
+[data block insert] after - block 232 = 0
+[data block insert] before -  block 232 = 232
+[ data_block_alloc ] alloc block 233
+[data block insert] after - block 233 = 0
+[data block insert] before -  block 233 = 233
+[ data_block_alloc ] alloc block 234
+[data block insert] after - block 234 = 0
+[data block insert] before -  block 234 = 234
+[ data_block_alloc ] alloc block 235
+[data block insert] after - block 235 = 0
+[data block insert] before -  block 235 = 235
+[ data_block_alloc ] alloc block 236
+[data block insert] after - block 236 = 0
+[data block insert] before -  block 236 = 236
+[ data_block_alloc ] alloc block 237
+[data block insert] after - block 237 = 0
+[data block insert] before -  block 237 = 237
+[ data_block_alloc ] alloc block 238
+[data block insert] after - block 238 = 0
+[data block insert] before -  block 238 = 238
+[ data_block_alloc ] alloc block 239
+[data block insert] after - block 239 = 0
+[data block insert] before -  block 239 = 239
+[ data_block_alloc ] alloc block 240
+[data block insert] after - block 240 = 0
+[data block insert] before -  block 240 = 240
+[ data_block_alloc ] alloc block 241
+[data block insert] after - block 241 = 0
+[data block insert] before -  block 241 = 241
+[ data_block_alloc ] alloc block 242
+[data block insert] after - block 242 = 0
+[data block insert] before -  block 242 = 242
+[ data_block_alloc ] alloc block 243
+[data block insert] after - block 243 = 0
+[data block insert] before -  block 243 = 243
+[ data_block_alloc ] alloc block 244
+[data block insert] after - block 244 = 0
+[data block insert] before -  block 244 = 244
+[ data_block_alloc ] alloc block 245
+[data block insert] after - block 245 = 0
+[data block insert] before -  block 245 = 245
+[ data_block_alloc ] alloc block 246
+[data block insert] after - block 246 = 0
+[data block insert] before -  block 246 = 246
+[ data_block_alloc ] alloc block 247
+[data block insert] after - block 247 = 0
+[data block insert] before -  block 247 = 247
+[ data_block_alloc ] alloc block 248
+[data block insert] after - block 248 = 0
+[data block insert] before -  block 248 = 248
+[ data_block_alloc ] alloc block 249
+[data block insert] after - block 249 = 0
+[data block insert] before -  block 249 = 249
+[ data_block_alloc ] alloc block 250
+[data block insert] after - block 250 = 0
+[data block insert] before -  block 250 = 250
+[ data_block_alloc ] alloc block 251
+[data block insert] after - block 251 = 0
+[data block insert] before -  block 251 = 251
+[ data_block_alloc ] alloc block 252
+[data block insert] after - block 252 = 0
+[data block insert] before -  block 252 = 252
+[ data_block_alloc ] alloc block 253
+[data block insert] after - block 253 = 0
+[data block insert] before -  block 253 = 253
+[ data_block_alloc ] alloc block 254
+[data block insert] after - block 254 = 0
+[data block insert] before -  block 254 = 254
+[ data_block_alloc ] alloc block 255
+[data block insert] after - block 255 = 0
+[data block insert] before -  block 255 = 255
+[ data_block_alloc ] alloc block 256
+[data block insert] after - block 256 = 0
+[data block insert] before -  block 256 = 256
+[ data_block_alloc ] alloc block 257
+[data block insert] after - block 257 = 0
+[data block insert] before -  block 257 = 257
+[ data_block_alloc ] alloc block 258
+[data block insert] after - block 258 = 0
+[data block insert] before -  block 258 = 258
+[ data_block_alloc ] alloc block 259
+[data block insert] after - block 259 = 0
+[data block insert] before -  block 259 = 259
+[ data_block_alloc ] alloc block 260
+[data block insert] after - block 260 = 0
+[data block insert] before -  block 260 = 260
+[ data_block_alloc ] alloc block 261
+[data block insert] after - block 261 = 0
+[data block insert] before -  block 261 = 261
+[ data_block_alloc ] alloc block 262
+[data block insert] after - block 262 = 0
+[data block insert] before -  block 262 = 262
+[ data_block_alloc ] alloc block 263
+[data block insert] after - block 263 = 0
+[data block insert] before -  block 263 = 263
+[ data_block_alloc ] alloc block 264
+[data block insert] after - block 264 = 0
+[data block insert] before -  block 264 = 264
+[ data_block_alloc ] alloc block 265
+[data block insert] after - block 265 = 0
+[data block insert] before -  block 265 = 265
+[ data_block_alloc ] alloc block 266
+[data block insert] after - block 266 = 0
+[data block insert] before -  block 266 = 266
+======> Sucessful test
+
