@@ -4,8 +4,8 @@
 #include <pthread.h>
 #include <time.h>
 
-#define READ 100
-#define WRITE 100
+#define READ 100000
+#define WRITE 100000
 
 static int counter;
 static pthread_mutex_t mutex;
