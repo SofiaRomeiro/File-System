@@ -44,11 +44,11 @@ int tfs_open(char const *name, int flags) {
 
     if (inum >= 0) {
 
-// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
+        inode_t *inode = inode_get(inum);
 
-    inode_t *inode = inode_get(inum);
-
-    pthread_mutex_lock(&inode->inode_mutex);
+        if (inode_lock(inode) != 0) {
+            return -1;
+        }
 
         /* The file already exists */
         //inode_t *inode = inode_get(inum);
@@ -75,8 +75,9 @@ int tfs_open(char const *name, int flags) {
             offset = 0;
         }
 
-    pthread_mutex_unlock(&inode->inode_mutex);
-// --------------------------------- END CRIT SPOT ---------------------------------------
+        if (inode_unlock(inode) != 0) {
+            return -1;
+        }
 
     } else if (flags & TFS_O_CREAT) {
         /* The file doesn't exist; the flags specify that it should be created*/
@@ -121,13 +122,10 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     }
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
-
     pthread_mutex_lock(&file->open_file_mutex);
 
     inode_t *inode = inode_get(file->of_inumber);
 
-// --------------------------------- END CRIT SPOT ---------------------------------------
     pthread_mutex_unlock(&file->open_file_mutex);
 
 
@@ -139,10 +137,6 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         printf("[ tfs_write ] %s", NOTHING_TO_WRITE);
         return -1;
     } 
-
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
-
-// --------------------------------- END CRIT SPOT ---------------------------------------
 
     pthread_mutex_lock(&inode->inode_mutex);
 
@@ -229,7 +223,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     } 
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
     pthread_rwlock_rdlock(&file->open_file_rwlock);
 
     inode_t *inode = inode_get(file->of_inumber);
@@ -241,8 +234,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     to_read = inode->i_size - file->of_offset;
 
     pthread_rwlock_unlock(&file->open_file_rwlock);    
-
-// --------------------------------- END CRIT SPOT ---------------------------------------
 
     if (to_read > len) {
         to_read = len;
@@ -351,18 +342,12 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
 		return -1;
     }  
 
-// ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
-
-
     open_file_entry_t *file = get_open_file_entry(source_file);
     inode_t *inode = inode_get(file->of_inumber);
 
     file->of_offset = 0;
 
     total_size_to_read = (ssize_t) inode->i_size;
-
-// --------------------------------- END CRIT SPOT ---------------------------------------
-
 
     do {
 

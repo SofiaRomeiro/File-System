@@ -133,8 +133,6 @@ int inode_create(inode_type n_type) {
             insert_delay(); // simulate storage access delay (to freeinode_ts)
         }
 
-    // ----------------------------------- CRIT SPOT - MUTEX -----------------------------------------
-
         pthread_mutex_lock(&inode_table_s.inode_table_mutex);
 
         // Finds first free entry in i-node table 
@@ -394,17 +392,17 @@ int data_block_alloc() {
             insert_delay(); // simulate storage access delay to free_blocks
         }
 
-        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
+        //pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
         if (data_blocks_s.free_blocks[i] == FREE) {
             data_blocks_s.free_blocks[i] = TAKEN;
         
-            pthread_mutex_unlock(&(fs_state_s.fs_state_mutex)); //?
+            //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex)); //?
             pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
             return i;
         }
 
-        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex)); //?
+        //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex)); //?
         pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
     }
     return -1;
@@ -424,11 +422,11 @@ int data_block_free(int block_number) {
 
     insert_delay(); // simulate storage access delay to free_blocks
 
-    pthread_rwlock_wrlock(&(fs_state_s.fs_state_rwlock)); // ?
+    //pthread_rwlock_wrlock(&(fs_state_s.fs_state_rwlock)); // ?
 
     data_blocks_s.free_blocks[block_number] = FREE;
 
-    pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock)); // ?
+    //pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock)); // ?
 
     pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
 
@@ -542,17 +540,20 @@ open_file_entry_t *get_open_file_entry(int fhandle) {
 
 // ------------------------------- AUX FUNCTIONS ---------------------------------------------
 
+/* Writes in the direct region
+ * Inputs:
+ * 	 - inode
+ *   - pointer to the file entry
+ *   - buffer
+ *   - n of bytes to write
+ * Returns: total of written bytes if sucessful, -1 otherwise
+ */
 ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size) {
 
     size_t bytes_written = 0;
     size_t to_write_block = 0;
-
-// ------------------------------------------------ CRIT SPOT - RWLOCK R ----------------------------------
-
     size_t local_offset = file->of_offset;
     size_t local_isize = inode->i_size;
-
-// ------------------------------------------------- END CRIT SPOT ----------------------------------------
     
     for (int i = 0; write_size > 0 && i < REFERENCE_BLOCK_INDEX; i++) {
 
@@ -586,19 +587,16 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 
     }
 
-// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
-
     file->of_offset = local_offset;
     inode->i_size = local_isize;
-
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
 
     return (ssize_t)bytes_written;
 }
 
+/* INSERTS
+ */
 int direct_block_insert(inode_t *inode) {
 
-// ------------------------------------------------ CRIT SPOT - MUTEX ----------------------------------
 
     inode->i_data_block = data_block_alloc();
 
@@ -611,23 +609,25 @@ int direct_block_insert(inode_t *inode) {
 
     inode->i_block[inode->i_data_block - 1] = inode->i_data_block;
 
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
-
     return 0;
 }
 
+/* Writes in the indirect region
+ * Inputs:
+ * 	 - inode
+ *   - pointer to the file entry
+ *   - buffer
+ *   - n of bytes to write
+ * Returns: total of written bytes if sucessful, -1 otherwise
+ */
 ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void const *buffer, size_t write_size) {
 
     size_t bytes_written = 0;
     size_t to_write_block = 0;
     int insert_status = 0;
 
-// ------------------------------------------------ CRIT SPOT - RWLOCK R ----------------------------------
-
     size_t local_offset = file->of_offset;
     size_t local_isize = inode->i_size;
-
-// ------------------------------------------------- END CRIT SPOT ----------------------------------------
 
     for (int i = 0; write_size > 0; i++) {
 
@@ -668,19 +668,13 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
         bytes_written += to_write_block;
     }
 
-// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
-
     file->of_offset = local_offset;
     inode->i_size = local_isize;
-
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
     
     return (ssize_t)bytes_written;
 }
 
 int indirect_block_insert(inode_t *inode) {
-
-// ------------------------------------------------ CRIT SPOT - MUTEX ----------------------------------
 
     int *last_i_block = (int *)data_block_get(inode->i_block[MAX_DIRECT_BLOCKS]);
 
@@ -697,15 +691,11 @@ int indirect_block_insert(inode_t *inode) {
 
     last_i_block[block_number - FIRST_INDIRECT_BLOCK] = block_number;    
 
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
-
     return 0;
 
 }
 
 int tfs_handle_indirect_block(inode_t *inode) {
-
-// ------------------------------------------------ CRIT SPOT - MUTEX ----------------------------------
 
     int block_number = data_block_alloc();
 
@@ -718,14 +708,17 @@ int tfs_handle_indirect_block(inode_t *inode) {
 
     memset(data_block_get(inode->i_data_block), -1, sizeof(data_block_get(inode->i_data_block)));
 
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
-
     return 0;
 }
 
+/* Reads from the direct region a certain amount of bytes to a buffer
+ * Inputs:
+ *   - pointer to the file entry
+ *   - n bytes to read
+ *   - buffer
+ * Returns: total of read bytes if sucessful, -1 otherwise
+ */
 ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer) {
-
-// ------------------------------------------------ CRIT SPOT - RWLOCK R ----------------------------------
 
     pthread_rwlock_rdlock(&file->open_file_rwlock);
 
@@ -734,9 +727,6 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
     size_t local_offset = file->of_offset;
 
     pthread_rwlock_unlock(&file->open_file_rwlock);
-
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
-
 
     size_t current_block = (local_offset / BLOCK_SIZE) + 1;
     size_t block_offset = local_offset % BLOCK_SIZE;
@@ -777,25 +767,25 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
         }
     }
 
-// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
-
     pthread_rwlock_wrlock(&file->open_file_rwlock);
 
     file->of_offset = local_offset;
 
     pthread_rwlock_unlock(&file->open_file_rwlock);
 
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
     return (ssize_t) total_read;
 }
 
+/* Reads from the indirect region a certain amount of bytes to a buffer
+ * Inputs:
+ *   - pointer to the file entry
+ *   - n bytes to read
+ *   - buffer
+ * Returns: total of read bytes if sucessful, -1 otherwise
+ */
 ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
-// ----------------------------------- CRIT SPOT - RWLOCK R -----------------------------------------
-
     size_t local_offset = file->of_offset;
-
-// --------------------------------- END CRIT SPOT ---------------------------------------
 
     size_t to_read_block = 0;
     size_t total_read = 0;
@@ -827,21 +817,33 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
         block_offset = local_offset % BLOCK_SIZE;
     }
 
-// ------------------------------------------------ CRIT SPOT - RWLOCK W ----------------------------------
-
     file->of_offset = local_offset;
-
-// ------------------------------------------------ END CRIT SPOT ----------------------------------
 
     return (ssize_t)total_read;
 }
 
-/*
-void inode_lock(inode_table_t inode_table_s) {
-    pthread_mutex_lock(&(inode_table_s.inode_table_mutex));
+int inode_lock(inode_t *inode_t) {
+    if (pthread_mutex_lock(&(inode_t->inode_mutex)) != 0) {
+        printf("[ inode_lock ] Error locking memory region\n");
+        return -1;
+    }
+    return 0;
 }
 
-void inode_unlock(inode_table_t inode_table_s) {
-    pthread_mutex_unlock(&(inode_table_s.inode_table_mutex));
+int inode_unlock(inode_t *inode_t) {
+    if (pthread_mutex_unlock(&(inode_t->inode_mutex)) != 0) {
+        printf("[ inode_unlock ] Error unlocking memory region\n");
+        return -1;
+    }
+    return 0;
+}
+
+/*
+void open_file_lock(open_file_entry_t *open_file_entry) {
+    pthread_mutex_lock(&(open_file_entry->open_file_mutex));
+}
+
+void open_file_unlock(open_file_entry_t *open_file_entry) {
+    pthread_mutex_unlock(&(open_file_entry->open_file_mutex));
 }
 */
