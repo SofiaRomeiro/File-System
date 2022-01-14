@@ -388,6 +388,7 @@ int find_in_dir(int inumber, char const *sub_name) {
 // ignorar os locks?
 int data_block_alloc() {
 
+    //pthread_mutex_lock(&(data_blocks_s.data_blocks_mutex));        
     
     for (int i = 0; i < DATA_BLOCKS; i++) {
         if (i * (int) sizeof(allocation_state_t) % BLOCK_SIZE == 0) {
@@ -404,7 +405,9 @@ int data_block_alloc() {
         }
 
         pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
+ 
     }
+    //pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
     return -1;
 }
 
@@ -415,6 +418,7 @@ int data_block_alloc() {
  */
 int data_block_free(int block_number) {
     pthread_mutex_lock(&(data_blocks_s.data_blocks_mutex));
+
     if (!valid_block_number(block_number)) {
         pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
         return -1;
@@ -422,11 +426,11 @@ int data_block_free(int block_number) {
 
     insert_delay(); // simulate storage access delay to free_blocks
 
-    pthread_rwlock_wrlock(&(fs_state_s.fs_state_rwlock)); // ?
+    //pthread_rwlock_wrlock(&(fs_state_s.fs_state_rwlock)); // ?
 
     data_blocks_s.free_blocks[block_number] = FREE;
 
-    pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock)); // ?
+    //pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock)); // ?
 
     pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
 
@@ -830,11 +834,13 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
                 to_read = 0;
             }
 
-            //pthread_mutex_lock(&global_mutex);
+            //pthread_mutex_lock(&data_blocks_s.data_blocks_mutex);
+
+            // inode já está trancado
 
             memcpy(buffer + total_read, block + block_offset, to_read_block);
 
-            //pthread_mutex_unlock(&global_mutex);
+            //pthread_mutex_unlock(&data_blocks_s.data_blocks_mutex);
 
             local_offset += to_read_block;
             total_read += to_read_block;
@@ -894,6 +900,7 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
         memcpy(buffer + total_read, block + block_offset, to_read_block);
 
         //pthread_mutex_unlock(&data_blocks_s.data_blocks_mutex);
+
 
         local_offset += to_read_block;
         total_read += to_read_block;

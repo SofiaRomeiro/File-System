@@ -234,6 +234,8 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         return -1;
     }
 
+    // trinco para inode !!!!!!!!
+
     to_read = inode->i_size - file->of_offset;
 
     pthread_rwlock_unlock(&file->open_file_rwlock);    
@@ -243,7 +245,6 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     } 
 
     pthread_mutex_lock(&file->open_file_mutex);
-
     if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
         pthread_mutex_unlock(&file->open_file_mutex);
