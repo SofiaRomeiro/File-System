@@ -1,11 +1,14 @@
 #include "../fs/operations.h"
 #include <assert.h>
 #include <string.h>
+#include <time.h>
 
-#define COUNT 12
-#define SIZE 1024
+#define COUNT 4
+#define SIZE 68096
 
 int main() {
+
+    
 
     char *path = "/f1";
 
@@ -13,6 +16,8 @@ int main() {
     memset(input, 'A', SIZE);
 
     char output [SIZE];
+
+    float startTime = (float)clock()/CLOCKS_PER_SEC;
 
     assert(tfs_init() != -1);
 
@@ -33,6 +38,11 @@ int main() {
 
     assert(tfs_close(fd) != -1);
 
+    float endTime = (float)clock()/CLOCKS_PER_SEC;
+
+    float timeElapsed = endTime - startTime;
+
+    printf("Time elapsed : %f\n", timeElapsed);
     printf("======> Sucessful test\n\n");
 
     return 0;

@@ -53,6 +53,7 @@ all: clean $(TARGET_EXECS)
 
 time:
 	@echo ------- Time Test ------- 
+	@echo Thread
 	time ./tests/thread_2
 
 valgrind :
@@ -187,7 +188,7 @@ tests/copy_to_external_multiple_char: tests/copy_to_external_multiple_char.o fs/
 tests/thread_1: tests/thread_1.o fs/operations.o fs/state.o 
 tests/thread_2: tests/thread_2.o fs/operations.o fs/state.o 
 tests/thread_3: tests/thread_3.o fs/operations.o fs/state.o 
-tests/thread_3: tests/sequential_2.o fs/operations.o fs/state.o 
+tests/sequential_2: tests/sequential_2.o fs/operations.o fs/state.o 
 
 
 clean:
