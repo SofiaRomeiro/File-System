@@ -19,7 +19,6 @@ void* fn(void* arg){
     char * res = (char*) arg;
     /* Each thread calls `tfs_open` to create a new file */
     int fd = tfs_open(res, TFS_O_CREAT);
-    printf("fd = %d\n", fd);
     assert(fd !=-1);
     /* Closes the file afterwards */
     assert(tfs_close(fd) != -1);

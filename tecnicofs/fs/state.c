@@ -6,13 +6,10 @@
 /* Persistent FS state  (in reality, it should be maintained in secondary
  * memory; for simplicity, this project maintains it in primary memory) */
 
-pthread_mutex_t global_mutex;
-
 /* I-node table */
 typedef struct {
     inode_t inode_table[INODE_TABLE_SIZE];
     allocation_state_t freeinode_ts[INODE_TABLE_SIZE];
-    // mutexes array to match freeinode_ts
     pthread_mutex_t inode_table_mutex;
     pthread_rwlock_t inode_table_rwlock;
 } inode_table_t;
@@ -83,7 +80,8 @@ static void insert_delay() {
 // no need to be thread safe since it's called only once before threading 
 void state_init() {
 
-    pthread_mutex_init(&global_mutex, NULL);
+    pthread_mutex_init(&(inode_table_s.inode_table_mutex), NULL);
+    pthread_rwlock_init(&(inode_table_s.inode_table_rwlock), NULL);
 
     for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
         inode_table_s.freeinode_ts[i] = FREE;
@@ -91,9 +89,14 @@ void state_init() {
         pthread_rwlock_init(&(inode_table_s.inode_table[i].inode_rwlock), NULL);
     }
 
+    pthread_mutex_init(&(data_blocks_s.data_blocks_mutex), NULL);
+
     for (size_t i = 0; i < DATA_BLOCKS; i++) {
         data_blocks_s.free_blocks[i] = FREE;
     }
+
+    pthread_mutex_init(&(fs_state_s.fs_state_mutex), NULL);
+    pthread_rwlock_init(&(fs_state_s.fs_state_rwlock), NULL);
 
     for (size_t i = 0; i < MAX_OPEN_FILES; i++) {
         fs_state_s.free_open_file_entries[i] = FREE;
@@ -105,18 +108,24 @@ void state_init() {
 // mutexes and rwlocks created to static variables should only be destroyed here
 void state_destroy() { /* nothing to do */ 
 
-    pthread_mutex_destroy(&global_mutex);
+    pthread_mutex_destroy(&(inode_table_s.inode_table_mutex));
+    pthread_rwlock_destroy(&(inode_table_s.inode_table_rwlock));
 
     for (size_t i = 0; i < INODE_TABLE_SIZE; i++) {
         pthread_mutex_destroy(&(inode_table_s.inode_table[i].inode_mutex));
         pthread_rwlock_destroy(&(inode_table_s.inode_table[i].inode_rwlock));
     }
 
+    pthread_mutex_destroy(&(fs_state_s.fs_state_mutex));
+    pthread_rwlock_destroy(&(fs_state_s.fs_state_rwlock));
+
     for (size_t i = 0; i < MAX_OPEN_FILES; i++) {
         pthread_mutex_destroy(&(fs_state_s.open_file_table[i].open_file_mutex));
         pthread_rwlock_destroy(&(fs_state_s.open_file_table[i].open_file_rwlock));
 
     }
+
+    pthread_mutex_destroy(&(data_blocks_s.data_blocks_mutex));
 }
 
 /*
@@ -146,14 +155,6 @@ int inode_create(inode_type n_type) {
 
             local_inode->i_node_type = n_type;
 
-            /*
-                NOTA 
-                Este if apenas uma vez por cada programa cliente, ou seja, no tfs_init()
-                Logo, pensamos que nao vale a pena ter mutexes nesta zona, visto que não há possibilidade de acesso concorrente
-            */
-
-           pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
-
             if (n_type == T_DIRECTORY) {
                 // Initializes directory (filling its block with empty
                 // entries, labeled with inumber==-1) 
@@ -176,15 +177,14 @@ int inode_create(inode_type n_type) {
                 }
             } else {
                 // In case of a new file, simply sets its size to 0 
-                pthread_rwlock_wrlock(&(local_inode->inode_rwlock));
 
                 local_inode->i_size = 0;
                 local_inode->i_data_block = -1;
                 memset(local_inode->i_block, -1, sizeof(local_inode->i_block));
 
-                pthread_rwlock_unlock(&(local_inode->inode_rwlock));
             }
 
+            pthread_mutex_unlock(&inode_table_s.inode_table_mutex);
 
             return inumber;
         }
@@ -252,13 +252,7 @@ inode_t *inode_get(int inumber) {
 
     insert_delay(); // simulate storage access delay to i-node
 
-    pthread_rwlock_rdlock(&(inode_table_s.inode_table_rwlock));
-
-    inode_t *address = &(inode_table_s.inode_table[inumber]);
-
-    pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
-
-    return address;
+    return &(inode_table_s.inode_table[inumber]);
 }
 
 /*
@@ -286,10 +280,12 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
     insert_delay(); // simulate storage access delay to i-node with inumber
     if (local_inode->i_node_type != T_DIRECTORY) {
+        pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
         return -1;
     }
 
     if (strlen(sub_name) == 0) {
+        pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
         return -1;
     }
 
@@ -346,6 +342,7 @@ int find_in_dir(int inumber, char const *sub_name) {
 
     if (!valid_inumber(inumber) ||
         inode_table_s.inode_table[inumber].i_node_type != T_DIRECTORY) {
+        pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
         return -1;
     }
 
@@ -385,14 +382,13 @@ int find_in_dir(int inumber, char const *sub_name) {
  */
 // ignorar os locks?
 int data_block_alloc() {
-
-    pthread_mutex_lock(&(data_blocks_s.data_blocks_mutex));
+        
     for (int i = 0; i < DATA_BLOCKS; i++) {
         if (i * (int) sizeof(allocation_state_t) % BLOCK_SIZE == 0) {
             insert_delay(); // simulate storage access delay to free_blocks
         }
 
-        //pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
+        pthread_mutex_lock(&(data_blocks_s.data_blocks_mutex));
 
         if (data_blocks_s.free_blocks[i] == FREE) {
             data_blocks_s.free_blocks[i] = TAKEN;
@@ -402,8 +398,8 @@ int data_block_alloc() {
             return i;
         }
 
-        //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex)); //?
         pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
+ 
     }
     return -1;
 }
@@ -414,19 +410,16 @@ int data_block_alloc() {
  * Returns: 0 if success, -1 otherwise
  */
 int data_block_free(int block_number) {
-    pthread_mutex_lock(&(data_blocks_s.data_blocks_mutex));
+
     if (!valid_block_number(block_number)) {
-        pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
         return -1;
     }
 
     insert_delay(); // simulate storage access delay to free_blocks
 
-    //pthread_rwlock_wrlock(&(fs_state_s.fs_state_rwlock)); // ?
+    pthread_mutex_lock(&(data_blocks_s.data_blocks_mutex));
 
     data_blocks_s.free_blocks[block_number] = FREE;
-
-    //pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock)); // ?
 
     pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
 
@@ -451,13 +444,7 @@ void *data_block_get(int block_number) {
         Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
     */ 
 
-    pthread_rwlock_rdlock(&(fs_state_s.fs_state_rwlock));
-
-    allocation_state_t *local_state = &(data_blocks_s.fs_data[block_number * BLOCK_SIZE]);
-
-    pthread_rwlock_unlock(&(fs_state_s.fs_state_rwlock));
-
-    return local_state;
+    return &(data_blocks_s.fs_data[block_number * BLOCK_SIZE]);
 }
 
 /* Add new entry to the open file table
@@ -529,14 +516,10 @@ open_file_entry_t *get_open_file_entry(int fhandle) {
         Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
     */ 
 
-    pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
-
-    open_file_entry_t *local_file = &(fs_state_s.open_file_table[fhandle]);
-
-    pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
-
-    return local_file;
+    return &(fs_state_s.open_file_table[fhandle]);
 }
+
+
 
 // ------------------------------- AUX FUNCTIONS ---------------------------------------------
 
@@ -552,12 +535,10 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
 
     size_t bytes_written = 0;
     size_t to_write_block = 0;
-    size_t local_offset = file->of_offset;
-    size_t local_isize = inode->i_size;
-    
+
     for (int i = 0; write_size > 0 && i < REFERENCE_BLOCK_INDEX; i++) {
 
-        if (local_isize % BLOCK_SIZE == 0) {                                                             
+        if (inode->i_size % BLOCK_SIZE == 0) {                                                           
             int insert_status = direct_block_insert(inode);     
             if (insert_status == -1) {
                 printf("[ tfs_write_direct_region ] Error writing in direct region: %s\n", strerror(errno));
@@ -566,12 +547,13 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
         }
 
         void *block = data_block_get(inode->i_data_block);
+
         if (block == NULL) {
             return -1;
         }
         
-        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (local_offset % BLOCK_SIZE) < write_size) {
-            to_write_block = BLOCK_SIZE - (local_offset % BLOCK_SIZE);
+        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (file->of_offset % BLOCK_SIZE) < write_size) {
+            to_write_block = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);
             write_size -= to_write_block;
 
         } else  {   
@@ -579,33 +561,32 @@ ssize_t tfs_write_direct_region(inode_t *inode, open_file_entry_t *file, void co
             write_size = 0;
         }
 
-        memcpy(block + (local_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
+        memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
 
-        local_offset += to_write_block;
-        local_isize += to_write_block;
+        file->of_offset += to_write_block;
+        inode->i_size += to_write_block;
         bytes_written += to_write_block;
 
     }
 
-    file->of_offset = local_offset;
-    inode->i_size = local_isize;
-
     return (ssize_t)bytes_written;
 }
 
-/* INSERTS
+/* 
+ *  INSERTS
  */
 int direct_block_insert(inode_t *inode) {
 
-
     inode->i_data_block = data_block_alloc();
+
+    void *block = data_block_get(inode->i_data_block);
 
     if (inode->i_data_block == -1) {
         printf("[ direct_block_insert ] Error : alloc block failed\n");
         return -1;
     }
 
-    memset(data_block_get(inode->i_data_block),-1, sizeof(data_block_get(inode->i_data_block)));
+    memset(block, -1, BLOCK_SIZE);
 
     inode->i_block[inode->i_data_block - 1] = inode->i_data_block;
 
@@ -626,16 +607,13 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
     size_t to_write_block = 0;
     int insert_status = 0;
 
-    size_t local_offset = file->of_offset;
-    size_t local_isize = inode->i_size;
-
     for (int i = 0; write_size > 0; i++) {
 
-        if (local_isize + write_size > MAX_BYTES) {
-            write_size = MAX_BYTES - local_isize;
+        if (inode->i_size + write_size > MAX_BYTES) {
+            write_size = MAX_BYTES - inode->i_size;
         }
 
-        if (local_isize % BLOCK_SIZE == 0) { 
+        if (inode->i_size % BLOCK_SIZE == 0) { 
 
             insert_status = indirect_block_insert(inode);  
 
@@ -646,13 +624,14 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
         }
 
         void *block = data_block_get(inode->i_data_block);
+
         if (block == NULL) {
             printf("[ tfs_write_indirect_region ] Error : NULL block\n");
             return -1;
         }
         
-        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (local_offset % BLOCK_SIZE) < write_size) {
-            to_write_block = BLOCK_SIZE - (local_offset % BLOCK_SIZE);           
+        if (write_size >= BLOCK_SIZE || BLOCK_SIZE - (file->of_offset % BLOCK_SIZE) < write_size) {
+            to_write_block = BLOCK_SIZE - (file->of_offset % BLOCK_SIZE);           
             write_size -= to_write_block;
         }
 
@@ -661,16 +640,17 @@ ssize_t tfs_write_indirect_region(inode_t *inode, open_file_entry_t *file, void 
             write_size = 0;
         }
 
-        memcpy(block + (local_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
 
-        local_offset += to_write_block;
-        local_isize += to_write_block;
+        memcpy(block + (file->of_offset % BLOCK_SIZE), buffer + bytes_written, to_write_block);
+
+
+        file->of_offset += to_write_block;
+        inode->i_size += to_write_block;
         bytes_written += to_write_block;
-    }
 
-    file->of_offset = local_offset;
-    inode->i_size = local_isize;
     
+    }
+  
     return (ssize_t)bytes_written;
 }
 
@@ -720,20 +700,12 @@ int tfs_handle_indirect_block(inode_t *inode) {
  */
 ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
-    pthread_rwlock_rdlock(&file->open_file_rwlock);
-
-    printf("\n===> TFS READ DIRECT REGION\nArgs:\n\t-len %ld\n\t-offset %ld\n", to_read, file->of_offset);
-
-    size_t local_offset = file->of_offset;
-
-    pthread_rwlock_unlock(&file->open_file_rwlock);
-
-    size_t current_block = (local_offset / BLOCK_SIZE) + 1;
-    size_t block_offset = local_offset % BLOCK_SIZE;
+    size_t current_block = (file->of_offset / BLOCK_SIZE) + 1;
+    size_t block_offset = file->of_offset % BLOCK_SIZE;
     size_t to_read_block = 0;
     size_t total_read = 0;
     
-    if (local_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
+    if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
         while (to_read > 0 && current_block <= MAX_DIRECT_BLOCKS) {        
 
@@ -752,26 +724,18 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
                 to_read = 0;
             }
 
-            //pthread_mutex_lock(&global_mutex);
+            // inode já está trancado
 
             memcpy(buffer + total_read, block + block_offset, to_read_block);
 
-            //pthread_mutex_unlock(&global_mutex);
-
-            local_offset += to_read_block;
+            file->of_offset += to_read_block;
             total_read += to_read_block;
 
-            current_block = (local_offset / BLOCK_SIZE) + 1;
-            block_offset = local_offset % BLOCK_SIZE;
+            current_block = (file->of_offset / BLOCK_SIZE) + 1;
+            block_offset = file->of_offset % BLOCK_SIZE;
 
         }
     }
-
-    pthread_rwlock_wrlock(&file->open_file_rwlock);
-
-    file->of_offset = local_offset;
-
-    pthread_rwlock_unlock(&file->open_file_rwlock);
 
     return (ssize_t) total_read;
 }
@@ -785,12 +749,10 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
  */
 ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer) {
 
-    size_t local_offset = file->of_offset;
-
     size_t to_read_block = 0;
     size_t total_read = 0;
-    size_t current_block = (local_offset / BLOCK_SIZE) + 2;
-    size_t block_offset = local_offset % BLOCK_SIZE;
+    size_t current_block = (file->of_offset / BLOCK_SIZE) + 2;
+    size_t block_offset = file->of_offset % BLOCK_SIZE;
 
     while (to_read > 0) {      
 
@@ -810,22 +772,20 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
 
         memcpy(buffer + total_read, block + block_offset, to_read_block);
 
-        local_offset += to_read_block;
+        file->of_offset += to_read_block;
         total_read += to_read_block;
 
-        current_block = (local_offset / BLOCK_SIZE) + 2;
-        block_offset = local_offset % BLOCK_SIZE;
+        current_block = (file->of_offset / BLOCK_SIZE) + 2;
+        block_offset = file->of_offset % BLOCK_SIZE;
     }
 
-    file->of_offset = local_offset;
+    file->of_offset = file->of_offset;
 
     return (ssize_t)total_read;
 }
 
 int inode_lock(inode_t *inode, lock_state_t lock_state) {
-    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
-        return -1;
-    }
+
     // READ
     if (lock_state == READ) {
         if (pthread_rwlock_rdlock(&inode->inode_rwlock) != 0) {
@@ -841,40 +801,44 @@ int inode_lock(inode_t *inode, lock_state_t lock_state) {
         }
     }
     // MUTEX
-    else {
+    else if (lock_state == MUTEX){
         if (pthread_mutex_lock(&inode->inode_mutex) != 0) {
             printf("[ inode_lock ] Error locking memory region\n");
             return -1;
         }
     }
+    else {
+        printf("[ inode_lock ] Unrecognized lock state\n");
+        return -1;
+    }
     return 0;
 }
 
 int inode_unlock(inode_t *inode, lock_state_t lock_state) {
-    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
-        return -1;
-    }
+
     // RWLOCK
     if (lock_state == READ || lock_state == WRITE) {
-        if (pthread_rwlock_unlock(&inode->inode_rwlock)) {
+        if (pthread_rwlock_unlock(&inode->inode_rwlock) != 0) {
             printf("[ inode_unlock ] Error unlocking memory region\n");
             return -1;
         }
     }
     // MUTEX
-    else {
+    else if (lock_state == MUTEX){
         if (pthread_mutex_unlock(&inode->inode_mutex) != 0) {
             printf("[ inode_unlock ] Error unlocking memory region\n");
             return -1;
         }
     }
+    else {
+        printf("[ inode_unlock ] Unrecognized lock state\n");
+        return -1;
+    }
     return 0;
 }
 
 int open_file_lock(open_file_entry_t * open_file_entry, lock_state_t lock_state) {
-    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
-        return -1;
-    }
+
     // READ
     if (lock_state == READ) {
         if (pthread_rwlock_rdlock(&open_file_entry->open_file_rwlock) != 0) {
@@ -886,36 +850,147 @@ int open_file_lock(open_file_entry_t * open_file_entry, lock_state_t lock_state)
     else if (lock_state == WRITE) {
         if (pthread_rwlock_wrlock(&open_file_entry->open_file_rwlock) != 0) {
             printf("[ open_file_lock ] Error locking memory region\n");
-            return -1;
+            return -1; 
         }
     }
     // MUTEX
-    else {
+    else if(lock_state == MUTEX) {
         if (pthread_mutex_lock(&open_file_entry->open_file_mutex) != 0) {
             printf("[ open_file_lock ] Error locking memory region\n");
             return -1;
         }
     }
+    else {
+        printf("[ open_file_lock ] Unrecognized lock state\n");
+        return -1;
+    }
     return 0;
 }
 
 int open_file_unlock(open_file_entry_t *open_file_entry, lock_state_t lock_state) {
-    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
-        return -1;
-    }
+
     // RWLOCK
     if (lock_state == READ || lock_state == WRITE) {
-        if (pthread_rwlock_unlock(&open_file_entry->open_file_rwlock)) {
+        if (pthread_rwlock_unlock(&open_file_entry->open_file_rwlock) !=0) {
             printf("[ open_file_unlock ] Error unlocking memory region\n");
             return -1;
         }
     }
     // MUTEX
-    else {
+    else if (lock_state == MUTEX) {
         if (pthread_mutex_unlock(&open_file_entry->open_file_mutex) != 0) {
             printf("[ open_file_unlock ] Error unlocking memory region\n");
             return -1;
         }
+    }
+    else {
+        printf("[ open_file_unlock ] Unrecognized lock state\n");
+        return -1;
+    }
+    return 0;
+}
+
+int inode_allocation_map_lock(lock_state_t lock_state) {
+
+    // RWLOCK
+    if (lock_state == READ) {
+        if (pthread_rwlock_rdlock(&inode_table_s.inode_table_rwlock) != 0) {
+            printf("[ inode_allocation_map_lock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    else if (lock_state == WRITE) {
+        if (pthread_rwlock_wrlock(&inode_table_s.inode_table_rwlock) != 0) {
+            printf("[ inode_allocation_map_lock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else if (lock_state == MUTEX){
+        if (pthread_mutex_lock(&inode_table_s.inode_table_mutex) != 0) {
+            printf("[ inode_allocation_map_lock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    else {
+        printf("[ inode_allocation_map_lock ] Unrecognized lock state\n");
+        return -1;
+    }
+    return 0;
+}
+
+int inode_allocation_map_unlock(lock_state_t lock_state) {
+
+    // RWLOCK
+    if (lock_state == READ || lock_state == WRITE) {
+        if (pthread_rwlock_unlock(&inode_table_s.inode_table_rwlock) != 0) {
+            printf("[ inode_allocation_map_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else if (lock_state == MUTEX) {
+        if (pthread_mutex_unlock(&inode_table_s.inode_table_mutex) != 0) {
+            printf("[ inode_allocation_map_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    else {
+        printf("[ inode_allocation_map_unlock ] Unrecognized lock state\n");
+        return -1;
+    }
+    return 0;
+}
+
+
+int file_allocation_map_lock(lock_state_t lock_state) {
+
+    // RWLOCK
+    if (lock_state == READ) {
+        if (pthread_rwlock_rdlock(&fs_state_s.fs_state_rwlock) != 0) {
+            printf("[ file_allocation_map_lock ] Error locking memory region\n");
+            return -1;
+        }
+    }
+    else if (lock_state == WRITE) {
+        if (pthread_rwlock_wrlock(&fs_state_s.fs_state_rwlock) != 0) {
+            printf("[ file_allocation_map_lock ] Error locking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else if (lock_state == MUTEX){
+        if (pthread_mutex_lock(&fs_state_s.fs_state_mutex) != 0) {
+            printf("[ file_allocation_map_lock ] Error locking memory region\n");
+            return -1;
+        }
+    }
+    else {
+        printf("[ inode_allocation_map ] Unrecognized lock state\n");
+        return -1;
+    }
+    return 0;
+}
+
+int file_allocation_map_unlock(lock_state_t lock_state) {
+
+    // RWLOCK
+    if (lock_state == READ || lock_state == WRITE) {
+        if (pthread_rwlock_unlock(&fs_state_s.fs_state_rwlock) != 0) {
+            printf("[ file_allocation_map_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else if (lock_state == MUTEX) {
+        if (pthread_mutex_unlock(&fs_state_s.fs_state_mutex) != 0) {
+            printf("[ file_allocation_map_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    else {
+        printf("[ file_allocation_map_unlock ] Unrecognized lock state\n");
+        return -1;
     }
     return 0;
 }

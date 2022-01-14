@@ -44,27 +44,34 @@ int tfs_open(char const *name, int flags) {
 
     if (inum >= 0) {
 
+        inode_allocation_map_lock(READ);
+
         inode_t *inode = inode_get(inum);
 
+        inode_allocation_map_unlock(READ);
+
+        /* The file already exists */
+        if (inode == NULL) {
+            return -1;
+        }
+        
         if (inode_lock(inode, MUTEX) != 0) {
             return -1;
         }
 
-        /* The file already exists */
-        //inode_t *inode = inode_get(inum);
-
-        if (inode == NULL) {
-            return -1;
-        }
-
-
+        
         /* Trucate (if requested) */
         if (flags & TFS_O_TRUNC) {
 
             if (inode->i_size > 0) {
                 if (data_block_free(inode->i_data_block) == -1) {
+
+                    if (inode_unlock(inode, MUTEX) != 0) {
+                        return -1;
+                    }
                     return -1;
                 }
+
                 inode->i_size = 0;
             }
         }
@@ -79,7 +86,8 @@ int tfs_open(char const *name, int flags) {
             return -1;
         }
 
-    } else if (flags & TFS_O_CREAT) {
+    } 
+    else if (flags & TFS_O_CREAT) {
         /* The file doesn't exist; the flags specify that it should be created*/
         /* Create inode */
         inum = inode_create(T_FILE);
@@ -116,11 +124,22 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
     size_t direct_size = 0;
     size_t indirect_size = 0;
 
+    if (to_write == 0) {
+        printf("[ tfs_write ] %s", NOTHING_TO_WRITE);
+        return -1;
+    }
+
+
+    if (file_allocation_map_lock(READ) != 0) return -1;
+
     open_file_entry_t *file = get_open_file_entry(fhandle);
+
+    if (file_allocation_map_unlock(READ) != 0) return -1;
 
     if (file == NULL) {
         return -1;
     }
+
 
     if (open_file_lock(file, MUTEX) != 0) {
         return -1;
@@ -128,28 +147,32 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
     inode_t *inode = inode_get(file->of_inumber);
 
-    if (open_file_unlock(file, MUTEX) != 0) {
-        return -1;
-    }
-
-
     if (inode == NULL) {
+        if (open_file_unlock(file, MUTEX) != 0) {
+            return -1;
+        }
         return -1;
     }   
 
-    if (to_write == 0) {
-        printf("[ tfs_write ] %s", NOTHING_TO_WRITE);
-        return -1;
-    } 
-
-    if (inode_lock(inode, MUTEX) != 0) {
+    if (inode_lock(inode, READ) != 0) {
+        if (open_file_unlock(file, MUTEX) != 0) {
+            return -1;
+        }
         return -1;
     }
 
     if (inode->i_size + to_write <= MAX_BYTES_DIRECT_DATA) {
+
         direct_bytes = tfs_write_direct_region(inode, file, buffer, to_write);
 
-        if (inode_unlock(inode, MUTEX) != 0) {
+        if (inode_unlock(inode, READ) != 0) {
+            if (open_file_unlock(file, MUTEX) != 0) {
+                return -1;
+            }
+            return -1;
+        }    
+
+        if (open_file_unlock(file, MUTEX) != 0) {
             return -1;
         }
 
@@ -165,11 +188,17 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         if (inode->i_block[MAX_DIRECT_BLOCKS] == -1) {
             tfs_handle_indirect_block(inode);
         }
-
         
         indirect_bytes = tfs_write_indirect_region(inode, file, buffer, to_write);
 
-        if (inode_unlock(inode, MUTEX) != 0) {
+        if (inode_unlock(inode, READ) != 0) {
+            if (open_file_unlock(file, MUTEX) != 0) {
+                return -1;
+            }
+            return -1;
+        }    
+
+        if (open_file_unlock(file, MUTEX) != 0) {
             return -1;
         }
 
@@ -194,7 +223,15 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
         if (direct_bytes == -1) {
             printf("[ tfs_write ] %s", WRITE_ERROR);
-            if (inode_unlock(inode, MUTEX) != 0) {
+
+            if (inode_unlock(inode, READ) != 0) {
+                if (open_file_unlock(file, MUTEX) != 0) {
+                    return -1;
+                }
+            return -1;
+        }    
+
+            if (open_file_unlock(file, MUTEX) != 0) {
                 return -1;
             }
             return -1;
@@ -202,7 +239,14 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
        indirect_bytes = tfs_write_indirect_region(inode, file, buffer + direct_size, indirect_size);
 
-       if (inode_unlock(inode, MUTEX) != 0) {
+       if (inode_unlock(inode, READ) != 0) {
+            if (open_file_unlock(file, MUTEX) != 0) {
+                return -1;
+            }
+            return -1;
+        }    
+
+        if (open_file_unlock(file, MUTEX) != 0) {
             return -1;
         }
     
@@ -224,55 +268,67 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     ssize_t direct_read = 0;
     ssize_t indirect_read = 0;
 
-    open_file_entry_t *file = get_open_file_entry(fhandle);
-
-    if (file == NULL) {
-        return -1;
-    }
-
-    printf("\n===> TFS READ\nArgs:\n\t-fhandle %d\n\t-len %ld\n\t-offset %ld\n", fhandle, len, file->of_offset);
-
     if (len == 0) {
         printf("[ tfs_read ] %s", NOTHING_TO_READ);
         return -1;
     } 
 
-    if (open_file_lock(file, READ) != 0) {
+
+    if (file_allocation_map_lock(READ) != 0) return -1;
+
+    open_file_entry_t *file = get_open_file_entry(fhandle);
+
+    if (file_allocation_map_unlock(READ) != 0) return -1;
+
+    if (file == NULL) {
+        return -1;
+    }
+
+    if (open_file_lock(file, MUTEX) != 0) {
         return -1;    
     }
 
     inode_t *inode = inode_get(file->of_inumber);
 
     if (inode == NULL) {
+        if (open_file_unlock(file, MUTEX) != 0) {
+            return -1;    
+        }
         return -1;
     }
 
-    to_read = inode->i_size - file->of_offset;
+    if (inode_lock(inode, READ) != 0) {
+        if (open_file_unlock(file, MUTEX) != 0) {
+            return -1;    
+        }
+        return -1;    
+    }
 
-    if (open_file_unlock(file, READ) != 0) {
-        return -1;
-    }    
+
+    to_read = inode->i_size - file->of_offset; 
 
     if (to_read > len) {
         to_read = len;
     } 
 
-    if (open_file_lock(file, MUTEX) != 0) {
-        return -1;
-    }
 
     if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
-        direct_read = tfs_read_direct_region(file, to_read, buffer);
+        direct_read = tfs_read_direct_region(file, to_read, buffer);  
 
-        printf("[to read] buffer |%s|\n", (char *)buffer);
+        if (inode_unlock(inode, READ) != 0) {
+            if (open_file_unlock(file, MUTEX) != 0) {
+                return -1;
+            }
+            return -1;
+        }    
 
         if (open_file_unlock(file, MUTEX) != 0) {
             return -1;
         }
 
         if (direct_read == -1) {
-            printf("[ tfs_read ] 1 %s", READ_ERROR);
+            printf("[ tfs_read ] %s", READ_ERROR);
             return -1;
         }
 
@@ -281,14 +337,22 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     }
 
     else if (file->of_offset >= MAX_BYTES_DIRECT_DATA) {
+
         indirect_read = tfs_read_indirect_region(file, to_read, buffer);
+
+        if (inode_unlock(inode, READ) != 0) {
+            if (open_file_unlock(file, MUTEX) != 0) {
+                return -1;
+            }
+            return -1;
+        }    
 
         if (open_file_unlock(file, MUTEX) != 0) {
             return -1;
         }
 
         if (indirect_read == -1) {
-            printf("[ tfs_read ] 2 %s", READ_ERROR);
+            printf("[ tfs_read ] %s", READ_ERROR);
             return -1;
         } 
 
@@ -307,8 +371,15 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
         direct_read = tfs_read_direct_region(file, bytes_to_read_in_direct_region, buffer);
 
-        if (direct_read == -1){
-            printf("[ tfs_read ] 3 %s", READ_ERROR);
+        if (direct_read == -1) {
+
+            if (inode_unlock(inode, READ) != 0) {
+                if (open_file_unlock(file, MUTEX) != 0) {
+                    return -1;
+                }
+                return -1;
+            }    
+
             if (open_file_unlock(file, MUTEX) != 0) {
                 return -1;
             }
@@ -319,12 +390,19 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
       
         indirect_read = tfs_read_indirect_region(file, to_read, buffer + total_read);
 
+        if (inode_unlock(inode, READ) != 0) {
+            if (open_file_unlock(file, MUTEX) != 0) {
+                return -1;
+            }
+            return -1;
+        }    
+
         if (open_file_unlock(file, MUTEX) != 0) {
             return -1;
         }
 
         if (indirect_read == -1){
-            printf("[ tfs_read ] 4 %s", READ_ERROR);
+            printf("[ tfs_read ] %s", READ_ERROR);
             return -1;
         }
 
@@ -371,11 +449,21 @@ int tfs_copy_to_external_fs(char const *source_path, char const *dest_path) {
     }  
 
     open_file_entry_t *file = get_open_file_entry(source_file);
+
+    pthread_mutex_lock(&file->open_file_mutex);    
+
     inode_t *inode = inode_get(file->of_inumber);
 
     file->of_offset = 0;
 
+    pthread_mutex_unlock(&file->open_file_mutex);    
+
+    pthread_rwlock_rdlock(&inode->inode_rwlock);
+
     total_size_to_read = (ssize_t) inode->i_size;
+
+    pthread_rwlock_unlock(&inode->inode_rwlock);
+
 
     do {
 

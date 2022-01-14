@@ -90,5 +90,9 @@ int inode_lock(inode_t *inode, lock_state_t lock_state);
 int inode_unlock(inode_t *inode, lock_state_t lock_state);
 int open_file_lock(open_file_entry_t *open_file_entry, lock_state_t lock_state);
 int open_file_unlock(open_file_entry_t *open_file_entry, lock_state_t lock_state);
+int inode_allocation_map_lock(lock_state_t lock_state);
+int inode_allocation_map_unlock(lock_state_t lock_state);
+int file_allocation_map_lock(lock_state_t lock_state);
+int file_allocation_map_unlock(lock_state_t lock_state);
 
 #endif // STATE_H

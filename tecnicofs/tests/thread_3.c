@@ -103,6 +103,7 @@ int main() {
 
     /* Frees the buffer */
     free(myoutput);
+    free(s);
 
     printf("Successful test\n");
 
