@@ -5,6 +5,11 @@
 #include <unistd.h>
 #define N_THREADS 7 // from 7 to 20 the best begins to fail
 
+
+/*
+ *   NAO USAR 
+ */ 
+
 /**
    This test used multiple threads to create multiple files.
    A maximum of N_THREADS = 20 can be used (if the value is exceeded, an error will occur because it exceeds

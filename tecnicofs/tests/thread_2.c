@@ -4,6 +4,11 @@
 #include <pthread.h>
 #include <time.h>
 
+/*
+ *   NAO USAR 
+ */ 
+
+
 #define SIZE 4096
 #define N_THREADS 4
 
