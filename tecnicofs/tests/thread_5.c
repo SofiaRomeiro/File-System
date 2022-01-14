@@ -4,8 +4,8 @@
 #include <pthread.h>
 #include <time.h>
 
-#define WRITE 3072
-#define N_THREADS 3
+#define WRITE 20480
+#define N_THREADS 20
 
 static int counter;
 static pthread_mutex_t mutex;
@@ -26,8 +26,6 @@ void *fn(void *arg) {
     ssize_t total_written = tfs_write(args.fh, buffer + args.offset, BLOCK_SIZE);
 
     assert(total_written != -1);
-
-    pthread_mutex_unlock(&mutex);
 
     return (void *)NULL;
 }
@@ -69,7 +67,6 @@ int main() {
 
     printf("Read info : %ld\n", sizeof(read_info));
 
-
     assert(tfs_init() != -1);
 
     for (int i = 0; i < N_THREADS; i++) {
@@ -105,7 +102,7 @@ int main() {
     assert(check() == 0);
     assert(read = BLOCK_SIZE);
 
-    printf("====> Successfull est\n");
+    printf("====> Successfull test\n");
 
     return 0;
 
