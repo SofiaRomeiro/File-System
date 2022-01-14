@@ -122,11 +122,15 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     }
 
-    pthread_mutex_lock(&file->open_file_mutex);
+    if (open_file_lock(file) != 0) {
+        return -1;
+    }
 
     inode_t *inode = inode_get(file->of_inumber);
 
-    pthread_mutex_unlock(&file->open_file_mutex);
+    if (open_file_unlock(file) != 0) {
+        return -1;
+    }
 
 
     if (inode == NULL) {
@@ -138,12 +142,16 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         return -1;
     } 
 
-    pthread_mutex_lock(&inode->inode_mutex);
+    if (inode_lock(inode) != 0) {
+        return -1;
+    }
 
     if (inode->i_size + to_write <= MAX_BYTES_DIRECT_DATA) {
         direct_bytes = tfs_write_direct_region(inode, file, buffer, to_write);
 
-        pthread_mutex_unlock(&inode->inode_mutex);
+        if (inode_unlock(inode) != 0) {
+            return -1;
+        }
 
         if (direct_bytes == -1) {
             return -1;
@@ -161,7 +169,9 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
         
         indirect_bytes = tfs_write_indirect_region(inode, file, buffer, to_write);
 
-        pthread_mutex_unlock(&inode->inode_mutex);
+        if (inode_unlock(inode) != 0) {
+            return -1;
+        }
 
         if (indirect_bytes == -1) {
             return -1;
@@ -184,13 +194,17 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
         if (direct_bytes == -1) {
             printf("[ tfs_write ] %s", WRITE_ERROR);
-            pthread_mutex_unlock(&inode->inode_mutex);
+            if (inode_unlock(inode) != 0) {
+                return -1;
+            }
             return -1;
         }
 
        indirect_bytes = tfs_write_indirect_region(inode, file, buffer + direct_size, indirect_size);
 
-       pthread_mutex_unlock(&inode->inode_mutex);
+       if (inode_unlock(inode) != 0) {
+            return -1;
+        }
     
         if (indirect_bytes == -1) {
             printf("[ tfs_write ] %s", WRITE_ERROR);
@@ -239,7 +253,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
         to_read = len;
     } 
 
-    pthread_mutex_lock(&file->open_file_mutex);
+    if (open_file_lock(file) != 0) {
+        return -1;
+    }
 
     if (file->of_offset + to_read <= MAX_BYTES_DIRECT_DATA) {
 
@@ -247,7 +263,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
         printf("[to read] buffer |%s|\n", (char *)buffer);
 
-        pthread_mutex_unlock(&file->open_file_mutex);
+        if (open_file_unlock(file) != 0) {
+            return -1;
+        }
 
         if (direct_read == -1) {
             printf("[ tfs_read ] 1 %s", READ_ERROR);
@@ -261,7 +279,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
     else if (file->of_offset >= MAX_BYTES_DIRECT_DATA) {
         indirect_read = tfs_read_indirect_region(file, to_read, buffer);
 
-        pthread_mutex_unlock(&file->open_file_mutex);
+        if (open_file_unlock(file) != 0) {
+            return -1;
+        }
 
         if (indirect_read == -1) {
             printf("[ tfs_read ] 2 %s", READ_ERROR);
@@ -285,7 +305,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
 
         if (direct_read == -1){
             printf("[ tfs_read ] 3 %s", READ_ERROR);
-            pthread_mutex_unlock(&file->open_file_mutex);
+            if (open_file_unlock(file) != 0) {
+                return -1;
+            }
             return -1;
         }
 
@@ -293,7 +315,9 @@ ssize_t tfs_read(int fhandle, void *buffer, size_t len) {
       
         indirect_read = tfs_read_indirect_region(file, to_read, buffer + total_read);
 
-        pthread_mutex_unlock(&file->open_file_mutex);
+        if (open_file_unlock(file) != 0) {
+            return -1;
+        }
 
         if (indirect_read == -1){
             printf("[ tfs_read ] 4 %s", READ_ERROR);

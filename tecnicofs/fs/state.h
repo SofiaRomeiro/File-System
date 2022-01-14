@@ -84,11 +84,9 @@ int tfs_handle_indirect_block(inode_t *inode);
 ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer);
 ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer);
 
-int inode_lock(inode_t *inode_t);
-int inode_unlock(inode_t *inode_t);
-/*
-void open_file_lock(open_file_entry_t *open_file_entry);
-void open_file_unlock(open_file_entry_t *open_file_entry);
-*/
+int inode_lock(inode_t *inode);
+int inode_unlock(inode_t *inode);
+int open_file_lock(open_file_entry_t *open_file_entry);
+int open_file_unlock(open_file_entry_t *open_file_entry);
 
 #endif // STATE_H

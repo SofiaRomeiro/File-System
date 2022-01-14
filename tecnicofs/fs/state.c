@@ -822,28 +822,34 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
     return (ssize_t)total_read;
 }
 
-int inode_lock(inode_t *inode_t) {
-    if (pthread_mutex_lock(&(inode_t->inode_mutex)) != 0) {
+int inode_lock(inode_t *inode) {
+    if (pthread_mutex_lock(&inode->inode_mutex) != 0) {
         printf("[ inode_lock ] Error locking memory region\n");
         return -1;
     }
     return 0;
 }
 
-int inode_unlock(inode_t *inode_t) {
-    if (pthread_mutex_unlock(&(inode_t->inode_mutex)) != 0) {
+int inode_unlock(inode_t *inode) {
+    if (pthread_mutex_unlock(&inode->inode_mutex) != 0) {
         printf("[ inode_unlock ] Error unlocking memory region\n");
         return -1;
     }
     return 0;
 }
 
-/*
-void open_file_lock(open_file_entry_t *open_file_entry) {
-    pthread_mutex_lock(&(open_file_entry->open_file_mutex));
+int open_file_lock(open_file_entry_t *open_file_entry) {
+    if (pthread_mutex_lock(&open_file_entry->open_file_mutex) != 0) {
+        printf("[ open_file_lock ] Error locking memory region\n");
+        return -1;
+    }
+    return 0;
 }
 
-void open_file_unlock(open_file_entry_t *open_file_entry) {
-    pthread_mutex_unlock(&(open_file_entry->open_file_mutex));
+int open_file_unlock(open_file_entry_t *open_file_entry) {
+    if (pthread_mutex_unlock(&open_file_entry->open_file_mutex) != 0) {
+        printf("[ open_file_unlock ] Error unlocking memory region\n");
+        return -1;
+    }
+    return 0;
 }
-*/
