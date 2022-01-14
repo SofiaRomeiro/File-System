@@ -234,8 +234,8 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
                 if (open_file_unlock(file, MUTEX) != 0) {
                     return -1;
                 }
-            return -1;
-        }    
+                return -1;
+            }    
 
             if (open_file_unlock(file, MUTEX) != 0) {
                 return -1;
@@ -263,8 +263,6 @@ ssize_t tfs_write(int fhandle, void const *buffer, size_t to_write) {
 
         to_write = (size_t)(direct_bytes + indirect_bytes);
     }
-
-    printf("file handler is %ld\n", file->of_offset);
 
     return (ssize_t)to_write;
 }

@@ -784,6 +784,12 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
     return (ssize_t)total_read;
 }
 
+/* Locks an inode mutex or a rwlock, specified by the flag lock_state
+ * Inputs:
+ *   - inode
+ *   - lock_state - READ, WRITE, MUTEX
+ * Returns: 0 if sucessful, -1 otherwise
+ */
 int inode_lock(inode_t *inode, lock_state_t lock_state) {
 
     // READ
@@ -814,6 +820,12 @@ int inode_lock(inode_t *inode, lock_state_t lock_state) {
     return 0;
 }
 
+/* Unlocks an inode mutex or a rwlock, specified by the flag lock_state
+ * Inputs:
+ *   - inode
+ *   - lock_state - READ, WRITE, MUTEX
+ * Returns: 0 if sucessful, -1 otherwise
+ */
 int inode_unlock(inode_t *inode, lock_state_t lock_state) {
 
     // RWLOCK
@@ -837,6 +849,12 @@ int inode_unlock(inode_t *inode, lock_state_t lock_state) {
     return 0;
 }
 
+/* Locks an open_file_entry mutex or a rwlock, specified by the flag lock_state
+ * Inputs:
+ *   - open_file_entry
+ *   - lock_state - READ, WRITE, MUTEX
+ * Returns: 0 if sucessful, -1 otherwise
+ */
 int open_file_lock(open_file_entry_t * open_file_entry, lock_state_t lock_state) {
 
     // READ
@@ -867,6 +885,12 @@ int open_file_lock(open_file_entry_t * open_file_entry, lock_state_t lock_state)
     return 0;
 }
 
+/* Unlocks an open_file_entry mutex or a rwlock, specified by the flag lock_state
+ * Inputs:
+ *   - open_file_entry
+ *   - lock_state - READ, WRITE, MUTEX
+ * Returns: 0 if sucessful, -1 otherwise
+ */
 int open_file_unlock(open_file_entry_t *open_file_entry, lock_state_t lock_state) {
 
     // RWLOCK

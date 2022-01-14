@@ -14,7 +14,7 @@ INCLUDES = $(addprefix -I, $(INCLUDE_DIRS))
 SOURCES  := $(wildcard */*.c)
 HEADERS  := $(wildcard */*.h)
 OBJECTS  := $(SOURCES:.c=.o)
-TARGET_EXECS := tests/thread_1 tests/thread_2 tests/sequential_2 tests/thread_3 tests/thread_4 tests/thread_5 tests/thread_6 tests/tfs_built_in_functions tests/copy_to_external_simple tests/copy_to_external_short_str tests/copy_to_external_huge_file tests/copy_to_external_direct_blocks tests/copy_to_external_indirect_blocks tests/copy_to_external_int tests/copy_to_external_errors tests/write_10_blocks_spill tests/write_10_blocks_simple tests/write_more_than_10_blocks_simple tests/write_more_than_10_blocks_spill tests/write_all_direct_blocks tests/write_more_than_1_block tests/write_max_bytes tests/max_storage_exceeded tests/copy_to_external_different_char tests/copy_to_external_multiple_char
+TARGET_EXECS := tests/thread_1 tests/thread_2 tests/thread_3
 
 # VPATH is a variable used by Makefile which finds *sources* and makes them available throughout the codebase
 # vpath %.h <DIR> tells make to look for header files in <DIR>
@@ -60,109 +60,20 @@ valgrind :
 	@echo ------- Starting Valgrind -------
 	valgrind -s --tool=helgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes ./tests/thread_2
 
-test : test1 test2 test3 test4 test5 test6 test7 test8 test9 test10 test11 test12 test13 test14 test15 test16 test17 test18 test19 test20 test21 test22 test23 test24 test25
+test : test1 test2 test3
 	@echo "Ending tests :)"
 
 test1:
 	@echo ----- Test 1 ------
-	./tests/tfs_built_in_functions
+	./tests/thread_1
 
 test2:
 	@echo ----- Test 2 ------
-	./tests/copy_to_external_simple
+	./tests/thread_2
 
 test3:
 	@echo ----- Test 3 ------
-	./tests/copy_to_external_errors
-
-test4:
-	@echo ----- Test 4 ------
-	./tests/write_10_blocks_simple
-
-test5:
-	@echo ----- Test 5 ------
-	./tests/write_more_than_10_blocks_simple
-
-test6:
-	@echo ----- Test 6 ------
-	./tests/write_10_blocks_spill
-
-test7:
-	@echo ----- Test 7 ------
-	./tests/copy_to_external_int
-
-test8:
-	@echo ----- Test 8 ------
-	./tests/copy_to_external_huge_file
-
-test9:
-	@echo ----- Test 9 ------
-	./tests/copy_to_external_direct_blocks
-
-test10:
-	@echo ----- Test 10 ------
-	./tests/copy_to_external_indirect_blocks
-
-test11:
-	@echo ----- Test 11 ------
-	./tests/write_more_than_10_blocks_spill
-
-test12:
-	@echo ----- Test 12 ------
-	./tests/write_more_than_1_block
-
-test13:
-	@echo ----- Test 13 ------
-	./tests/write_all_direct_blocks
-
-test14:
-	@echo ----- Test 14 ------
-	./tests/write_max_bytes
-
-test15:
-	@echo ----- Test 15 ------
-	./tests/max_storage_exceeded
-
-test16:
-	@echo ----- Test 16 ------
-	./tests/copy_to_external_short_str
-
-test17:
-	@echo ----- Test 17 ------
-	./tests/copy_to_external_different_char
-
-test18:
-	@echo ----- Test 18 ------
-	./tests/copy_to_external_multiple_char
-
-test19:
-	@echo ----- Test 19 ------
-	./tests/thread_1
-
-test20:
-	@echo ----- Test 20 ------
-	./tests/thread_2
-
-test21:
-	@echo ----- Test 21 ------
 	./tests/thread_3
-
-test22:
-	@echo ----- Test 22 ------
-	./tests/sequential_2
-
-test23:
-	@echo ----- Test 23 ------
-	./tests/thread_4
-
-test24:
-	@echo ----- Test 24 ------
-	./tests/thread_5
-
-test25:
-	@echo ----- Test 25 ------
-	./tests/thread_6
-
 
 # The following target can be used to invoke clang-format on all the source and header
 # files. clang-format is a tool to format the source code based on the style specified 
@@ -180,31 +91,9 @@ fmt: $(SOURCES) $(HEADERS)
 # Note the lack of a rule.
 # make uses a set of default rules, one of which compiles C binaries
 # the CC, LD, CFLAGS and LDFLAGS are used in this rule
-tests/tfs_built_in_functions: tests/tfs_built_in_functions.o fs/operations.o fs/state.o
-tests/copy_to_external_errors: tests/copy_to_external_errors.o fs/operations.o fs/state.o 
-tests/copy_to_external_simple: tests/copy_to_external_simple.o fs/operations.o fs/state.o 
-tests/copy_to_external_int: tests/copy_to_external_int.o fs/operations.o fs/state.o 
-tests/copy_to_external_short_str: tests/copy_to_external_short_str.o fs/operations.o fs/state.o 
-tests/copy_to_external_huge_file: tests/copy_to_external_huge_file.o fs/operations.o fs/state.o 
-tests/copy_to_external_direct_blocks: tests/copy_to_external_direct_blocks.o fs/operations.o fs/state.o 
-tests/copy_to_external_indirect_blocks: tests/copy_to_external_indirect_blocks.o fs/operations.o fs/state.o 
-tests/write_10_blocks_spill: tests/write_10_blocks_spill.o fs/operations.o fs/state.o 
-tests/write_10_blocks_simple: tests/write_10_blocks_simple.o fs/operations.o fs/state.o 
-tests/write_more_than_10_blocks_simple: tests/write_more_than_10_blocks_simple.o fs/operations.o fs/state.o 
-tests/write_more_than_10_blocks_spill: tests/write_more_than_10_blocks_spill.o fs/operations.o fs/state.o 
-tests/write_all_direct_blocks: tests/write_all_direct_blocks.o fs/operations.o fs/state.o 
-tests/write_more_than_1_block: tests/write_more_than_1_block.o fs/operations.o fs/state.o 
-tests/write_max_bytes: tests/write_max_bytes.o fs/operations.o fs/state.o 
-tests/max_storage_exceeded: tests/max_storage_exceeded.o fs/operations.o fs/state.o 
-tests/copy_to_external_different_char: tests/copy_to_external_different_char.o fs/operations.o fs/state.o 
-tests/copy_to_external_multiple_char: tests/copy_to_external_multiple_char.o fs/operations.o fs/state.o 
 tests/thread_1: tests/thread_1.o fs/operations.o fs/state.o 
 tests/thread_2: tests/thread_2.o fs/operations.o fs/state.o 
 tests/thread_3: tests/thread_3.o fs/operations.o fs/state.o 
-tests/thread_4: tests/thread_4.o fs/operations.o fs/state.o 
-tests/thread_5: tests/thread_5.o fs/operations.o fs/state.o 
-tests/thread_6: tests/thread_6.o fs/operations.o fs/state.o 
-tests/sequential_2: tests/sequential_2.o fs/operations.o fs/state.o 
 
 
 clean:
