@@ -50,6 +50,8 @@ typedef struct {
     pthread_rwlock_t open_file_rwlock;
 } open_file_entry_t;
 
+typedef enum { READ = 1, WRITE = 2, MUTEX = 3 } lock_state_t;
+
 
 #define MAX_DIR_ENTRIES (BLOCK_SIZE / sizeof(dir_entry_t))
 
@@ -84,9 +86,9 @@ int tfs_handle_indirect_block(inode_t *inode);
 ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *buffer);
 ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *buffer);
 
-int inode_lock(inode_t *inode);
-int inode_unlock(inode_t *inode);
-int open_file_lock(open_file_entry_t *open_file_entry);
-int open_file_unlock(open_file_entry_t *open_file_entry);
+int inode_lock(inode_t *inode, lock_state_t lock_state);
+int inode_unlock(inode_t *inode, lock_state_t lock_state);
+int open_file_lock(open_file_entry_t *open_file_entry, lock_state_t lock_state);
+int open_file_unlock(open_file_entry_t *open_file_entry, lock_state_t lock_state);
 
 #endif // STATE_H

@@ -822,34 +822,100 @@ ssize_t tfs_read_indirect_region(open_file_entry_t *file, size_t to_read, void *
     return (ssize_t)total_read;
 }
 
-int inode_lock(inode_t *inode) {
-    if (pthread_mutex_lock(&inode->inode_mutex) != 0) {
-        printf("[ inode_lock ] Error locking memory region\n");
+int inode_lock(inode_t *inode, lock_state_t lock_state) {
+    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
         return -1;
+    }
+    // READ
+    if (lock_state == READ) {
+        if (pthread_rwlock_rdlock(&inode->inode_rwlock) != 0) {
+            printf("[ inode_lock ] Error locking memory region\n");
+            return -1;
+        }
+    }
+    // WRITE
+    else if (lock_state == WRITE) {
+        if (pthread_rwlock_wrlock(&inode->inode_rwlock) != 0) {
+            printf("[ inode_lock ] Error locking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else {
+        if (pthread_mutex_lock(&inode->inode_mutex) != 0) {
+            printf("[ inode_lock ] Error locking memory region\n");
+            return -1;
+        }
     }
     return 0;
 }
 
-int inode_unlock(inode_t *inode) {
-    if (pthread_mutex_unlock(&inode->inode_mutex) != 0) {
-        printf("[ inode_unlock ] Error unlocking memory region\n");
+int inode_unlock(inode_t *inode, lock_state_t lock_state) {
+    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
         return -1;
+    }
+    // RWLOCK
+    if (lock_state == READ || lock_state == WRITE) {
+        if (pthread_rwlock_unlock(&inode->inode_rwlock)) {
+            printf("[ inode_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else {
+        if (pthread_mutex_unlock(&inode->inode_mutex) != 0) {
+            printf("[ inode_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
     }
     return 0;
 }
 
-int open_file_lock(open_file_entry_t *open_file_entry) {
-    if (pthread_mutex_lock(&open_file_entry->open_file_mutex) != 0) {
-        printf("[ open_file_lock ] Error locking memory region\n");
+int open_file_lock(open_file_entry_t * open_file_entry, lock_state_t lock_state) {
+    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
         return -1;
+    }
+    // READ
+    if (lock_state == READ) {
+        if (pthread_rwlock_rdlock(&open_file_entry->open_file_rwlock) != 0) {
+            printf("[ open_file_lock ] Error locking memory region\n");
+            return -1;
+        }
+    }
+    // WRITE
+    else if (lock_state == WRITE) {
+        if (pthread_rwlock_wrlock(&open_file_entry->open_file_rwlock) != 0) {
+            printf("[ open_file_lock ] Error locking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else {
+        if (pthread_mutex_lock(&open_file_entry->open_file_mutex) != 0) {
+            printf("[ open_file_lock ] Error locking memory region\n");
+            return -1;
+        }
     }
     return 0;
 }
 
-int open_file_unlock(open_file_entry_t *open_file_entry) {
-    if (pthread_mutex_unlock(&open_file_entry->open_file_mutex) != 0) {
-        printf("[ open_file_unlock ] Error unlocking memory region\n");
+int open_file_unlock(open_file_entry_t *open_file_entry, lock_state_t lock_state) {
+    if (lock_state != READ && lock_state != WRITE && lock_state != MUTEX) {
         return -1;
+    }
+    // RWLOCK
+    if (lock_state == READ || lock_state == WRITE) {
+        if (pthread_rwlock_unlock(&open_file_entry->open_file_rwlock)) {
+            printf("[ open_file_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
+    }
+    // MUTEX
+    else {
+        if (pthread_mutex_unlock(&open_file_entry->open_file_mutex) != 0) {
+            printf("[ open_file_unlock ] Error unlocking memory region\n");
+            return -1;
+        }
     }
     return 0;
 }
