@@ -1,72 +1,87 @@
-#include "../fs/operations.h"
+#include "operations.h"
 #include <assert.h>
 #include <string.h>
 #include <pthread.h>
-#include <unistd.h>
-#define N_THREADS 7 // from 7 to 20 the best begins to fail
+#include <time.h>
 
-
-/*
- *   NAO USAR 
- */ 
-
-/**
-   This test used multiple threads to create multiple files.
-   A maximum of N_THREADS = 20 can be used (if the value is exceeded, an error will occur because it exceeds
-   the maximum number of open files the open_file table can have).
-   N_THREADS threads are created and each creates a file. After the threads are finished, checks if all the files
-   exist in the filesystem.
+/* 
+ *  TEST N1 TO SUBMIT
+ *  It tests the concurrent creation of file handlers
  */
 
+#define N_THREADS 20
 
-/* Function used in the threads */
-void* fn(void* arg){
-    char * res = (char*) arg;
-    /* Each thread calls `tfs_open` to create a new file */
-    int fd = tfs_open(res, TFS_O_CREAT);
-    assert(fd !=-1);
-    /* Closes the file afterwards */
-    assert(tfs_close(fd) != -1);
-    return NULL;
+#define PATH ("/f1")
+
+
+int fhandlers[N_THREADS];
+
+static pthread_mutex_t mutex;
+
+static int count;
+
+int check_array() {
+    
+    int i = 0;
+    int j = 1;
+
+    while(i < N_THREADS) {
+        while (j < N_THREADS) {
+            if (fhandlers[i] == fhandlers[j]) return -1;
+            j++;
+        }
+        i++;
+        j = i + 1;
+    }
+    return 0;
+}
+
+void *fn() {
+
+    int fhandler = tfs_open(PATH, 0);
+
+    pthread_mutex_lock(&mutex);
+
+    fhandlers[count] = fhandler;
+    count++;
+    
+    pthread_mutex_unlock(&mutex);
+
+    return (void *)NULL;
 }
 
 
 int main() {
 
-    pthread_t threads[N_THREADS];
+    pthread_mutex_init(&mutex, NULL);
 
-    /* Initializes the TFS */
-    assert(tfs_init() != -1);
+    count = 0;
 
-    /* Array of different path names (like "/fP", "/fQ", "/fR", ...) */
-    char arg[N_THREADS][4];
-    for(int i = 0; i < N_THREADS; i++){
-        arg[i][0] = '/';
-        arg[i][1] = 'f';
-        arg[i][2] = (char) (i + 1 + 79);
-        arg[i][3] = '\0';
+    pthread_t tids[N_THREADS];
+    memset(tids, 0, sizeof(tids));
 
-    }
+    assert(tfs_init() != -1);   
 
-    /* Creates all the files using threads */
+    int fx = tfs_open(PATH, TFS_O_CREAT);
+    assert(fx != -1);
+    assert(tfs_close(fx) != -1); 
+
+    for (size_t i = 0; i < N_THREADS; i++) {
+        
+        assert(pthread_create(&tids[i], NULL, fn, NULL) == 0);
+    }  
+
     for (int i = 0; i < N_THREADS; i++) {
-        assert(pthread_create(&threads[i], NULL, fn, (void *) arg[i]) == 0);
-    }
+        pthread_join(tids[i], NULL);
+    }  
 
-    /* Waits for all the threads to finish */
-    for (int i = 0; i < N_THREADS; i++) {
-        pthread_join(threads[i], NULL);
-    }
+    int check = check_array();
+    pthread_mutex_destroy(&mutex);
 
-    /* Check if the files were created */
-    for (int i = 0; i < N_THREADS; i++) {
-        int fd = tfs_open(arg[i], 0);
-        /* If fd isn't -1, then the file was successfully created */
-        assert(fd != -1);
-        assert(tfs_close(fd) != -1);
-    }
+    assert(check == 0);
 
-    printf("Sucessful test\n");
+    printf("======> Sucessful test\n\n");
 
     return 0;
+    
 }
