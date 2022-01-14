@@ -4,13 +4,13 @@
 #include <pthread.h>
 #include <time.h>
 
-#define WRITE 5000
-#define N_THREADS 10
+#define WRITE 3072
+#define N_THREADS 3
 
 static int counter;
 static pthread_mutex_t mutex;
 
-static char buffer[WRITE];
+static char buffer[WRITE / 3];
 
 void *fn(void *args) {
 
@@ -44,16 +44,21 @@ int main() {
 
     counter = 0;
 
-    memset(buffer, 'V', sizeof(buffer));
+    int fhs[3];
+
+    memset(buffer, '\0', sizeof(buffer));
+
+    memset(buffer, 'O', sizeof(buffer) / 3);    
+    memset(buffer, 'L', sizeof(buffer) / 3);
+    memset(buffer, 'A', sizeof(buffer) / 3);
 
     assert(tfs_init() != -1);
 
-    int fh = tfs_open(path, TFS_O_CREAT);
-    assert(fh != -1);
+    for (int i = 0; i < N_THREADS; i++) fhs[i] = tfs_open(path, TFS_O_CREAT);
 
     pthread_t tids[N_THREADS];
 
-    for (int i = 0; i < N_THREADS; i++) assert(pthread_create(&tids[i], NULL, fn, (void *)&fh) == 0);
+    for (int i = 0; i < N_THREADS; i++) assert(pthread_create(&tids[i], NULL, fn, (void *)&fhs[i]) == 0);
 
     for (int i = 0; i < N_THREADS; i++) pthread_join(tids[i], NULL);
 
@@ -64,7 +69,7 @@ int main() {
 
     pthread_mutex_destroy(&mutex);
 
-    assert(tfs_close(fh) != -1);
+    for (int i = 0; i < N_THREADS; i++) assert(tfs_close(fhs[i]) == 0);
 
     return 0;
 
