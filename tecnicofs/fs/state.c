@@ -77,7 +77,6 @@ static void insert_delay() {
 /*
  * Initializes FS state
  */
-// no need to be thread safe since it's called only once before threading 
 void state_init() {
 
     pthread_mutex_init(&(inode_table_s.inode_table_mutex), NULL);
@@ -105,8 +104,7 @@ void state_init() {
     }
 }
 
-// mutexes and rwlocks created to static variables should only be destroyed here
-void state_destroy() { /* nothing to do */ 
+void state_destroy() { 
 
     pthread_mutex_destroy(&(inode_table_s.inode_table_mutex));
     pthread_rwlock_destroy(&(inode_table_s.inode_table_rwlock));
@@ -164,8 +162,6 @@ int inode_create(inode_type n_type) {
                     return -1;
                 }
 
-                // NOTA : pensamos que aqui também não é necessário proteger o inode pela mesma razão que não é necessário proteger esta secção de código (if)
-
                 local_inode->i_size = BLOCK_SIZE;
                 local_inode->i_data_block = b;
                 memset(local_inode->i_block, -1, sizeof(local_inode->i_block));
@@ -177,7 +173,6 @@ int inode_create(inode_type n_type) {
                 }
             } else {
                 // In case of a new file, simply sets its size to 0 
-
                 local_inode->i_size = 0;
                 local_inode->i_data_block = -1;
                 memset(local_inode->i_block, -1, sizeof(local_inode->i_block));
@@ -206,12 +201,7 @@ int inode_delete(int inumber) {
     // simulate storage access delay (to i-node and freeinode_ts)
     insert_delay();
     insert_delay();
-
-    /*
-        NOTA 
-        Esta seccao precisa de proteção pois pode aceder a inodes que nao representem a root
-    */
-
+    
     pthread_mutex_lock(&(inode_table_s.inode_table_mutex));
 
     if (!valid_inumber(inumber) || inode_table_s.freeinode_ts[inumber] == FREE) {
@@ -243,13 +233,7 @@ inode_t *inode_get(int inumber) {
     if (!valid_inumber(inumber)) {
         return NULL;
     }
-
-    /*
-        NOTA
-        Como proteger adequadamente aqui? Visto que entre a "leitura" e o "return" pode haver uma mudança
-        Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
-    */ 
-
+    
     insert_delay(); // simulate storage access delay to i-node
 
     return &(inode_table_s.inode_table[inumber]);
@@ -267,12 +251,6 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
     if (!valid_inumber(inumber) || !valid_inumber(sub_inumber)) {
         return -1;
     }
-
-    /*
-        NOTA
-        Como estamos apenas a focar-nos em operações com um determinado inode, o da posicao inumber, podemos trancar a posicao 
-        para leitura e logo de seguida usar o trinco do inode para libertar por completo a tabela de inodes para outras threads acederem?
-    */
 
     pthread_rwlock_rdlock(&(inode_table_s.inode_table_rwlock));
 
@@ -295,20 +273,14 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
     pthread_rwlock_unlock(&(inode_table_s.inode_table_rwlock));
 
-    /*
-        NOTA
-        Dado o tamanho da secção critica, o custo de um lock e um unlock justifica trancar e destrancar duas vezes ou ter esta secção critica "grande"?
-        (linhas 275 a 292)
-    */
-
     if (dir_entry == NULL) {
         return -1;
     }
 
     /* Finds and fills the first empty entry */
+    pthread_mutex_lock(&(fs_state_s.fs_state_mutex))
+        
     for (size_t i = 0; i < MAX_DIR_ENTRIES; i++) {
-
-        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
         if (dir_entry[i].d_inumber == -1) {
 
@@ -322,9 +294,8 @@ int add_dir_entry(int inumber, int sub_inumber, char const *sub_name) {
 
             return 0;
         }
-
-        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
     }
+    pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
     return -1;
 }
@@ -358,10 +329,9 @@ int find_in_dir(int inumber, char const *sub_name) {
 
     /* Iterates over the directory entries looking for one that has the target
      * name */
+    pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
     for (int i = 0; i < MAX_DIR_ENTRIES; i++) {
-
-        pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
 
         if ((dir_entry[i].d_inumber != -1) &&
             (strncmp(dir_entry[i].d_name, sub_name, MAX_FILE_NAME) == 0)) {
@@ -369,9 +339,8 @@ int find_in_dir(int inumber, char const *sub_name) {
             pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
             return dir_entry[i].d_inumber;
         }
-
-        pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
     }
+    pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
     return -1;
 }
@@ -392,8 +361,7 @@ int data_block_alloc() {
 
         if (data_blocks_s.free_blocks[i] == FREE) {
             data_blocks_s.free_blocks[i] = TAKEN;
-        
-            //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex)); //?
+       
             pthread_mutex_unlock(&(data_blocks_s.data_blocks_mutex));
             return i;
         }
@@ -438,12 +406,6 @@ void *data_block_get(int block_number) {
 
     insert_delay(); // simulate storage access delay to block
 
-    /*
-        NOTA
-        Como proteger adequadamente aqui? Visto que entre a "leitura" e o "return" pode haver uma mudança
-        Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
-    */ 
-
     return &(data_blocks_s.fs_data[block_number * BLOCK_SIZE]);
 }
 
@@ -455,8 +417,6 @@ void *data_block_get(int block_number) {
  */
 int add_to_open_file_table(int inumber, size_t offset) {
 
-    //pthread_mutex_lock(&(fs_state_s.fs_state_mutex));
-
     for (int i = 0; i < MAX_OPEN_FILES; i++) {
 
         if (fs_state_s.free_open_file_entries[i] == FREE) {
@@ -464,14 +424,10 @@ int add_to_open_file_table(int inumber, size_t offset) {
             fs_state_s.open_file_table[i].of_inumber = inumber;
             fs_state_s.open_file_table[i].of_offset = offset;
 
-            //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
-
             return i;
         }       
 
     }
-
-    //pthread_mutex_unlock(&(fs_state_s.fs_state_mutex));
 
     return -1;
 }
@@ -509,12 +465,6 @@ open_file_entry_t *get_open_file_entry(int fhandle) {
     if (!valid_file_handle(fhandle)) {
         return NULL;
     }
-
-    /*
-        NOTA
-        Como proteger adequadamente aqui? Visto que entre a "leitura" e o "return" pode haver uma mudança
-        Não pensamos que esta seja a melhor solução mas nao estamos a ver outra que não conduza a bloqueios
-    */ 
 
     return &(fs_state_s.open_file_table[fhandle]);
 }
@@ -723,8 +673,6 @@ ssize_t tfs_read_direct_region(open_file_entry_t *file, size_t to_read, void *bu
                 to_read_block = to_read;
                 to_read = 0;
             }
-
-            // inode já está trancado
 
             memcpy(buffer + total_read, block + block_offset, to_read_block);
 
